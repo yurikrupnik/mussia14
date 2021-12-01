@@ -9,7 +9,7 @@
       "defaultConfiguration": "production",
       "options": {
         "root": "apps/fullstack/webclient",
-        "outputPath": "dist/apps/fullstack/webclient"
+        "outputPath": "apps/fullstack/webclient/dist"
       },
       "configurations": {
         "production": {}
@@ -20,7 +20,9 @@
       "options": {
         "buildTarget": "fullstack-webclient:build",
         "dev": true,
-        "proxyConfig": "apps/fullstack/webclient/proxy.conf.json"
+        "proxyConfig": "apps/fullstack/webclient/proxy.conf.json",
+        "open": true,
+        "port": 8080
       },
       "configurations": {
         "production": {
