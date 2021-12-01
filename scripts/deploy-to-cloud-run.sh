@@ -15,7 +15,7 @@ echo 'Finished pushing!'
 
 echo 'Starting Deploy!!'
 
-if [[ "${GITHUB_REF##*/}" = "master" ]];
+if [[ "${GITHUB_REF##*/}" = "main" ]];
 then
   gcloud run deploy $name \
     --image $gc_image \
