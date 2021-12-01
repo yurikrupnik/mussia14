@@ -1,0 +1,55 @@
+{
+  "root": "apps/fullstack/webclient",
+  "sourceRoot": "apps/fullstack/webclient",
+  "projectType": "application",
+  "targets": {
+    "build": {
+      "executor": "@nrwl/next:build",
+      "outputs": ["{options.outputPath}"],
+      "defaultConfiguration": "production",
+      "options": {
+        "root": "apps/fullstack/webclient",
+        "outputPath": "dist/apps/fullstack/webclient"
+      },
+      "configurations": {
+        "production": {}
+      }
+    },
+    "serve": {
+      "executor": "@nrwl/next:server",
+      "options": {
+        "buildTarget": "fullstack-webclient:build",
+        "dev": true,
+        "proxyConfig": "apps/fullstack/webclient/proxy.conf.json"
+      },
+      "configurations": {
+        "production": {
+          "buildTarget": "fullstack-webclient:build:production",
+          "dev": false
+        }
+      }
+    },
+    "export": {
+      "executor": "@nrwl/next:export",
+      "options": {
+        "buildTarget": "fullstack-webclient:build:production"
+      }
+    },
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/apps/fullstack/webclient"],
+      "options": {
+        "jestConfig": "apps/fullstack/webclient/jest.config.js",
+        "passWithNoTests": true
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["apps/fullstack/webclient/**/*.{ts,tsx,js,jsx}"]
+      }
+    }
+  },
+  "tags": ["client", "frontend"]
+}

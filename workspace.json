@@ -1,4 +1,8 @@
 {
   "version": 2,
-  "projects": {}
+  "projects": {
+    "fullstack-api": "apps/fullstack/api",
+    "fullstack-webclient": "apps/fullstack/webclient",
+    "fullstack-webclient-e2e": "apps/fullstack/webclient-e2e"
+  }
 }
