@@ -2,6 +2,7 @@
   "version": 2,
   "projects": {
     "fullstack-api": "apps/fullstack/api",
+    "fullstack-fullstack-webclient-playwright": "apps/fullstack/fullstack-webclient-playwright",
     "fullstack-webclient": "apps/fullstack/webclient",
     "fullstack-webclient-e2e": "apps/fullstack/webclient-e2e"
   }
