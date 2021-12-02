@@ -47,6 +47,14 @@
         "jestConfig": "apps/fullstack/api/jest.config.js",
         "passWithNoTests": true
       }
+    },
+    "deploy": {
+      "executor": "@nrwl/workspace:run-commands",
+      "outputs": [],
+      "options": {
+        "buildTarget": "big-data-bi-service:build:prod",
+        "command": "name=api src=apps/fullstack/api bash scripts/deploy-to-cloud-run.sh"
+      }
     }
   },
   "tags": ["backend"]

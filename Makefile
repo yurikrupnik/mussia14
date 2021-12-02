@@ -1,5 +1,8 @@
 GCP_PROJECT:=gcloud config get-value project
 
+init-gcp-services-once:
+	gcloud config list
+	gcloud services enable secretmanager.googleapis.com
 
 define get-secret
 $(shell gcloud secrets versions access latest --secret=MONGO_URI --project=mussia12-333121)

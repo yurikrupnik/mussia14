@@ -28,7 +28,9 @@ then
   gcloud run services update-traffic $name --platform=managed --to-latest --region europe-west1
 else
   if [[ $HEAD_REF == *"/"* ]]; then
-    HEAD_REF=sha-${GITHUB_SHA::8}
+#    HEAD_REF=sha-${GITHUB_SHA::8}
+    HEAD_REF=""
+    exit 0
   fi
   echo $name
   echo $HEAD_REF
