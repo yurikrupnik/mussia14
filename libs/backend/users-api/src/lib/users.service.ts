@@ -2,7 +2,14 @@ import { Model, Connection } from 'mongoose';
 import { Injectable } from '@nestjs/common';
 import { InjectModel, InjectConnection } from '@nestjs/mongoose';
 import { QueryOptions } from 'mongoose';
-import { User, UserDocument } from './entities/users.entity';
+import faker from 'faker';
+import random from 'lodash/random';
+import {
+  loginProviders,
+  User,
+  UserDocument,
+  userRoles,
+} from './entities/users.entity';
 // import {
 //   CollectionDto,
 //   DocumentCollector,
@@ -28,9 +35,9 @@ export class UsersService {
     projection,
     config: QueryOptions
   ): Promise<User[]> {
-    console.log('query', query);
-    console.log('projection', projection);
-    console.log('config', config);
+    // console.log('query', query);
+    // console.log('projection', projection);
+    // console.log('config', config);
     // return this.model.paginate();
     return this.model.find(query, projection, config).lean();
   }
@@ -58,5 +65,28 @@ export class UsersService {
 
   delete(id: string): Promise<string> {
     return this.model.findByIdAndDelete(id).then((res) => res._id);
+  }
+
+  deleteAll() {
+    return this.model.deleteMany();
+    // this.model.pag
+  }
+
+  static createMock(ojb?: Partial<User>) {
+    const mock: User = Object.assign(
+      {},
+      {
+        email: faker.internet.email(),
+        name: faker.name.findName(),
+        password: faker.internet.password(),
+        tenantId: faker.datatype.uuid(),
+        provider: loginProviders[random(loginProviders.length - 1)],
+        role: userRoles[random(userRoles.length - 1)],
+      },
+      ojb
+    );
+
+    console.log('userRoles.length', userRoles.length);
+    return mock;
   }
 }
