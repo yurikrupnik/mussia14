@@ -16,7 +16,16 @@
     "skipLibCheck": true,
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
-    "paths": {}
+    "paths": {
+      "@mussia14/backend/envs": ["libs/backend/envs/src/index.ts"],
+      "@mussia14/backend/users-api": ["libs/backend/users-api/src/index.ts"],
+      "@mussia14/backend/validations": [
+        "libs/backend/validations/src/index.ts"
+      ],
+      "@mussia14/forntend/webclient-theme": [
+        "libs/forntend/webclient-theme/src/index.ts"
+      ]
+    }
   },
   "exclude": ["node_modules", "tmp"]
 }

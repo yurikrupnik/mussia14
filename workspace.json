@@ -1,6 +1,10 @@
 {
   "version": 2,
   "projects": {
+    "backend-envs": "libs/backend/envs",
+    "backend-users-api": "libs/backend/users-api",
+    "backend-validations": "libs/backend/validations",
+    "forntend-webclient-theme": "libs/forntend/webclient-theme",
     "fullstack-api": "apps/fullstack/api",
     "fullstack-fullstack-webclient-playwright": "apps/fullstack/fullstack-webclient-playwright",
     "fullstack-webclient": "apps/fullstack/webclient",

@@ -1,0 +1,25 @@
+{
+  "root": "libs/forntend/webclient-theme",
+  "sourceRoot": "libs/forntend/webclient-theme/src",
+  "projectType": "library",
+  "tags": ["frontend", "styles"],
+  "targets": {
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": [
+          "libs/forntend/webclient-theme/**/*.{ts,tsx,js,jsx}"
+        ]
+      }
+    },
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/libs/forntend/webclient-theme"],
+      "options": {
+        "jestConfig": "libs/forntend/webclient-theme/jest.config.js",
+        "passWithNoTests": true
+      }
+    }
+  }
+}

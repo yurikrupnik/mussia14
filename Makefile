@@ -6,6 +6,11 @@ $(shell gcloud secrets versions access latest --secret=MONGO_URI --project=mussi
 endef
 
 
+# gcloud start
+gcp-once:
+	gcloud services enable cloudfunctions.googleapis.com
+# gcloud end
+
 # NX start
 ra:
 	#call geg-secret
