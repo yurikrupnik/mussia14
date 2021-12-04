@@ -1,5 +1,5 @@
 import { Model, Connection } from 'mongoose';
-import { Injectable } from '@nestjs/common';
+import { Injectable, Logger, NotFoundException } from '@nestjs/common';
 import { InjectModel, InjectConnection } from '@nestjs/mongoose';
 import { QueryOptions } from 'mongoose';
 import faker from 'faker';
@@ -17,7 +17,16 @@ import {
 // } from '@fagbokforlaget/nestjs-mongoose-paginate';
 
 @Injectable()
+class Apiservice {}
+
+@Injectable()
 export class UsersService {
+  // private readonly logger = new Logger(UsersService.name);
+  // constructor(private myLogger: MyLogger) {
+  //   // Due to transient scope, CatsService has its own unique instance of MyLogger,
+  //   // so setting context here will not affect other instances in other services
+  //   this.myLogger.setContext('CatsService');
+  // }
   constructor(
     @InjectModel(User.name) private model: Model<UserDocument>,
     @InjectConnection() private connection: Connection
@@ -35,15 +44,23 @@ export class UsersService {
     projection,
     config: QueryOptions
   ): Promise<User[]> {
-    // console.log('query', query);
-    // console.log('projection', projection);
-    // console.log('config', config);
-    // return this.model.paginate();
     return this.model.find(query, projection, config).lean();
   }
 
   async findOne(id: string, projection): Promise<User> {
-    return this.model.findById(id, projection).lean();
+    return this.model
+      .findById(id, projection)
+      .then((res) => {
+        if (!res) {
+          throw new NotFoundException(`resource with id ${id} not found`);
+        }
+        return res;
+      })
+      .catch((err) => {
+        throw new NotFoundException(err.message);
+      });
+
+    // .lean();
   }
 
   create(body: User): Promise<User> {
@@ -64,12 +81,16 @@ export class UsersService {
   }
 
   delete(id: string): Promise<string> {
-    return this.model.findByIdAndDelete(id).then((res) => res._id);
+    return this.model.findByIdAndDelete(id).then((res) => {
+      if (!res) {
+        throw new NotFoundException('Not found item');
+      }
+      return res._id;
+    });
   }
 
   deleteAll() {
     return this.model.deleteMany();
-    // this.model.pag
   }
 
   static createMock(ojb?: Partial<User>) {

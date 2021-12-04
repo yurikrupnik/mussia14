@@ -22,10 +22,13 @@ import {
   ApiQuery,
   ApiBodyOptions,
   ApiExtraModels,
+  ApiNotFoundResponse,
+  ApiBadRequestResponse,
   getSchemaPath,
   OmitType,
   PartialType,
   PickType,
+  ApiParam,
 } from '@nestjs/swagger';
 
 import { UsersService } from './users.service';
@@ -34,7 +37,13 @@ import { UpdateUserDto } from './dto/update-users.dto';
 import { loginProviders, User, userRoles } from './entities/users.entity';
 import { ValidationPipe } from '@mussia14/backend/validations';
 
-import { IsNumber, Min, IsOptional, ValidateNested } from 'class-validator';
+import {
+  IsNumber,
+  Min,
+  IsOptional,
+  ValidateNested,
+  IsMongoId,
+} from 'class-validator';
 import { Type } from 'class-transformer';
 import { ApiProperty } from '@nestjs/swagger';
 export class PaginationParams {
@@ -75,16 +84,29 @@ class Event1Dto {
   message: User;
 }
 
+class TestDto {
+  @ApiProperty({
+    description: `id example just id`,
+    example: 'id example just id',
+    // readOnly: true,
+    required: false,
+  })
+  // @IsOptional()
+  @IsMongoId()
+  id: string;
+}
+
 const bodySchema: ApiBodyOptions = {
   // type: 'object',
   // type: User,
-  description: 'my body here descs',
+  // description: 'my body here descs',
   examples: {
     admin: {
       description: '1',
       value: UsersService.createMock({
         email: 'admin@admin.com',
         password: 'admin',
+        role: 'admin',
       }),
       summary: 'A sample limit value admin user',
     },
@@ -93,6 +115,7 @@ const bodySchema: ApiBodyOptions = {
       value: UsersService.createMock({
         email: 'viewer@viewer.com',
         password: 'viewer',
+        role: 'viewer',
       }),
       summary: 'A sample limit value viewer user',
     },
@@ -108,8 +131,14 @@ const bodySchema: ApiBodyOptions = {
       // $ref: User,
       // $ref: getSchemaPath(User),
       description: '4',
-      value: UsersService.createMock(),
-      summary: 'A sample limit value stam user',
+      value: UsersService.createMock({
+        email: 'finance@finance.com',
+        role: 'finance',
+        // password: 'admin',
+      }),
+      // $ref: getSchemaPath(Event1Dto),
+      // value: Event1Dto,
+      summary: 'A sample limit value finance user',
     },
     // ad: {
     //   value: {
@@ -124,25 +153,86 @@ const bodySchema: ApiBodyOptions = {
     // },
   },
   schema: {
+    examples: {
+      admin: {
+        description: '1xsa',
+        value: UsersService.createMock({
+          email: 'admin@admin.com',
+          password: 'admin',
+          role: 'admin',
+        }),
+        summary: 'A sample limit value admin user',
+      },
+      yuri: {
+        description: '2sda',
+        value: UsersService.createMock({
+          email: 'viewer@viewer.com',
+          password: 'viewer',
+          role: 'viewer',
+        }),
+        summary: 'A sample limit value viewer user',
+      },
+      stam: {
+        description: '3',
+        value: UsersService.createMock({
+          email: '{{$randomEmail}}',
+          // password: 'admin',
+        }),
+        summary: 'A sample limit value stam user',
+      },
+      stam1: {
+        // $ref: User,
+        // $ref: getSchemaPath(User),
+        description: '4',
+        value: UsersService.createMock({
+          email: 'finance@finance.com',
+          role: 'finance',
+          // password: 'admin',
+        }),
+        // $ref: getSchemaPath(Event1Dto),
+        // value: Event1Dto,
+        summary: 'A sample limit value finance user',
+      },
+      // ad: {
+      //   value: {
+      //     email: faker.internet.email(),
+      //     name: faker.name.findName(),
+      //     password: faker.internet.password(),
+      //     tenantId: faker.datatype.uuid(),
+      //     provider: loginProviders[random(loginProviders.length - 1)],
+      //     role: userRoles[random(userRoles.length - 1)],
+      //   },
+      //   summary: 'stam test',
+      // },
+    },
     oneOf: [
       {
-        example: 'yuri',
-        description: 'my shit',
+        // example: User,
+        // example: 'yuri',
+        // description: 'my shit',
         examples: [
           {
             value: UsersService.createMock({ email: 'isssso@test.com' }),
             summary: 'A sample limit value  # Optional description',
           },
         ],
+        $ref: getSchemaPath(User),
         // $ref: getSchemaPath(Event1Dto),
       },
       {
-        description: 'my shit 1111',
-        example: {
-          value: UsersService.createMock({ email: 'io@test.com' }),
-          summary: 'A sample limit ',
-        },
-        // $ref: getSchemaPath(User),
+        // description: 'my shit 1111',
+        // example: {
+        //   value: UsersService.createMock({ email: 'io@test.com' }),
+        //   summary: 'A sample limit ',
+        // },
+        examples: [
+          {
+            value: UsersService.createMock({ email: 'a@test.com' }),
+            summary: 'A sample limit value  sdasd# Optional description',
+          },
+        ],
+        // example: Event1Dto,
+        $ref: getSchemaPath(Event1Dto),
       },
     ],
   },
@@ -164,8 +254,14 @@ export class UsersController {
     description: 'A list of projections for mongodb queries',
     name: 'search',
     required: false,
+    // name: nested.field,
+    style: 'deepObject',
+    // required: false,
+    // schema: {
+    //   // type
+    // },
+    type: OmitType(User, ['_id', 'password']),
     // isArray: true,
-    type: PartialType(OmitType(User, ['_id', 'password'])),
   })
   @ApiQuery({
     description: 'Limit of items to fetch',
@@ -205,7 +301,8 @@ export class UsersController {
     @Req() request: Request,
     // @Query() { skip, limit }: PaginationParams,
     @Query('projection') projection: Projection | [Projection] | null,
-    @Query('limit', new DefaultValuePipe(0), ParseIntPipe) limit: number,
+    // new DefaultValuePipe(0), ParseIntPipe - as global
+    @Query('limit') limit = 0,
     @Query('email') email: string,
     @Query('search') search: any
   ) {
@@ -233,26 +330,40 @@ export class UsersController {
     type: User,
   })
   findOne(
+    @Req() request: Request,
     @Query('projection') projection: Projection | [Projection] | null,
-    @Param('id') id: string
+    @Param('id') id: string // did not work with id of type User['_id'] or custom new
   ) {
+    console.log('request.query', request.query);
+    console.log('request.params', request.params);
+    console.log('id', id);
+    // return id;
     return this.usersService.findOne(id, projection);
   }
 
   @Put(':id')
+  @ApiNotFoundResponse({})
   @ApiOkResponse({
     description: 'The resources has been successfully updated',
     type: User,
   })
   update(
-    // @Body() body: UpdateUserDto, // todo return validation
-    @Body(new ValidationPipe()) body: UpdateUserDto | CreateUserDto,
+    // @Body() body: UpdateUserDto, // todo return validation - added global
+    @Body() body: UpdateUserDto | CreateUserDto,
     @Param('id') id: string
   ): Promise<User> {
     return this.usersService.update(id, body);
   }
 
   @Post()
+  @ApiBadRequestResponse({
+    description: 'das',
+    // schema: {
+    //   statusCode: 400,
+    //   message: 'Validation failed',
+    //   error: 'Bad Request',
+    // },
+  })
   @ApiCreatedResponse({
     description: 'The record has been successfully created.',
     type: User,
@@ -281,38 +392,63 @@ export class UsersController {
     // },
   })
   @ApiCreatedResponse({
-    description: 'The record has been successfully created 1.',
     type: User,
-    // schema: {
-    //   examples: {
-    //     aris: {
-    //       value: UsersService.createMock(),
-    //       summary: 'A sample limit value  # Optional description',
-    //     },
-    //     yuri: {
-    //       value: UsersService.createMock({ email: 'test@test.com' }),
-    //       summary: 'A sample limit value  # Optional description',
-    //     },
-    //     ad: {
-    //       value: {
-    //         email: faker.internet.email(),
-    //         name: faker.name.findName,
-    //         password: faker.internet.password(),
-    //         tenantId: faker.datatype.uuid(),
-    //         provider: loginProviders[random(loginProviders.length - 1)],
-    //         role: userRoles[random(userRoles.length - 1)],
-    //       },
-    //       summary: 'stam test',
-    //     },
-    //   },
-    // },
+    schema: {
+      examples: [
+        {
+          description: 'The record has been successfully created 1.',
+          value: UsersService.createMock(),
+          summary: 'A sample limit value  # Optional description',
+          $ref: getSchemaPath(User),
+        },
+        {
+          description: 'The record has been successfully created 2.',
+          value: UsersService.createMock({ email: 'test@test.com' }),
+          summary: 'A sample limit value  # Optional description',
+          $ref: getSchemaPath(User),
+        },
+        {
+          description: 'The record has been successfully created 3.',
+          value: {
+            email: faker.internet.email(),
+            name: faker.name.findName,
+            password: faker.internet.password(),
+            tenantId: faker.datatype.uuid(),
+            provider: loginProviders[random(loginProviders.length - 1)],
+            role: userRoles[random(userRoles.length - 1)],
+          },
+          summary: 'stam test',
+          $ref: getSchemaPath(User),
+        },
+      ],
+      // examples: {
+      //   aris: {
+      //     description: 'The record has been successfully created 1.',
+      //     value: UsersService.createMock(),
+      //     summary: 'A sample limit value  # Optional description',
+      //   },
+      //   yuri: {
+      //     description: 'The record has been successfully created 2.',
+      //     value: UsersService.createMock({ email: 'test@test.com' }),
+      //     summary: 'A sample limit value  # Optional description',
+      //   },
+      //   ad: {
+      //     description: 'The record has been successfully created 3.',
+      //     value: {
+      //       email: faker.internet.email(),
+      //       name: faker.name.findName,
+      //       password: faker.internet.password(),
+      //       tenantId: faker.datatype.uuid(),
+      //       provider: loginProviders[random(loginProviders.length - 1)],
+      //       role: userRoles[random(userRoles.length - 1)],
+      //     },
+      //     summary: 'stam test',
+      //   },
+      // },
+    },
   })
   @ApiBody(bodySchema)
-  post(
-    @Body(new ValidationPipe()) createItemDto: CreateUserDto
-    // @Body() createItemDto: CreateUserDto
-  ): Promise<User> {
-    console.log('createItemDto', createItemDto);
+  post(@Body() createItemDto: CreateUserDto): Promise<User> {
     return this.usersService.create(createItemDto);
   }
 
