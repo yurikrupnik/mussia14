@@ -6,13 +6,18 @@ $(shell gcloud secrets versions access latest --secret=MONGO_URI --project=mussi
 endef
 
 
+# gcloud start
+gcp-once:
+	gcloud services enable cloudfunctions.googleapis.com
+# gcloud end
+
 # NX start
 ra:
 	#call geg-secret
-	DB=$(call get-secret,$(MONGO_URI))
-	echo $GCP_PROJECT
-	echo $DB
-	#npx nx run-many --target=${target} --parallel --all --maxParallel=10
+#	DB=$(call get-secret,$(MONGO_URI))
+#	echo $GCP_PROJECT
+#	echo $DB
+	npx nx run-many --target=${target} --parallel --all --maxParallel=10
   # example to run: make ra target=lint
 
 run-many:

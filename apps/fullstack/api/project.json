@@ -47,6 +47,19 @@
         "jestConfig": "apps/fullstack/api/jest.config.js",
         "passWithNoTests": true
       }
+    },
+    "compodoc": {
+      "executor": "@twittwer/compodoc:compodoc",
+      "options": {
+        "tsConfig": "apps/fullstack/api/tsconfig.compodoc.json",
+        "outputPath": "dist/compodoc/fullstack-api",
+        "workspaceDocs": true
+      },
+      "configurations": {
+        "json": {
+          "exportFormat": "json"
+        }
+      }
     }
   },
   "tags": ["backend"]

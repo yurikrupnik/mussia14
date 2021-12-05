@@ -1,0 +1,23 @@
+{
+  "root": "libs/backend/validations",
+  "sourceRoot": "libs/backend/validations/src",
+  "projectType": "library",
+  "targets": {
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["libs/backend/validations/**/*.ts"]
+      }
+    },
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/libs/backend/validations"],
+      "options": {
+        "jestConfig": "libs/backend/validations/jest.config.js",
+        "passWithNoTests": true
+      }
+    }
+  },
+  "tags": ["scope:backend"]
+}

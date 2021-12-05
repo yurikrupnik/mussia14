@@ -51,6 +51,18 @@
       "options": {
         "lintFilePatterns": ["apps/fullstack/webclient/**/*.{ts,tsx,js,jsx}"]
       }
+    },
+    "compodoc": {
+      "executor": "@twittwer/compodoc:compodoc",
+      "options": {
+        "tsConfig": "apps/fullstack/webclient/tsconfig.json",
+        "outputPath": "dist/compodoc/fullstack-webclient"
+      },
+      "configurations": {
+        "json": {
+          "exportFormat": "json"
+        }
+      }
     }
   },
   "tags": ["client", "frontend"]

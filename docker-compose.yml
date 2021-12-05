@@ -6,53 +6,53 @@ services:
     image: mongo
     ports:
       - 27017:27017
-    networks:
-      - backend
+#    networks:
+#      - backend
 
-  client-next:
-    image: eu.gcr.io/mussia8/client-next
-#    image: yurikrupnik/client-next
-    build:
-      context: apps/fullstack/client-next
-      dockerfile: Dockerfile
-    container_name: client-next
-    environment:
-      - MONGO_URI=mongodb://db/mussia8
-      - PORT=3340
-    ports:
-      - 3340:3340
-    networks:
-      - backend
-    links:
-      - "db:database"
-    depends_on:
-      - db
-
-  bi-service:
-#    image: eu.gcr.io/mussia8/bi-service
-    image: yurikrupni/bi-service
-    build:
-      context: apps/big-data/bi-service
-      dockerfile: Dockerfile
-    container_name: bi-service
-    environment:
-      - MONGO_URI=mongodb://db/mussia8
-      #      - MONGO_URI="$$(shell gcloud secrets versions access latest --secret=MONGO_URI --project=mussia8)"
-      #      - MONGO_URI=$MONGO_URI
-#      - PORT=3335
-    ports:
-      - 3000:3333
-
-    healthcheck:
-      test: [ 'CMD', 'curl', '-f', 'http://bi-service/apis/health' ]
-      interval: 30s
-      timeout: 30s
-      retries: 5
-
-    networks:
-      - backend
-    depends_on:
-      - db
+#  client-next:
+#    image: eu.gcr.io/mussia8/client-next
+##    image: yurikrupnik/client-next
+#    build:
+#      context: apps/fullstack/client-next
+#      dockerfile: Dockerfile
+#    container_name: client-next
+#    environment:
+#      - MONGO_URI=mongodb://db/mussia8
+#      - PORT=3340
+#    ports:
+#      - 3340:3340
+#    networks:
+#      - backend
+#    links:
+#      - "db:database"
+#    depends_on:
+#      - db
+#
+#  bi-service:
+##    image: eu.gcr.io/mussia8/bi-service
+#    image: yurikrupni/bi-service
+#    build:
+#      context: apps/big-data/bi-service
+#      dockerfile: Dockerfile
+#    container_name: bi-service
+#    environment:
+#      - MONGO_URI=mongodb://db/mussia8
+#      #      - MONGO_URI="$$(shell gcloud secrets versions access latest --secret=MONGO_URI --project=mussia8)"
+#      #      - MONGO_URI=$MONGO_URI
+##      - PORT=3335
+#    ports:
+#      - 3000:3333
+#
+#    healthcheck:
+#      test: [ 'CMD', 'curl', '-f', 'http://bi-service/apis/health' ]
+#      interval: 30s
+#      timeout: 30s
+#      retries: 5
+#
+#    networks:
+#      - backend
+#    depends_on:
+#      - db
   #  db1:
   #    image: mongo
   #    ports:
