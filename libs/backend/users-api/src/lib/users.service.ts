@@ -1,14 +1,18 @@
 import { Model, Connection } from 'mongoose';
-import { Injectable, Logger, NotFoundException } from '@nestjs/common';
+import {
+  Injectable,
+  NotFoundException,
+  BadRequestException,
+} from '@nestjs/common';
 import { InjectModel, InjectConnection } from '@nestjs/mongoose';
 import { QueryOptions } from 'mongoose';
 import faker from 'faker';
 import random from 'lodash/random';
 import {
-  loginProviders,
+  LoginProviders,
   User,
   UserDocument,
-  userRoles,
+  UserRoles,
 } from './entities/users.entity';
 // import {
 //   CollectionDto,
@@ -21,23 +25,10 @@ class Apiservice {}
 
 @Injectable()
 export class UsersService {
-  // private readonly logger = new Logger(UsersService.name);
-  // constructor(private myLogger: MyLogger) {
-  //   // Due to transient scope, CatsService has its own unique instance of MyLogger,
-  //   // so setting context here will not affect other instances in other services
-  //   this.myLogger.setContext('CatsService');
-  // }
   constructor(
     @InjectModel(User.name) private model: Model<UserDocument>,
     @InjectConnection() private connection: Connection
   ) {}
-
-  // async list(
-  //   collectionDto: CollectionDto
-  // ): Promise<CollectionResponse<UserDocument>> {
-  //   const collector = new DocumentCollector<UserDocument>(this.model);
-  //   return collector.find(collectionDto);
-  // }
 
   async findAll(
     query: Partial<User>,
@@ -64,7 +55,17 @@ export class UsersService {
   }
 
   create(body: User): Promise<User> {
-    return new this.model(body).save();
+    return new this.model(body).save().catch((err) => {
+      // console.log('er here', Object.keys(err));
+      // console.log('er here', err.status);
+      // console.log('er here', err.info);
+      // console.log('er here', err.stack);
+      // console.log('er here', err.errors);
+      // console.log('er here', err.message);
+      // console.log('er here', err._message);
+      return err;
+      // throw new BadRequestException(err.message);
+    });
   }
 
   async update(id: string, body: Partial<User>): Promise<User> {
@@ -94,6 +95,8 @@ export class UsersService {
   }
 
   static createMock(ojb?: Partial<User>) {
+    const loginProviders = Object.values(LoginProviders);
+    const userRoles = Object.values(UserRoles);
     const mock: User = Object.assign(
       {},
       {
@@ -107,7 +110,6 @@ export class UsersService {
       ojb
     );
 
-    console.log('userRoles.length', userRoles.length);
     return mock;
   }
 }

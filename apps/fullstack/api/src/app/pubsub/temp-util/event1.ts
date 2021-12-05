@@ -1,8 +1,7 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document } from 'mongoose';
 import { ApiProperty } from '@nestjs/swagger';
-// import { User } from './users';
-import { ValidateNested, IsString, IsNumber } from 'class-validator';
+import { IsString, IsNumber } from 'class-validator';
 
 export type Event1Document = Event1 & Document;
 

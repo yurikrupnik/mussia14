@@ -1,58 +1,66 @@
 import {
+  Body,
   Controller,
+  Delete,
   Get,
+  Param,
   Post,
   Put,
-  Delete,
-  Body,
-  Param,
   Query,
   Req,
-  ParseIntPipe,
-  DefaultValuePipe,
 } from '@nestjs/common';
-import random from 'lodash/random';
 import { Request } from 'express';
-import faker from 'faker';
 import {
-  ApiTags,
+  ApiBadRequestResponse,
   ApiBody,
-  ApiCreatedResponse,
-  ApiOkResponse,
-  ApiQuery,
   ApiBodyOptions,
+  ApiCreatedResponse,
   ApiExtraModels,
   ApiNotFoundResponse,
-  ApiBadRequestResponse,
+  ApiOkResponse,
+  ApiProperty,
+  ApiQuery,
+  ApiTags,
+  ApiParam,
   getSchemaPath,
   OmitType,
   PartialType,
   PickType,
-  ApiParam,
 } from '@nestjs/swagger';
 
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-users.dto';
 import { UpdateUserDto } from './dto/update-users.dto';
-import { loginProviders, User, userRoles } from './entities/users.entity';
-import { ValidationPipe } from '@mussia14/backend/validations';
+import { User, UserRoles } from './entities/users.entity';
 
 import {
-  IsNumber,
-  Min,
-  IsOptional,
-  ValidateNested,
   IsMongoId,
+  IsNumber,
+  IsOptional,
+  Min,
+  ValidateNested,
 } from 'class-validator';
 import { Type } from 'class-transformer';
-import { ApiProperty } from '@nestjs/swagger';
+
 export class PaginationParams {
+  @ApiProperty({
+    description: `a`,
+    example: 'ac',
+    // readOnly: true,
+    required: false,
+  })
   @IsOptional()
   @Type(() => Number)
   @IsNumber()
   @Min(0)
   skip?: number;
 
+  @ApiProperty({
+    description: `b`,
+    example: 'bc',
+    // readOnly: true,
+    required: false,
+  })
   @IsOptional()
   @Type(() => Number)
   @IsNumber()
@@ -96,49 +104,56 @@ class TestDto {
   id: string;
 }
 
+enum PageSize {
+  'ten' = 10,
+  'fifte' = 50,
+  'hundret' = 100,
+  'twentyfilehundret' = 250,
+}
+
 const bodySchema: ApiBodyOptions = {
   // type: 'object',
   // type: User,
   // description: 'my body here descs',
   examples: {
     admin: {
-      description: '1',
+      description: '1455',
       value: UsersService.createMock({
         email: 'admin@admin.com',
         password: 'admin',
-        role: 'admin',
+        role: UserRoles.admin,
       }),
       summary: 'A sample limit value admin user',
     },
     yuri: {
       description: '2',
       value: UsersService.createMock({
-        email: 'viewer@viewer.com',
-        password: 'viewer',
-        role: 'viewer',
+        email: 'visitor@visitor.com',
+        password: 'visitor',
+        role: UserRoles.visitor,
       }),
-      summary: 'A sample limit value viewer user',
+      summary: 'A sample limit value visitor user',
+    },
+    stam1: {
+      // $ref: User,
+      // $ref: getSchemaPath(User),
+      description: '3',
+      value: UsersService.createMock({
+        email: 'user@user.com',
+        role: UserRoles.user,
+        // password: 'admin',
+      }),
+      // $ref: getSchemaPath(Event1Dto),
+      // value: Event1Dto,
+      summary: 'A sample limit value client user',
     },
     stam: {
-      description: '3',
+      description: '4',
       value: UsersService.createMock({
         email: '{{$randomEmail}}',
         // password: 'admin',
       }),
       summary: 'A sample limit value stam user',
-    },
-    stam1: {
-      // $ref: User,
-      // $ref: getSchemaPath(User),
-      description: '4',
-      value: UsersService.createMock({
-        email: 'finance@finance.com',
-        role: 'finance',
-        // password: 'admin',
-      }),
-      // $ref: getSchemaPath(Event1Dto),
-      // value: Event1Dto,
-      summary: 'A sample limit value finance user',
     },
     // ad: {
     //   value: {
@@ -155,43 +170,41 @@ const bodySchema: ApiBodyOptions = {
   schema: {
     examples: {
       admin: {
-        description: '1xsa',
+        description: 'admin user',
         value: UsersService.createMock({
           email: 'admin@admin.com',
           password: 'admin',
-          role: 'admin',
+          role: UserRoles.admin,
         }),
         summary: 'A sample limit value admin user',
       },
       yuri: {
-        description: '2sda',
+        description: 'visitor user',
         value: UsersService.createMock({
-          email: 'viewer@viewer.com',
-          password: 'viewer',
-          role: 'viewer',
+          email: 'visitor@visitor.com',
+          password: 'visitor',
+          role: UserRoles.visitor,
         }),
-        summary: 'A sample limit value viewer user',
+        summary: 'A sample limit value visitor user',
+      },
+      stam1: {
+        description: '3',
+        value: UsersService.createMock({
+          email: 'user@user.com',
+          role: UserRoles.user,
+          // password: 'admin',
+        }),
+        // $ref: getSchemaPath(Event1Dto),
+        // value: Event1Dto,
+        summary: 'A sample limit value client user',
       },
       stam: {
-        description: '3',
+        description: '4',
         value: UsersService.createMock({
           email: '{{$randomEmail}}',
           // password: 'admin',
         }),
         summary: 'A sample limit value stam user',
-      },
-      stam1: {
-        // $ref: User,
-        // $ref: getSchemaPath(User),
-        description: '4',
-        value: UsersService.createMock({
-          email: 'finance@finance.com',
-          role: 'finance',
-          // password: 'admin',
-        }),
-        // $ref: getSchemaPath(Event1Dto),
-        // value: Event1Dto,
-        summary: 'A sample limit value finance user',
       },
       // ad: {
       //   value: {
@@ -253,35 +266,24 @@ export class UsersController {
   @ApiQuery({
     description: 'A list of projections for mongodb queries',
     name: 'search',
-    required: false,
-    // name: nested.field,
-    style: 'deepObject',
-    // required: false,
-    // schema: {
-    //   // type
-    // },
-    type: OmitType(User, ['_id', 'password']),
-    // isArray: true,
-  })
-  @ApiQuery({
-    description: 'Limit of items to fetch',
-    name: 'email',
-    required: false,
-    example: 'aris@aris.com',
-    type: PartialType(PickType(User, ['email'])),
+    type: PartialType(OmitType(User, ['_id', 'password'])),
   })
   @ApiQuery({
     description: 'Limit of items to fetch',
     name: 'limit',
     required: false,
+    type: Number,
+    example: 0,
     examples: {
       low: {
-        value: 0,
-        summary: 'A sample limit value 0',
+        value: 10,
+        description: 'ten value',
+        summary: 'A sample limit value 10',
       },
       high: {
-        value: 10,
-        summary: 'A sample limit value 10',
+        value: 50,
+        description: 'fifty value',
+        summary: 'A sample limit value 50',
       },
     },
   })
@@ -299,19 +301,22 @@ export class UsersController {
   })
   getData(
     @Req() request: Request,
-    // @Query() { skip, limit }: PaginationParams,
+    // @Query('pagination') pagination: PaginationParams,
     @Query('projection') projection: Projection | [Projection] | null,
     // new DefaultValuePipe(0), ParseIntPipe - as global
-    @Query('limit') limit = 0,
-    @Query('email') email: string,
-    @Query('search') search: any
+    @Query('limit') limit = 0
+    // @Query('email') email: string,
+    // @Query('search') search: Partial<Omit<User, '_id' | 'password'>>
   ) {
+    delete request.query.limit;
+    delete request.query.projection;
+
     console.log('query', request.query);
-    console.log('params', request.params);
-    console.log('search', search);
-    console.log('email', email);
+    // console.log('search', search);
+    // console.log('email', email);
+    // console.log('pagination', pagination);
     console.log('limit', limit);
-    return this.usersService.findAll(search, projection, {
+    return this.usersService.findAll(request.query, projection, {
       limit,
       // page: Number(skip),
     });
@@ -357,7 +362,7 @@ export class UsersController {
 
   @Post()
   @ApiBadRequestResponse({
-    description: 'das',
+    // description: 'das',
     // schema: {
     //   statusCode: 400,
     //   message: 'Validation failed',
@@ -407,19 +412,19 @@ export class UsersController {
           summary: 'A sample limit value  # Optional description',
           $ref: getSchemaPath(User),
         },
-        {
-          description: 'The record has been successfully created 3.',
-          value: {
-            email: faker.internet.email(),
-            name: faker.name.findName,
-            password: faker.internet.password(),
-            tenantId: faker.datatype.uuid(),
-            provider: loginProviders[random(loginProviders.length - 1)],
-            role: userRoles[random(userRoles.length - 1)],
-          },
-          summary: 'stam test',
-          $ref: getSchemaPath(User),
-        },
+        // {
+        //   description: 'The record has been successfully created 3.',
+        //   value: {
+        //     email: faker.internet.email(),
+        //     name: faker.name.findName,
+        //     password: faker.internet.password(),
+        //     tenantId: faker.datatype.uuid(),
+        //     provider: loginProviders[random(loginProviders.length - 1)],
+        //     role: userRoles[random(userRoles.length - 1)],
+        //   },
+        //   summary: 'stam test',
+        //   $ref: getSchemaPath(User),
+        // },
       ],
       // examples: {
       //   aris: {
@@ -454,8 +459,12 @@ export class UsersController {
 
   @Delete(':id')
   @ApiOkResponse({
-    description: 'The resources has been successfully deleted',
+    description: 'The resource has been successfully deleted',
     type: String,
+  })
+  @ApiParam({
+    description: 'Resource id to delete',
+    name: 'id',
   })
   delete(@Param('id') id: string): Promise<string> {
     return this.usersService.delete(id);

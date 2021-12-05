@@ -28,8 +28,16 @@ export class PubSubService {
     this.logger.setContext(PubSubService.name);
   }
 
-  publishTopic(topic: myEvents, message: any): Promise<[string] | Error> {
-    // this.logger.log('topic', topic);
+  publishTopic(topic: myEvents, message: any): Promise<[string]> {
+    this.logger.log('topic', topic);
+    // todo check pipevalidation for body to catch those errors
+    if (!topic) {
+      throw new NotAcceptableException('no topic provided');
+    }
+    if (!message) {
+      throw new NotAcceptableException('no message provided');
+    }
+
     const buffer = Buffer.from(JSON.stringify(message));
     return pubsub
       .topic(topic)

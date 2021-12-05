@@ -1,17 +1,38 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document } from 'mongoose';
-import { IsString, IsEmail, IsOptional, IsMongoId } from 'class-validator';
+import {
+  IsNotEmpty,
+  IsString,
+  IsEmail,
+  IsOptional,
+  IsMongoId,
+} from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
 
 import { Factory } from 'nestjs-seeder';
 
 export type UserDocument = User & Document;
 
-export type UserRoles = 'viewer' | 'editor' | 'finance' | 'admin';
-export const userRoles: UserRoles[] = ['viewer', 'editor', 'finance', 'admin'];
+// export type UserRoles = 'viewer' | 'editor' | 'finance' | 'admin';
+// export const userRoles: UserRoles[] = ['viewer', 'editor', 'finance', 'admin'];
 
-export type LoginProviders = 'local' | 'google' | 'github';
-export const loginProviders: LoginProviders[] = ['local', 'google', 'github'];
+// export type LoginProviders = 'local' | 'google' | 'github';
+
+export enum UserRoles {
+  admin = 'admin',
+  user = 'user',
+  visitor = 'visitor',
+  // editor = 'editor',
+  // finance = 'finance',
+}
+
+export enum LoginProviders {
+  local = 'local',
+  google = 'google',
+  github = 'github',
+}
+
+// export const loginProviders: LoginProviders[] = ['local', 'google', 'github'];
 
 @Schema({ timestamps: true })
 export class User {
@@ -29,7 +50,7 @@ export class User {
   readonly _id?: string;
   // readonly _id?: S.Types.ObjectId;
 
-  @Prop()
+  @Prop({})
   @ApiProperty({
     description: `User's name`,
     // example: 'your name',
@@ -52,8 +73,6 @@ export class User {
     // default: 'sjt',
     // required: true,
   })
-  @IsString()
-  @IsOptional()
   @Factory((faker) => faker.name.findName()) // todo check again and fix
   name: string;
   //
@@ -68,12 +87,24 @@ export class User {
     required: true,
   })
   @IsEmail()
+  // @IsNotEmpty()
   email: string;
 
-  @Prop({ index: true })
+  @Prop()
   @ApiProperty({
     description: `User's password`,
-    example: '12345',
+    examples: {
+      letters: {
+        value: 'qweasd',
+        description: 'Password letters',
+        summary: 'Password 6 letters',
+      },
+      numbers: {
+        value: '12345',
+        description: 'Password numbers',
+        summary: 'Password 6 numbers',
+      },
+    },
     // readOnly: true,
   })
   password?: string;
@@ -81,30 +112,62 @@ export class User {
   @Prop({ index: true })
   @ApiProperty({
     description: `User's tenantId`,
-    example: 'tenantid-1234-1244',
+    // example: 'tenantid-1234-1244',
     // readOnly: true,
+    example: 'example',
+    default: 'example',
+    examples: {
+      letters: {
+        value: 'qweasd',
+        description: 'tenantId letters',
+        summary: 'tenantId 6 letters',
+      },
+      numbers: {
+        value: '12345',
+        description: 'tenantId numbers',
+        summary: 'tenantId 6 numbers',
+      },
+    },
   })
   tenantId: string;
 
-  @Prop({ type: String, enum: loginProviders, default: loginProviders[0] })
+  @Prop({
+    type: String,
+    enum: LoginProviders,
+    default: LoginProviders.local,
+  })
   @ApiProperty({
     description: `User's provider`,
-    example: loginProviders[0],
-    enum: loginProviders,
-    default: loginProviders[0],
+    example: '',
+    enum: LoginProviders,
+    default: LoginProviders.local,
     required: true,
   })
   provider: LoginProviders;
 
-  @Prop({ type: String, enum: userRoles, default: userRoles[0] })
+  @Prop({ type: String, enum: UserRoles, default: UserRoles.admin })
   @ApiProperty({
     description: `User's role`,
-    example: 'admin',
-    enum: userRoles,
-    default: userRoles[0],
+    example: '',
+    enum: UserRoles,
+    default: UserRoles.visitor,
     required: true,
   })
   role: UserRoles;
+
+  // @Prop({
+  //   type: String,
+  //   enum: LoginProvidersEnum,
+  //   default: LoginProvidersEnum.google,
+  // })
+  // @ApiProperty({
+  //   description: `User's role stam exanple`,
+  //   example: LoginProvidersEnum.google,
+  //   enum: LoginProvidersEnum,
+  //   // default: LoginProvidersEnum.google,
+  //   required: true,
+  // })
+  // stam: LoginProvidersEnum;
 }
 
 export const UserSchema = SchemaFactory.createForClass(User);
