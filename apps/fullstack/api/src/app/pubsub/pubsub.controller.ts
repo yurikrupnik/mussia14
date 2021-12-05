@@ -23,6 +23,7 @@ import {
   ApiBearerAuth,
   ApiOAuth2,
   PickType,
+  PartialType,
 } from '@nestjs/swagger';
 import { PubSubService } from './pubsub.service';
 import { LoginProviders, User, UserRoles } from '@mussia14/backend/users-api';
@@ -114,49 +115,41 @@ class PaginationParams {
 }
 
 class TopicName {
+  // @ApiProperty({
+  //   default: 'event1',
+  //   enum: myEvents,
+  //   required: true,
+  // })
+  // // @Type(() => String)
+  // @IsNotEmpty()
+  // @IsString()
+  // @IsEmpty()
+  // @IsDefined()
+  // topic: myEvents;
+}
+
+class Event1Dto {
   @ApiProperty({
     default: 'event1',
     enum: myEvents,
     required: true,
   })
-  // @Type(() => String)
-  @IsNotEmpty()
-  @IsString()
-  @IsEmpty()
-  @IsDefined()
-  topic: myEvents;
-}
-
-class Event1Dto extends TopicName {
-  @ValidateNested({ each: true })
-  @Type(() => Event1 || Event2)
-  @ApiProperty({ type: () => Event1 || Event2, required: true })
-  @IsNotEmpty()
-  message: Event1 | Event2;
-}
-
-class Event2Dto {
-  @ApiProperty({
-    default: 'event2',
-    enum: myEvents,
-    required: true,
-  })
   @Type(() => String)
   @IsString()
+  @IsNotEmpty()
+  // @IsEmpty()
+  @IsDefined()
   topic: myEvents;
 
   @ValidateNested({ each: true })
-  @Type(() => Event2)
-  @ApiProperty({ type: Event2, required: true })
-  message: Event2;
+  @Type(() => Event1 || Event2 || PaginationParams)
+  @ApiProperty({
+    type: () => Event1 || Event2 || PaginationParams,
+    required: true,
+  })
+  @IsNotEmpty()
+  message: Event1 | Event2 | PaginationParams;
 }
-
-type EventsBodies = Event1Dto | Event2Dto;
-
-// class S implements EventsBodies {
-//   constructor() {
-//   }
-// }
 
 const bodySchema: ApiBodyOptions = {
   // type: 'object',
@@ -200,15 +193,15 @@ const bodySchema: ApiBodyOptions = {
     },
     event3: {
       value: {
-        event: 'event2',
+        topic: 'event2',
         message: {
           stringField: 'my message for 23',
           intField: 33,
           tenantId: '333',
         },
       },
-      summary: 'Event2 event',
-      description: 'This is event2 example',
+      summary: 'Event3 event',
+      description: 'This is event3 example',
     },
   },
   // type: {
@@ -219,24 +212,21 @@ const bodySchema: ApiBodyOptions = {
     properties: {
       topic: {
         type: 'string',
-        enum: myEvents,
-        // $ref: getSchemaPath(myEvents),
-        // enum: Object.values(myEvents),
-        // type: TopicName,
-        // $ref: getSchemaPath(PickType(TopicName, ['topic'])),
-        // description: 'top',
-        // default: myEvents.event2,
-        // example: myEvents.event2,
+        enum: Object.values(myEvents),
+        description: 'PubSub topic name',
+        example: myEvents.event1,
+        default: myEvents.event2,
       },
       message: {
         oneOf: [
           {
-            // example: Event1Dto,
             $ref: getSchemaPath(Event1),
           },
           {
-            // example: Event2Dto,
             $ref: getSchemaPath(Event2),
+          },
+          {
+            $ref: getSchemaPath(PaginationParams),
           },
         ],
       },
@@ -253,6 +243,7 @@ class Er {
 
 @Controller('pubsub')
 @ApiTags('PubSub')
+@ApiExtraModels(PaginationParams)
 @ApiExtraModels(TopicName)
 @ApiExtraModels(Event1Dto)
 @ApiExtraModels(Event2)
