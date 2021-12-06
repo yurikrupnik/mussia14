@@ -1,6 +1,9 @@
 import styles from './index.module.css';
+import { useAuth } from '../context/auth';
 
 export function Index() {
+  const { currentUser } = useAuth();
+  console.log('currentUser', currentUser);
   /*
    * Replace the elements below with your own.
    *

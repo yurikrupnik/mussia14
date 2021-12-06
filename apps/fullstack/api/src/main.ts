@@ -6,7 +6,21 @@ import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 
 import { AppModule } from './app/app.module';
 import { MyLogger } from './app/a-utils/my-logger/my-logger.service';
+import { RolesGuard } from './app/firebase/auth.guard';
 import { HttpExceptionFilter } from './app/filters/HttpExceptionsFilter';
+import admin from 'firebase-admin';
+
+admin.initializeApp({
+  // credential: admin.credential.cert({
+  //   // private_key: process.env.FIREBASE_PRIVATE_KEY,
+  //   // private_key: process.env.FIREBASE_PRIVATE_KEY,
+  //   // client_email: process.env.FIREBASE_CLIENT_EMAIL,
+  //   // project_id: process.env.FIREBASE_PROJECT_ID,
+  //   project_id: 'mussia8',
+  // } as Partial<admin.ServiceAccount>),
+  // databaseURL: 'https://mussia8-default-rtdb.europe-west1.firebasedatabase.app',
+  // databaseURL: process.env.FIREBASE_DATABASE_URL,
+});
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule, {
@@ -17,6 +31,7 @@ async function bootstrap() {
   app.enableCors();
   app.use(morgan('dev'));
   app.useLogger(new MyLogger());
+  // app.useGlobalGuards(RolesGuard);
   app.useGlobalFilters(new HttpExceptionFilter());
   app.useGlobalPipes(
     new ValidationPipe({

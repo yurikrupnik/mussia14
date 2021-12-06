@@ -1,48 +1,33 @@
 import { Type } from 'class-transformer';
-import {
-  Controller,
-  Post,
-  Body,
-  HttpException,
-  HttpStatus,
-  Logger,
-} from '@nestjs/common';
-import { internet, name, datatype } from 'faker';
-import random from 'lodash/random';
+import { Body, Controller, Post, UseGuards } from '@nestjs/common';
 import {
   ApiBody,
-  ApiCreatedResponse,
+  ApiBodyOptions,
   ApiExtraModels,
   ApiNotAcceptableResponse,
-  ApiTags,
-  ApiProperty,
-  getSchemaPath,
-  ApiBodyOptions,
-  ApiBasicAuth,
   ApiNotFoundResponse,
-  ApiBearerAuth,
-  ApiOAuth2,
-  PickType,
-  PartialType,
+  ApiProperty,
+  ApiTags,
+  getSchemaPath,
 } from '@nestjs/swagger';
 import { PubSubService } from './pubsub.service';
-import { LoginProviders, User, UserRoles } from '@mussia14/backend/users-api';
+import { LoginProviders, UserRoles } from '@mussia14/backend/users-api';
 // import { ValidationPipe } from '@mussia14/backend/validations';
 import { MyLogger } from '../a-utils/my-logger/my-logger.service';
 // import { CreatePubsubDto } from './dto/create-pubsub.dto';
 // import { UpdatePubsubDto } from './dto/update-pubsub.dto';
 // type events = 'event1' | 'event2';
 import { Event1 } from './temp-util/event1';
+import { Roles } from '../firebase/roles';
+import { RolesGuard } from '../firebase/auth.guard';
 
 import {
+  IsDefined,
   IsNotEmpty,
   IsNumber,
   IsString,
   Min,
   ValidateNested,
-  IsDefined,
-  IsEmpty,
-  IsIn,
 } from 'class-validator';
 
 // todo remove duplicated
@@ -266,6 +251,13 @@ export class PubSubController {
     // type: Er,
     // content: {},
     // links: {},
+    schema: {
+      example: {
+        statusCode: 123,
+        error: 'error log',
+        message: 'error mesage',
+      },
+    },
   })
   @ApiNotFoundResponse({
     description: 'Topic name is not defined in the cloud',
@@ -277,11 +269,13 @@ export class PubSubController {
     return this.pubsubService.publishTopic(topic, message);
   }
 
-  @Post('/rrr')
+  @Post('')
+  @UseGuards(RolesGuard)
+  @Roles(UserRoles.admin, UserRoles.visitor)
   // @ApiOAuth2()
-  @ApiBasicAuth()
-  @ApiBearerAuth()
-  rrr(@Body() body: Event1Dto) {
+  // @ApiBasicAuth()
+  // @ApiBearerAuth()
+  rrr(@Body() body: any) {
     // return 'aris';
     return this.pubsubService.doSomething();
     // throw new HttpException('Forbidden', HttpStatus.CONFLICT);
