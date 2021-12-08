@@ -1,11 +1,11 @@
 const config = {
-  apiKey: 'AIzaSyDkNplLycBH0qUxIjhTLjcGznie_CyVrOA',
-  authDomain: 'mussia8.firebaseapp.com',
-  databaseURL: 'https://mussia8-default-rtdb.europe-west1.firebasedatabase.app',
-  projectId: 'mussia8',
-  storageBucket: 'mussia8.appspot.com',
-  messagingSenderId: '41381952215',
-  appId: '1:41381952215:web:6f08f8a08b638932908e92',
+  apiKey: 'AIzaSyAu0wFMCPQSFjL1lJoifmz7XTqpscmay2E',
+  authDomain: 'mussia14.firebaseapp.com',
+  projectId: 'mussia14',
+  storageBucket: 'mussia14.appspot.com',
+  messagingSenderId: '467143396830',
+  appId: '1:467143396830:web:a63df67a4212c2c734214f',
+  measurementId: 'G-H2BCQQ85DM',
 };
 
 export default config;

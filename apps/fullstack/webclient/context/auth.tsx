@@ -13,6 +13,7 @@ import {
   login,
   onAuthStateChanged,
   sihInWithGithub,
+  auth,
 } from '../firebase';
 import { UserCredential, User } from 'firebase/auth';
 
@@ -54,9 +55,13 @@ export const AuthProvider = (props: AuthProviderProps) => {
   // const reg = useCallback(register, []);
   // const [currentUser, setCurrentUser] = useState(null);
 
-  // console.log('user', user);
+  console.log('user', user);
   useEffect(() => onAuthStateChanged(setUser), []);
-
+  useEffect(() => {
+    auth.currentUser?.getIdToken().then((e) => {
+      console.log('e', e);
+    });
+  }, [user]);
   const value = {
     user,
     register,

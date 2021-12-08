@@ -9,12 +9,15 @@ import {
   EmailAuthProvider,
 } from 'firebase/auth';
 import { initializeApp } from 'firebase/app';
+// import { getAnalytics } from 'firebase/analytics';
 // import 'firebase/compat/auth';
-import { UserCredential } from 'firebase/auth';
+// import { UserCredential } from 'firebase/auth';
 // import 'firebase/compat/firestore';
 import config from './config';
 
 const firebaseApp = initializeApp(config);
+
+// const analytics = getAnalytics(firebaseApp);
 
 const auth = getAuth(firebaseApp);
 
