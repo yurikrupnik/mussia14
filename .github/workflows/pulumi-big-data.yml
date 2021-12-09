@@ -41,7 +41,7 @@ jobs:
 #          stack-name: dev
 #          comment-on-pr: true
 #          github-token: ${{ secrets.GITHUB_TOKEN }}
-#          work-dir: apps/big-data/infrastructure
+##          work-dir: apps/big-data/infrastructure
 ##          credentials: ${{ secrets.GOOGLE_APPLICATION_CREDENTIALS }}
 ##          cwd: app/big-data/infra6
 #        env:

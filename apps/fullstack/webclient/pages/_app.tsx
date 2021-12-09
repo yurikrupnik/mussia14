@@ -1,5 +1,5 @@
 import { AppProps } from 'next/app';
-import React from 'react';
+import React, { useState } from 'react';
 import Head from 'next/head';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import { ReactQueryDevtools } from 'react-query/devtools';
@@ -9,6 +9,10 @@ import { CacheProvider, EmotionCache } from '@emotion/react';
 import createCache from '@emotion/cache';
 import { createTheme } from '@mui/material/styles';
 import { red } from '@mui/material/colors';
+import Router from 'next/router';
+import Header from '../components/header';
+import { AuthProvider } from '../context/auth';
+import { UserCredential } from 'firebase/auth';
 
 export function createEmotionCache() {
   return createCache({ key: 'css' });
@@ -39,6 +43,24 @@ interface MyAppProps extends AppProps {
 
 const MyApp: React.FC<AppProps> = (props: MyAppProps) => {
   const { Component, emotionCache = clientSideEmotionCache, pageProps } = props;
+  const [user, setUser] = useState<UserCredential>(null);
+
+  // console.log('pageProps.protected', pageProps);
+  // console.log('props', props);
+  // console.log('user', user);
+  if (pageProps.protected && !user) {
+    // return <div>Loading...</div>;
+    // Router.push('/login');
+  }
+
+  if (
+    pageProps.protected &&
+    user &&
+    pageProps.userTypes
+    // pageProps.userTypes.indexOf(user.type) === -1
+  ) {
+    // return <div>Sorry, you do not have access</div>;
+  }
 
   return (
     <>
@@ -51,10 +73,13 @@ const MyApp: React.FC<AppProps> = (props: MyAppProps) => {
       </Head>
       <QueryClientProvider client={queryClient}>
         <ThemeProvider theme={theme}>
-          <CacheProvider value={emotionCache}>
-            <CssBaseline />
-            <Component {...pageProps} />
-          </CacheProvider>
+          <AuthProvider user={user} setUser={setUser}>
+            <CacheProvider value={emotionCache}>
+              <CssBaseline />
+              <Header />
+              <Component {...pageProps} />
+            </CacheProvider>
+          </AuthProvider>
         </ThemeProvider>
         <ReactQueryDevtools initialIsOpen={false} />
       </QueryClientProvider>

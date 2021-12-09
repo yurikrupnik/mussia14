@@ -6,7 +6,10 @@ import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 
 import { AppModule } from './app/app.module';
 import { MyLogger } from './app/a-utils/my-logger/my-logger.service';
+import { RolesGuard } from './app/firebase/auth.guard';
 import { HttpExceptionFilter } from './app/filters/HttpExceptionsFilter';
+import admin from 'firebase-admin';
+import { ConfigService } from '@nestjs/config';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule, {
@@ -17,6 +20,20 @@ async function bootstrap() {
   app.enableCors();
   app.use(morgan('dev'));
   app.useLogger(new MyLogger());
+  const configService = app.get(ConfigService);
+  admin.initializeApp({
+    credential: admin.credential.cert({
+      private_key: configService.get('FIREBASE_PRIVATE_KEY'), // todo enum from those envs
+      client_email: configService.get('FIREBASE_CLIENT_EMAIL'),
+      project_id: configService.get('PROJECT_ID'),
+    } as Partial<admin.ServiceAccount>),
+    // databaseURL: 'https://mussia8-default-rtdb.europe-west1.firebasedatabase.app',
+    databaseURL: configService.get('FIREBASE_DATABASE_URL'),
+  });
+  // // app.useGlobalGuards(RolesGuard);
+  // const MONGO_URI = app.get('MONGO_URI');
+  // console.log('MONGO_URI', MONGO_URI);
+
   app.useGlobalFilters(new HttpExceptionFilter());
   app.useGlobalPipes(
     new ValidationPipe({
@@ -40,11 +57,27 @@ async function bootstrap() {
     .setTitle('Mussia14 General API')
     .setDescription('General use cloud run api')
     .setVersion('1.0')
-    // .setBasePath('/')
+    // .addBearerAuth(
+    //   { type: 'http', scheme: 'bearer', bearerFormat: 'JWT' },
+    //   'access-token'
+    // )
     .addBearerAuth()
-    .addBasicAuth()
+    // .addSecurity('firebase', {
+    //   type: 'oauth2',
+    //   // scheme: 'bearer',
+    //   // bearerFormat: 'JWT',
+    //   // description: 'my oauth2 first try',
+    //   // name: 'stam',
+    // })
+    // .setBasePath('/')
+    // .addBasicAuth()
     .addOAuth2()
-    .addCookieAuth('optional-session-id')
+    // .addSecurity('basic', {
+    //   type: 'http',
+    //   scheme: 'basic',
+    // })
+
+    // .addCookieAuth('optional-session-id')
     // .setBasePath('/api/users')
     .build();
   const document = SwaggerModule.createDocument(app, config);
