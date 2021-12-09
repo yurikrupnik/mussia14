@@ -9,7 +9,6 @@ import { CacheProvider, EmotionCache } from '@emotion/react';
 import createCache from '@emotion/cache';
 import { createTheme } from '@mui/material/styles';
 import { red } from '@mui/material/colors';
-import { SnackbarProvider } from 'material-ui-snackbar-provider';
 import Router from 'next/router';
 import Header from '../components/header';
 import { AuthProvider } from '../context/auth';
@@ -74,15 +73,13 @@ const MyApp: React.FC<AppProps> = (props: MyAppProps) => {
       </Head>
       <QueryClientProvider client={queryClient}>
         <ThemeProvider theme={theme}>
-          <SnackbarProvider SnackbarProps={{ autoHideDuration: 4000 }}>
-            <AuthProvider user={user} setUser={setUser}>
-              <CacheProvider value={emotionCache}>
-                <CssBaseline />
-                <Header />
-                <Component {...pageProps} />
-              </CacheProvider>
-            </AuthProvider>
-          </SnackbarProvider>
+          <AuthProvider user={user} setUser={setUser}>
+            <CacheProvider value={emotionCache}>
+              <CssBaseline />
+              <Header />
+              <Component {...pageProps} />
+            </CacheProvider>
+          </AuthProvider>
         </ThemeProvider>
         <ReactQueryDevtools initialIsOpen={false} />
       </QueryClientProvider>

@@ -11,12 +11,12 @@ import {
 } from 'react-social-login-buttons';
 import { useForm } from 'react-hook-form';
 import StyledFirebaseAuth from 'react-firebaseui/StyledFirebaseAuth';
-import { useSnackbar } from 'material-ui-snackbar-provider';
+// import { useSnackbar } from 'material-ui-snackbar-provider';
 import { auth, sihInWithGithub, uiConfig } from '../firebase';
 import { useAuth } from '../context/auth';
 
 const Login = () => {
-  const snackbar = useSnackbar();
+  // const snackbar = useSnackbar();
   const {
     register,
     handleSubmit,
@@ -26,9 +26,9 @@ const Login = () => {
   const onSubmit = (data) => console.log(data);
   console.log('errors', errors);
   function handleSomething() {
-    snackbar.showMessage('Something happened!', 'Undo', () =>
-      this.handleUndo()
-    );
+    // snackbar.showMessage('Something happened!', 'Undo', () =>
+    //   this.handleUndo()
+    // );
   }
   // console.log('authss', authss);
   // const a = useAuthState(auth);
@@ -49,7 +49,7 @@ const Login = () => {
     // if (user) {
     return auth.currentUser?.getIdToken().then((res) => {
       console.log('res', res);
-      snackbar.showMessage('Something happened!', 'Undo', () => handleUndo());
+      // snackbar.showMessage('Something happened!', 'Undo', () => handleUndo());
     });
     // }
     // return '';
@@ -66,7 +66,7 @@ const Login = () => {
   }
 
   const handleReister = useCallback(() => {
-    snackbar.showMessage('Something happened!', 'Undo', () => handleUndo());
+    // snackbar.showMessage('Something happened!', 'Undo', () => handleUndo());
     // return authRegister('test@test.com', '123456');
   }, []);
   // console.log('errors.email', errors.email);
