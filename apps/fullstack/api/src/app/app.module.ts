@@ -11,9 +11,19 @@ import { LoggerModule } from './a-utils/my-logger/my-logger.module';
 import { UsersModule } from '@mussia14/backend/users-api';
 import { AuthMiddleware } from './firebase/auth.middleware';
 import { AuthController } from './firebase/auth.controller';
+import { ConfigModule } from '@nestjs/config';
 
 @Module({
-  imports: [LoggerModule, HealthModule, UsersModule, PubSubModule],
+  imports: [
+    ConfigModule.forRoot({
+      isGlobal: true,
+      // envFilePath: './env.local',
+    }),
+    LoggerModule,
+    HealthModule,
+    UsersModule,
+    PubSubModule,
+  ],
   controllers: [AuthController],
   exports: [FirebaseAuthService],
   providers: [FirebaseAuthService],

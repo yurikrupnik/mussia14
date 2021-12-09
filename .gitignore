@@ -3,6 +3,7 @@
 # compiled output
 /**/dist/
 /dist
+.env
 /tmp
 /out-tsc
 
