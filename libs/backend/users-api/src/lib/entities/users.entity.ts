@@ -1,29 +1,18 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document } from 'mongoose';
-import {
-  IsNotEmpty,
-  IsString,
-  IsEmail,
-  IsOptional,
-  IsMongoId,
-} from 'class-validator';
+import { IsEmail, IsOptional, IsMongoId } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
 
 import { Factory } from 'nestjs-seeder';
 
 export type UserDocument = User & Document;
 
-// export type UserRoles = 'viewer' | 'editor' | 'finance' | 'admin';
-// export const userRoles: UserRoles[] = ['viewer', 'editor', 'finance', 'admin'];
-
-// export type LoginProviders = 'local' | 'google' | 'github';
-
 export enum UserRoles {
   admin = 'admin',
   user = 'user',
   visitor = 'visitor',
   // editor = 'editor',
-  // finance = 'finance',
+  finance = 'finance',
 }
 
 export enum LoginProviders {
@@ -31,8 +20,6 @@ export enum LoginProviders {
   google = 'google',
   github = 'github',
 }
-
-// export const loginProviders: LoginProviders[] = ['local', 'google', 'github'];
 
 @Schema({ timestamps: true })
 export class User {
@@ -53,41 +40,37 @@ export class User {
   @Prop({})
   @ApiProperty({
     description: `User's name`,
-    // example: 'your name',
     examples: {
+      empty: {
+        value: '',
+        summary: 'Empty value',
+      },
       aris: {
-        value: 'aris',
-        summary: 'A sample limit value  # Optional description',
+        value: 'Aris',
+        summary: 'A simple Aris user',
       },
       yuri: {
-        value: 'yuri',
-        summary: 'A sample limit value  # Optional description',
+        value: 'Ares',
+        summary: 'A simple Ares user',
       },
     },
-    // examples: {
-    //   doir: 'my name',
-    //   adas: 'my namead',
-    // },
-    // readOnly: true,
-    example: 'nir',
-    // default: 'sjt',
-    // required: true,
   })
   @Factory((faker) => faker.name.findName()) // todo check again and fix
+  /**
+   * User Name
+   * */
   name: string;
-  //
+
   @Prop({
     index: true,
     required: true,
   })
   @ApiProperty({
     description: `User email`,
-    example: 'a@a.com',
-    // readOnly: true,
+    default: '',
     required: true,
   })
   @IsEmail()
-  // @IsNotEmpty()
   email: string;
 
   @Prop()
@@ -105,18 +88,18 @@ export class User {
         summary: 'Password 6 numbers',
       },
     },
-    // readOnly: true,
   })
   password?: string;
 
   @Prop({ index: true })
   @ApiProperty({
     description: `User's tenantId`,
-    // example: 'tenantid-1234-1244',
-    // readOnly: true,
-    example: 'example',
-    default: 'example',
     examples: {
+      letterss: {
+        value: '',
+        description: 'tenantId letters',
+        summary: 'not value',
+      },
       letters: {
         value: 'qweasd',
         description: 'tenantId letters',
@@ -154,20 +137,6 @@ export class User {
     required: true,
   })
   role: UserRoles;
-
-  // @Prop({
-  //   type: String,
-  //   enum: LoginProvidersEnum,
-  //   default: LoginProvidersEnum.google,
-  // })
-  // @ApiProperty({
-  //   description: `User's role stam exanple`,
-  //   example: LoginProvidersEnum.google,
-  //   enum: LoginProvidersEnum,
-  //   // default: LoginProvidersEnum.google,
-  //   required: true,
-  // })
-  // stam: LoginProvidersEnum;
 }
 
 export const UserSchema = SchemaFactory.createForClass(User);

@@ -18,5 +18,6 @@ describe('PubsubController', () => {
 
   it('should be defined', () => {
     expect(controller).toBeDefined();
+    // controller.publishTopic('topic1', { data: 1 });
   });
 });

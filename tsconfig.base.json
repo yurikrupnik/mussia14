@@ -18,6 +18,10 @@
     "baseUrl": ".",
     "paths": {
       "@mussia14/backend/envs": ["libs/backend/envs/src/index.ts"],
+      "@mussia14/backend/errors": ["libs/backend/errors/src/index.ts"],
+      "@mussia14/backend/products-api": [
+        "libs/backend/products-api/src/index.ts"
+      ],
       "@mussia14/backend/users-api": ["libs/backend/users-api/src/index.ts"],
       "@mussia14/backend/validations": [
         "libs/backend/validations/src/index.ts"

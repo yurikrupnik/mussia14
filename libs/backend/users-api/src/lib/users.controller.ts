@@ -79,10 +79,16 @@ enum Projection {
 // loginProviders[1];
 
 export type events = 'event1' | 'event2';
+enum even12 {
+  EVENT1 = 'event1',
+  EVENT2 = 'event2',
+}
 
 class Event1Dto {
   @ApiProperty({
-    default: 'event1',
+    enum: even12,
+    default: even12.EVENT1,
+    description: 'GCP PubSub topic name name',
   })
   topic: events;
 
@@ -90,25 +96,6 @@ class Event1Dto {
   @Type(() => User)
   @ApiProperty({})
   message: User;
-}
-
-class TestDto {
-  @ApiProperty({
-    description: `id example just id`,
-    example: 'id example just id',
-    // readOnly: true,
-    required: false,
-  })
-  // @IsOptional()
-  @IsMongoId()
-  id: string;
-}
-
-enum PageSize {
-  'ten' = 10,
-  'fifte' = 50,
-  'hundret' = 100,
-  'twentyfilehundret' = 250,
 }
 
 const bodySchema: ApiBodyOptions = {
@@ -334,16 +321,11 @@ export class UsersController {
     description: 'The resources has been successfully returned',
     type: User,
   })
-  findOne(
-    @Req() request: Request,
+  findById(
     @Query('projection') projection: Projection | [Projection] | null,
     @Param('id') id: string // did not work with id of type User['_id'] or custom new
   ) {
-    console.log('request.query', request.query);
-    console.log('request.params', request.params);
-    console.log('id', id);
-    // return id;
-    return this.usersService.findOne(id, projection);
+    return this.usersService.findById(id, projection);
   }
 
   @Put(':id')
@@ -354,9 +336,9 @@ export class UsersController {
   })
   update(
     // @Body() body: UpdateUserDto, // todo return validation - added global
-    @Body() body: UpdateUserDto | CreateUserDto,
+    @Body() body: UpdateUserDto,
     @Param('id') id: string
-  ): Promise<User> {
+  ) {
     return this.usersService.update(id, body);
   }
 
@@ -453,7 +435,7 @@ export class UsersController {
     },
   })
   @ApiBody(bodySchema)
-  post(@Body() createItemDto: CreateUserDto): Promise<User> {
+  post(@Body() createItemDto: CreateUserDto): Promise<User | void> {
     return this.usersService.create(createItemDto);
   }
 
@@ -472,6 +454,6 @@ export class UsersController {
 
   @Delete()
   deleteAll() {
-    return this.usersService.deleteAll();
+    return this.usersService.deleteMany();
   }
 }

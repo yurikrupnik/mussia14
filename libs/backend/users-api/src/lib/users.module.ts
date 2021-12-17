@@ -5,6 +5,7 @@ import { UsersController } from './users.controller';
 import { User, UserSchema } from './entities/users.entity';
 import { mongoConfig } from '@mussia14/backend/envs';
 import mongoosePaginate from 'mongoose-paginate-v2';
+import { UsersRepository } from './users.repository';
 // import paginate from 'mongoose-paginate-v2';
 
 @Module({
@@ -57,6 +58,6 @@ import mongoosePaginate from 'mongoose-paginate-v2';
     // HealthModule,
   ],
   controllers: [UsersController],
-  providers: [UsersService],
+  providers: [UsersService, UsersRepository],
 })
 export class UsersModule {}

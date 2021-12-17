@@ -2,6 +2,8 @@
   "version": 2,
   "projects": {
     "backend-envs": "libs/backend/envs",
+    "backend-errors": "libs/backend/errors",
+    "backend-products-api": "libs/backend/products-api",
     "backend-users-api": "libs/backend/users-api",
     "backend-validations": "libs/backend/validations",
     "forntend-webclient-theme": "libs/forntend/webclient-theme",

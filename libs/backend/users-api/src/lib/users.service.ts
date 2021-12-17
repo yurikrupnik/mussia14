@@ -1,11 +1,4 @@
-import { Model, Connection } from 'mongoose';
-import {
-  Injectable,
-  NotFoundException,
-  BadRequestException,
-} from '@nestjs/common';
-import { InjectModel, InjectConnection } from '@nestjs/mongoose';
-import { QueryOptions } from 'mongoose';
+import { Injectable } from '@nestjs/common';
 import faker from 'faker';
 import random from 'lodash/random';
 import {
@@ -14,90 +7,26 @@ import {
   UserDocument,
   UserRoles,
 } from './entities/users.entity';
-// import {
-//   CollectionDto,
-//   DocumentCollector,
-//   CollectionResponse,
-// } from '@fagbokforlaget/nestjs-mongoose-paginate';
+import { UsersRepository } from './users.repository';
+import { CreateUserDto } from './dto/create-users.dto';
+import { UpdateUserDto } from './dto/update-users.dto';
+import { CrudApiService } from './db/entity.api-service';
 
 @Injectable()
-class Apiservice {}
-
-@Injectable()
-export class UsersService {
-  constructor(
-    @InjectModel(User.name) private model: Model<UserDocument>,
-    @InjectConnection() private connection: Connection
-  ) {}
-
-  async findAll(
-    query: Partial<User>,
-    projection,
-    config: QueryOptions
-  ): Promise<User[]> {
-    return this.model.find(query, projection, config).lean();
+export class UsersService extends CrudApiService<
+  UserDocument,
+  CreateUserDto,
+  UpdateUserDto,
+  UsersRepository
+> {
+  constructor(private readonly usersRepository: UsersRepository) {
+    super(usersRepository);
   }
 
-  async findOne(id: string, projection): Promise<User> {
-    return this.model
-      .findById(id, projection)
-      .then((res) => {
-        if (!res) {
-          throw new NotFoundException(`resource with id ${id} not found`);
-        }
-        return res;
-      })
-      .catch((err) => {
-        throw new NotFoundException(err.message);
-      });
-
-    // .lean();
-  }
-
-  create(body: User): Promise<User> {
-    return new this.model(body).save().catch((err) => {
-      // console.log('er here', Object.keys(err));
-      // console.log('er here', err.status);
-      // console.log('er here', err.info);
-      // console.log('er here', err.stack);
-      // console.log('er here', err.errors);
-      // console.log('er here', err.message);
-      // console.log('er here', err._message);
-      return err;
-      // throw new BadRequestException(err.message);
-    });
-  }
-
-  async update(id: string, body: Partial<User>): Promise<User> {
-    return this.model.findOneAndUpdate(
-      {
-        _id: id,
-      },
-      body,
-      {
-        new: true,
-        useFindAndModify: false,
-      }
-    );
-  }
-
-  delete(id: string): Promise<string> {
-    return this.model.findByIdAndDelete(id).then((res) => {
-      if (!res) {
-        throw new NotFoundException('Not found item');
-      }
-      return res._id;
-    });
-  }
-
-  deleteAll() {
-    return this.model.deleteMany();
-  }
-
-  static createMock(ojb?: Partial<User>) {
+  static createMock(ojb?: Partial<User>): User {
     const loginProviders = Object.values(LoginProviders);
     const userRoles = Object.values(UserRoles);
-    const mock: User = Object.assign(
+    return Object.assign(
       {},
       {
         email: faker.internet.email(),
@@ -109,7 +38,5 @@ export class UsersService {
       },
       ojb
     );
-
-    return mock;
   }
 }

@@ -15,6 +15,7 @@ export class FirebaseAuthService {
     }
     return match[1];
   }
+
   public authenticate(authToken: string): Promise<any> {
     const tokenString = this.getToken(authToken);
     return admin
@@ -26,20 +27,7 @@ export class FirebaseAuthService {
         return { email, uid, role };
       })
       .catch((err) => {
-        this.logger.error(`error while authenticate request ${err.message}`);
         throw new UnauthorizedException(err.message);
       });
-    // try {
-    //   const decodedToken: admin.auth.DecodedIdToken = await admin
-    //     .auth()
-    //     .verifyIdToken(tokenString);
-    //   this.logger.warn(`${JSON.stringify(decodedToken)}`);
-    //   console.log({ decodedToken });
-    //   const { email, uid, role } = decodedToken;
-    //   return { email, uid, role };
-    // } catch (err) {
-    //   this.logger.error(`error while authenticate request ${err.message}`);
-    //   throw new UnauthorizedException(err.message);
-    // }
   }
 }

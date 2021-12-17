@@ -1,13 +1,8 @@
-import {
-  createParamDecorator,
-  ExecutionContext,
-  HttpStatus,
-  Injectable,
-  NestMiddleware,
-} from '@nestjs/common';
+import { HttpStatus, Injectable, NestMiddleware } from '@nestjs/common';
 import { HttpException } from '@nestjs/common/exceptions/http.exception';
 import { NextFunction, Request, Response } from 'express';
 import { FirebaseAuthService } from './firebase.service';
+
 export interface RequestModel extends Request {
   // yuri todo check
   user: any;

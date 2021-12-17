@@ -12,6 +12,7 @@ import { UsersModule } from '@mussia14/backend/users-api';
 import { AuthMiddleware } from './firebase/auth.middleware';
 import { AuthController } from './firebase/auth.controller';
 import { ConfigModule } from '@nestjs/config';
+import { DocsModule } from './docs/docs.module';
 
 @Module({
   imports: [
@@ -21,6 +22,7 @@ import { ConfigModule } from '@nestjs/config';
     }),
     LoggerModule,
     HealthModule,
+    DocsModule,
     UsersModule,
     PubSubModule,
   ],
