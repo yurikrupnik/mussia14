@@ -6,6 +6,7 @@
     "backend-errors": "libs/backend/errors",
     "backend-filters": "libs/backend/filters",
     "backend-logger": "libs/backend/logger",
+    "backend-mongo-utils": "libs/backend/mongo-utils",
     "backend-products-api": "libs/backend/products-api",
     "backend-users-api": "libs/backend/users-api",
     "backend-validations": "libs/backend/validations",

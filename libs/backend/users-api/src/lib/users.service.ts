@@ -11,6 +11,7 @@ import { UsersRepository } from './users.repository';
 import { CreateUserDto } from './dto/create-users.dto';
 import { UpdateUserDto } from './dto/update-users.dto';
 import { CrudApiService } from './db/entity.api-service';
+// import { CrudApiService } from '@mussia14/backend/mongo-utils';
 
 @Injectable()
 export class UsersService extends CrudApiService<
