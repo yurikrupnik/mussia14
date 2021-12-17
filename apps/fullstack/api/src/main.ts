@@ -8,7 +8,7 @@ import { MyLogger } from './app/a-utils/my-logger/my-logger.service';
 import { HttpExceptionFilter } from './app/filters/HttpExceptionsFilter';
 import admin from 'firebase-admin';
 import { ConfigService } from '@nestjs/config';
-import { DocsModule } from './app/docs/docs.module';
+import { BackendDocsModule } from '@mussia14/backend/docs';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule, {
@@ -20,7 +20,6 @@ async function bootstrap() {
   app.use(morgan('dev'));
   app.useLogger(new MyLogger());
   const configService = app.get(ConfigService);
-
   admin.initializeApp({
     credential: admin.credential.cert({
       private_key: configService.get('FIREBASE_PRIVATE_KEY'), // todo enum from those envs
@@ -30,8 +29,6 @@ async function bootstrap() {
     databaseURL: configService.get('FIREBASE_DATABASE_URL'),
   });
 
-  const docs = app.get(DocsModule);
-  docs.setup(app, 'Mussia14 API', 'General use cloud run api');
   // // app.useGlobalGuards(RolesGuard);
   // const MONGO_URI = app.get('MONGO_URI');
   // console.log('MONGO_URI', MONGO_URI);
@@ -54,6 +51,9 @@ async function bootstrap() {
   app.enableShutdownHooks();
 
   // end custom config here
+
+  const docs = app.get(BackendDocsModule);
+  docs.setup(app, globalPrefix, 'Mussia14 API', 'General use cloud run api');
 
   const port = process.env.PORT || 3333;
   await app.listen(port, () => {

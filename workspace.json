@@ -1,6 +1,7 @@
 {
   "version": 2,
   "projects": {
+    "backend-docs": "libs/backend/docs",
     "backend-envs": "libs/backend/envs",
     "backend-errors": "libs/backend/errors",
     "backend-products-api": "libs/backend/products-api",

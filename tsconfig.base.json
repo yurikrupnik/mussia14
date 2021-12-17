@@ -17,6 +17,7 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
+      "@mussia14/backend/docs": ["libs/backend/docs/src/index.ts"],
       "@mussia14/backend/envs": ["libs/backend/envs/src/index.ts"],
       "@mussia14/backend/errors": ["libs/backend/errors/src/index.ts"],
       "@mussia14/backend/products-api": [

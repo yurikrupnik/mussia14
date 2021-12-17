@@ -12,7 +12,8 @@ import { UsersModule } from '@mussia14/backend/users-api';
 import { AuthMiddleware } from './firebase/auth.middleware';
 import { AuthController } from './firebase/auth.controller';
 import { ConfigModule } from '@nestjs/config';
-import { DocsModule } from './docs/docs.module';
+import { BackendProductsApiModule } from '@mussia14/backend/products-api';
+import { BackendDocsModule } from '@mussia14/backend/docs';
 
 @Module({
   imports: [
@@ -20,9 +21,10 @@ import { DocsModule } from './docs/docs.module';
       isGlobal: true,
       // envFilePath: './env.local',
     }),
+    BackendDocsModule,
+    BackendProductsApiModule,
     LoggerModule,
     HealthModule,
-    DocsModule,
     UsersModule,
     PubSubModule,
   ],

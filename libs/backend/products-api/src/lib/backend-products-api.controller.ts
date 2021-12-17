@@ -4,4 +4,8 @@ import { BackendProductsApiService } from './backend-products-api.service';
 @Controller('backend-products-api')
 export class BackendProductsApiController {
   constructor(private backendProductsApiService: BackendProductsApiService) {}
+
+  gets() {
+    Promise.resolve({ aris: 'sss' });
+  }
 }

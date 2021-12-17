@@ -2,22 +2,26 @@ import { Module, INestApplication } from '@nestjs/common';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 
 @Module({})
-export class DocsModule {
-  async setup(app: INestApplication, title: string, desc: string) {
-    const builder = new DocumentBuilder()
+export class BackendDocsModule {
+  async setup(
+    app: INestApplication,
+    prefix: string,
+    title: string,
+    desc: string
+  ) {
+    const config = new DocumentBuilder()
       .setTitle(title)
       .setDescription(desc)
       .addBearerAuth()
       .addOAuth2()
-      .addBearerAuth();
-
-    const config = builder.build();
+      .addBearerAuth()
+      .build();
 
     const document = SwaggerModule.createDocument(app, config, {
-      ignoreGlobalPrefix: true,
+      // ignoreGlobalPrefix: true,
     });
 
-    SwaggerModule.setup('api', app, document, {
+    SwaggerModule.setup(prefix, app, document, {
       uiConfig: {},
       swaggerOptions: {},
     });
