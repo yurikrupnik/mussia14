@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import faker from 'faker';
-import random from 'lodash/random';
+// import random from 'lodash/random';
+// import sample from 'lodash/sample';
 import {
   LoginProviders,
   User,
@@ -12,6 +13,13 @@ import { CreateUserDto } from './dto/create-users.dto';
 import { UpdateUserDto } from './dto/update-users.dto';
 import { CrudApiService } from './db/entity.api-service';
 // import { CrudApiService } from '@mussia14/backend/mongo-utils';
+// import { randomEnum } from '@mussia14/shared/ts-utils';
+// import { randomEnum } from '@mussia14/shared/ts-utils-buildable';
+function randomEnum<T>(anEnum: T): T[keyof T] {
+  const enumValues = Object.values(anEnum) as unknown as T[keyof T][];
+  const randomIndex = Math.floor(Math.random() * enumValues.length);
+  return enumValues[randomIndex];
+}
 
 @Injectable()
 export class UsersService extends CrudApiService<
@@ -25,8 +33,8 @@ export class UsersService extends CrudApiService<
   }
 
   static createMock(ojb?: Partial<User>): User {
-    const loginProviders = Object.values(LoginProviders);
-    const userRoles = Object.values(UserRoles);
+    // const loginProviders = Object.values(LoginProviders);
+    // const userRoles = Object.values(UserRoles);
     return Object.assign(
       {},
       {
@@ -34,8 +42,9 @@ export class UsersService extends CrudApiService<
         name: faker.name.findName(),
         password: faker.internet.password(),
         tenantId: faker.datatype.uuid(),
-        provider: loginProviders[random(loginProviders.length - 1)],
-        role: userRoles[random(userRoles.length - 1)],
+        provider: randomEnum(LoginProviders),
+        // provider: loginProviders[random(loginProviders.length - 1)],
+        role: randomEnum(UserRoles),
       },
       ojb
     );

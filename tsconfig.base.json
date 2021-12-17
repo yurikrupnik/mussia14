@@ -32,6 +32,10 @@
       ],
       "@mussia14/forntend/webclient-theme": [
         "libs/forntend/webclient-theme/src/index.ts"
+      ],
+      "@mussia14/shared/ts-utils": ["libs/shared/ts-utils/src/index.ts"],
+      "@mussia14/shared/ts-utils-buildable": [
+        "libs/shared/ts-utils-buildable/src/index.ts"
       ]
     }
   },

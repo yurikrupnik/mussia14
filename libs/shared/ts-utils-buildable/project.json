@@ -1,0 +1,34 @@
+{
+  "root": "libs/shared/ts-utils-buildable",
+  "sourceRoot": "libs/shared/ts-utils-buildable/src",
+  "projectType": "library",
+  "targets": {
+    "build": {
+      "executor": "@nrwl/node:package",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/libs/shared/ts-utils-buildable",
+        "tsConfig": "libs/shared/ts-utils-buildable/tsconfig.lib.json",
+        "packageJson": "libs/shared/ts-utils-buildable/package.json",
+        "main": "libs/shared/ts-utils-buildable/src/index.ts",
+        "assets": ["libs/shared/ts-utils-buildable/*.md"]
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["libs/shared/ts-utils-buildable/**/*.ts"]
+      }
+    },
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/libs/shared/ts-utils-buildable"],
+      "options": {
+        "jestConfig": "libs/shared/ts-utils-buildable/jest.config.js",
+        "passWithNoTests": true
+      }
+    }
+  },
+  "tags": ["scope:shared"]
+}
