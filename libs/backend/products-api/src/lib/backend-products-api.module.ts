@@ -8,12 +8,7 @@ import { ProductRepository } from './products.repository';
 
 @Module({
   imports: [
-    MongooseModule.forRoot(mongoConfig().MONGO_URI, {
-      // connectionFactory: (connection) => {
-      //   connection.plugin(paginate);
-      //   return connection;
-      // },
-    }),
+    MongooseModule.forRoot(mongoConfig().MONGO_URI, {}),
     // MongooseModule.forFeature([{ name: User.name, schema: UserSchema }]),
     MongooseModule.forFeatureAsync([
       {

@@ -5,7 +5,7 @@ import { ApiProperty } from '@nestjs/swagger';
 
 import { Factory } from 'nestjs-seeder';
 
-export type ProductDocument = Friend & Document;
+export type FriendDocument = Friend & Document;
 
 @Schema({})
 export class Friend {

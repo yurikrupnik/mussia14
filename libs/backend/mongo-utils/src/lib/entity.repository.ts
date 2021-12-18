@@ -19,12 +19,12 @@ export abstract class EntityRepository<
 
   findById(
     id: string,
-    // projection?: Record<string, unknown>,
-    config: QueryOptions
+    projection?: Record<string, unknown>
+    // config: QueryOptions
   ): Promise<HydratedDocument<T, any, void>> {
     return (
       this.entityModel
-        .findById(id, config)
+        .findById(id, projection)
         // .lean() // todo failing types
         .then((res) => {
           if (!res) {

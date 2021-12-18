@@ -3,15 +3,16 @@ import { InjectModel, InjectConnection } from '@nestjs/mongoose';
 import { Model, Connection } from 'mongoose';
 import { CreateFriendDto } from './dto/create-friend.dto';
 import { UpdateFriendDto } from './dto/update-friend.dto';
-import { Friend, ProductDocument } from './entities/friend.entity';
+import { Friend, FriendDocument } from './entities/friend.entity';
 import { handleError } from '@mussia14/backend/errors';
 
 @Injectable()
 export class FriendsService {
   constructor(
-    @InjectModel(Friend.name) private model: Model<ProductDocument>,
+    @InjectModel(Friend.name) private model: Model<FriendDocument>,
     @InjectConnection() private connection: Connection
   ) {}
+
   create(createFriendDto: CreateFriendDto) {
     return new this.model(createFriendDto).save();
   }
@@ -22,7 +23,7 @@ export class FriendsService {
 
   findOne(id: string) {
     return this.model
-      .findById(id)
+      .findById(id, [])
       .lean()
       .then((res) => {
         if (!res) {
