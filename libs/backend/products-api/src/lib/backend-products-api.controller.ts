@@ -1,4 +1,4 @@
-import { Controller, Get, Query, Req } from '@nestjs/common';
+import { Controller, Get, Param, Query, Req } from '@nestjs/common';
 import { BackendProductsApiService } from './backend-products-api.service';
 import {
   ApiOkResponse,
@@ -6,26 +6,72 @@ import {
   ApiTags,
   OmitType,
   PartialType,
+  ApiBearerAuth,
+  ApiUnauthorizedResponse,
 } from '@nestjs/swagger';
 // eslint-disable-next-line @nrwl/nx/enforce-module-boundaries
 import { Product } from '@mussia14/backend/products-api';
 import { Request } from 'express';
 
 enum Projection {
-  NAME,
-  DESCRIPTION,
+  NAME = 'name',
+  DESCRIPTION = 'description',
 }
 
-@Controller('products')
-@ApiTags('Products')
-export class BackendProductsApiController {
-  constructor(private products: BackendProductsApiService) {}
+import { applyDecorators, SetMetadata, UseGuards } from '@nestjs/common';
 
-  gets() {
-    Promise.resolve({ aris: 'sss' });
+import { User, UserRoles } from '@mussia14/backend/users-api';
+export function Auth(...roles: UserRoles[]) {
+  return applyDecorators(
+    SetMetadata('roles', roles),
+    // UseGuards(AuthGuard, RolesGuard),
+    ApiBearerAuth(),
+    ApiUnauthorizedResponse({ description: 'Unauthorized' })
+    // ApiQuery({})
+  );
+}
+
+function ControllerInit(name: string) {
+  return applyDecorators(Controller(name), ApiTags(name));
+}
+
+class ControllerWrapper<T, U, V> {
+  // constructor(private products: BackendProductsApiService) {}
+  @Get(':id')
+  @ApiQuery({
+    description: 'A list of projections for mongodb queries',
+    name: 'projection',
+    required: false,
+    isArray: true,
+    enum: Projection,
+  })
+  @ApiOkResponse({
+    description: 'The resources has been successfully returned',
+    type: Product,
+  })
+  findById(
+    @Query('projection') projection: Projection | [Projection] | null,
+    @Param('id') id: string // did not work with id of type User['_id'] or custom new
+  ) {
+    return 'ss';
+    // return this.products.findById(id, projection);
+  }
+}
+
+// @Controller('products')
+// @ApiTags('Products')
+@ControllerInit('products')
+export class BackendProductsApiController extends ControllerWrapper<
+  Product,
+  any,
+  any
+> {
+  constructor(private products: BackendProductsApiService) {
+    super();
   }
 
   @Get()
+  @Auth(UserRoles.admin)
   @ApiQuery({
     description: 'A list of projections for mongodb queries',
     name: 'search',
@@ -64,21 +110,11 @@ export class BackendProductsApiController {
   })
   getData(
     @Req() request: Request,
-    // @Query('pagination') pagination: PaginationParams,
     @Query('projection') projection: Projection | [Projection] | null,
-    // new DefaultValuePipe(0), ParseIntPipe - as global
     @Query('limit') limit = 0
-    // @Query('email') email: string,
-    // @Query('search') search: Partial<Omit<User, '_id' | 'password'>>
   ) {
     delete request.query.limit;
     delete request.query.projection;
-
-    console.log('query', request.query);
-    // console.log('search', search);
-    // console.log('email', email);
-    // console.log('pagination', pagination);
-    console.log('limit', limit);
     return this.products.findAll(request.query, projection, {
       limit,
       // page: Number(skip),
@@ -91,4 +127,23 @@ export class BackendProductsApiController {
     //   // page: Number(skip),
     // });
   }
+
+  // @Get(':id')
+  // @ApiQuery({
+  //   description: 'A list of projections for mongodb queries',
+  //   name: 'projection',
+  //   required: false,
+  //   isArray: true,
+  //   enum: Projection,
+  // })
+  // @ApiOkResponse({
+  //   description: 'The resources has been successfully returned',
+  //   type: User,
+  // })
+  // findById(
+  //   @Query('projection') projection: Projection | [Projection] | null,
+  //   @Param('id') id: string // did not work with id of type User['_id'] or custom new
+  // ) {
+  //   return this.products.findById(id, projection);
+  // }
 }
