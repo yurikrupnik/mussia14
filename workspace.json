@@ -1,13 +1,19 @@
 {
   "version": 2,
   "projects": {
+    "backend-docs": "libs/backend/docs",
     "backend-envs": "libs/backend/envs",
+    "backend-errors": "libs/backend/errors",
+    "backend-filters": "libs/backend/filters",
+    "backend-logger": "libs/backend/logger",
+    "backend-mongo-utils": "libs/backend/mongo-utils",
+    "backend-products-api": "libs/backend/products-api",
     "backend-users-api": "libs/backend/users-api",
     "backend-validations": "libs/backend/validations",
     "forntend-webclient-theme": "libs/forntend/webclient-theme",
     "fullstack-api": "apps/fullstack/api",
-    "fullstack-fullstack-webclient-playwright": "apps/fullstack/fullstack-webclient-playwright",
     "fullstack-webclient": "apps/fullstack/webclient",
-    "fullstack-webclient-e2e": "apps/fullstack/webclient-e2e"
+    "fullstack-webclient-e2e": "apps/fullstack/webclient-e2e",
+    "shared-ts-utils": "libs/shared/ts-utils"
   }
 }

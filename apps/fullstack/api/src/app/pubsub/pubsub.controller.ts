@@ -122,7 +122,6 @@ class Event1Dto {
   @Type(() => String)
   @IsString()
   @IsNotEmpty()
-  // @IsEmpty()
   @IsDefined()
   topic: myEvents;
 
