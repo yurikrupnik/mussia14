@@ -1,1 +1,1 @@
-export * from './lib/backend-filters.module';
+export * from './lib/backend-filters';

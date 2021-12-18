@@ -20,6 +20,7 @@
       "@mussia14/backend/docs": ["libs/backend/docs/src/index.ts"],
       "@mussia14/backend/envs": ["libs/backend/envs/src/index.ts"],
       "@mussia14/backend/errors": ["libs/backend/errors/src/index.ts"],
+      "@mussia14/backend/filters": ["libs/backend/filters/src/index.ts"],
       "@mussia14/backend/mongo-utils": [
         "libs/backend/mongo-utils/src/index.ts"
       ],

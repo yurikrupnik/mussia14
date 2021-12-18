@@ -1,11 +1,11 @@
 import { Logger, VersioningType, ValidationPipe } from '@nestjs/common';
 import helmet from 'helmet';
-import morgan from 'morgan';
+// import morgan from 'morgan';
 import { NestFactory } from '@nestjs/core';
 
 import { AppModule } from './app/app.module';
 import { MyLogger } from './app/a-utils/my-logger/my-logger.service';
-import { HttpExceptionFilter } from './app/filters/HttpExceptionsFilter';
+import { HttpExceptionFilter } from '@mussia14/backend/filters';
 import admin from 'firebase-admin';
 import { ConfigService } from '@nestjs/config';
 import { BackendDocsModule } from '@mussia14/backend/docs';
@@ -17,7 +17,7 @@ async function bootstrap() {
   const globalPrefix = 'api';
   // start custom config here
   app.enableCors();
-  app.use(morgan('dev'));
+  // app.use(morgan('dev'));
   app.useLogger(new MyLogger());
   const configService = app.get(ConfigService);
   admin.initializeApp({
