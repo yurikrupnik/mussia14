@@ -1,7 +1,6 @@
-import { VersioningType, ValidationPipe } from '@nestjs/common';
+import { VersioningType, ValidationPipe, Logger } from '@nestjs/common';
 import helmet from 'helmet';
 import { NestFactory } from '@nestjs/core';
-import { Logger } from 'nestjs-pino';
 
 import { AppModule } from './app/app.module';
 import { HttpExceptionFilter } from '@mussia14/backend/filters';
@@ -28,10 +27,6 @@ async function bootstrap() {
     databaseURL: configService.get('FIREBASE_DATABASE_URL'),
   });
 
-  // // app.useGlobalGuards(RolesGuard);
-  // const MONGO_URI = app.get('MONGO_URI');
-  // console.log('MONGO_URI', MONGO_URI);
-
   app.useGlobalFilters(new HttpExceptionFilter());
   app.useGlobalPipes(
     new ValidationPipe({
@@ -55,7 +50,7 @@ async function bootstrap() {
   docs.setup(app, globalPrefix, 'Mussia14 API', 'General use cloud run api');
 
   const logger = app.get(Logger);
-  const port = process.env.PORT || 3333;
+  const port = configService.get('PORT');
   await app.listen(port, () => {
     logger.log('Listening at http://localhost:' + port + '/' + globalPrefix);
   });

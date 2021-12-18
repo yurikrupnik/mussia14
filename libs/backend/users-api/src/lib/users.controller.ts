@@ -25,7 +25,6 @@ import {
   getSchemaPath,
   OmitType,
   PartialType,
-  PickType,
 } from '@nestjs/swagger';
 
 import { UsersService } from './users.service';
@@ -33,13 +32,7 @@ import { CreateUserDto } from './dto/create-users.dto';
 import { UpdateUserDto } from './dto/update-users.dto';
 import { User, UserRoles } from './entities/users.entity';
 
-import {
-  IsMongoId,
-  IsNumber,
-  IsOptional,
-  Min,
-  ValidateNested,
-} from 'class-validator';
+import { IsNumber, IsOptional, Min, ValidateNested } from 'class-validator';
 import { Type } from 'class-transformer';
 
 export class PaginationParams {

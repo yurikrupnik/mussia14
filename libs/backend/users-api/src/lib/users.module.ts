@@ -1,10 +1,10 @@
 import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
+import mongoosePaginate from 'mongoose-paginate-v2';
+import { mongoConfig } from '@mussia14/backend/envs';
 import { UsersService } from './users.service';
 import { UsersController } from './users.controller';
 import { User, UserSchema } from './entities/users.entity';
-import { mongoConfig } from '@mussia14/backend/envs';
-import mongoosePaginate from 'mongoose-paginate-v2';
 import { UsersRepository } from './users.repository';
 // import paginate from 'mongoose-paginate-v2';
 
