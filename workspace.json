@@ -14,7 +14,6 @@
     "fullstack-api": "apps/fullstack/api",
     "fullstack-webclient": "apps/fullstack/webclient",
     "fullstack-webclient-e2e": "apps/fullstack/webclient-e2e",
-    "shared-ts-utils": "libs/shared/ts-utils",
-    "shared-ts-utils-buildable": "libs/shared/ts-utils-buildable"
+    "shared-ts-utils": "libs/shared/ts-utils"
   }
 }

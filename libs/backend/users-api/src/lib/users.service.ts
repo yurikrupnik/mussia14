@@ -11,15 +11,8 @@ import {
 import { UsersRepository } from './users.repository';
 import { CreateUserDto } from './dto/create-users.dto';
 import { UpdateUserDto } from './dto/update-users.dto';
-import { CrudApiService } from './db/entity.api-service';
-// import { CrudApiService } from '@mussia14/backend/mongo-utils';
-// import { randomEnum } from '@mussia14/shared/ts-utils';
-// import { randomEnum } from '@mussia14/shared/ts-utils-buildable';
-function randomEnum<T>(anEnum: T): T[keyof T] {
-  const enumValues = Object.values(anEnum) as unknown as T[keyof T][];
-  const randomIndex = Math.floor(Math.random() * enumValues.length);
-  return enumValues[randomIndex];
-}
+import { CrudApiService } from '@mussia14/backend/mongo-utils';
+import { randomEnum } from '@mussia14/shared/ts-utils';
 
 @Injectable()
 export class UsersService extends CrudApiService<

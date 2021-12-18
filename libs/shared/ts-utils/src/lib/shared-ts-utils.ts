@@ -1,4 +1,4 @@
-// import sample from '';
+// import sample from 'lodash/sample';
 
 export function randomEnum<T>(anEnum: T): T[keyof T] {
   const enumValues = Object.values(anEnum) as unknown as T[keyof T][];
