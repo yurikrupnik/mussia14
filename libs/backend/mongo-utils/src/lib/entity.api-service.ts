@@ -17,7 +17,7 @@ export class CrudApiService<
     return this.repository.findById(id, { projection });
   }
 
-  create(body: CreateDto) {
+  create(body: CreateDto): Promise<T> {
     return this.repository.create(body);
   }
 

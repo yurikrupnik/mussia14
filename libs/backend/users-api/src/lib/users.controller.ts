@@ -441,7 +441,9 @@ export class UsersController {
     description: 'Resource id to delete',
     name: 'id',
   })
-  delete(@Param('id') id: string): Promise<string> {
+  delete(@Param('id') id: string) {
+    console.log('id', id);
+    // return 'sds';
     return this.usersService.delete(id);
   }
 

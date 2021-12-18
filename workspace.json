@@ -1,10 +1,12 @@
 {
   "version": 2,
   "projects": {
+    "backend-decorators": "libs/backend/decorators",
     "backend-docs": "libs/backend/docs",
     "backend-envs": "libs/backend/envs",
     "backend-errors": "libs/backend/errors",
     "backend-filters": "libs/backend/filters",
+    "backend-guards": "libs/backend/guards",
     "backend-logger": "libs/backend/logger",
     "backend-mongo-utils": "libs/backend/mongo-utils",
     "backend-products-api": "libs/backend/products-api",

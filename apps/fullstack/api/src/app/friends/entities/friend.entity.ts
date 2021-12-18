@@ -5,18 +5,19 @@ import { ApiProperty } from '@nestjs/swagger';
 
 import { Factory } from 'nestjs-seeder';
 
-export type ProductDocument = Product & Document;
+export type ProductDocument = Friend & Document;
 
 @Schema({})
-export class Product {
+export class Friend {
   @ApiProperty({
-    description: `${Product.name} id in MongoDB`,
+    description: `${Friend.name} id in MongoDB`,
     example: 'some id',
     readOnly: true,
     required: false,
   })
   @IsOptional()
   @IsMongoId()
+  @IsString()
   readonly _id?: string;
 
   @Prop({})
@@ -37,6 +38,7 @@ export class Product {
       },
     },
   })
+  @IsString()
   @Factory((faker) => faker.name.findName()) // todo check again and fix
   /**
    * Product Name
@@ -52,4 +54,4 @@ export class Product {
   description: string;
 }
 
-export const ProductSchema = SchemaFactory.createForClass(Product);
+export const FriendSchema = SchemaFactory.createForClass(Friend);

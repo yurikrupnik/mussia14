@@ -74,6 +74,8 @@ export abstract class EntityRepository<
   }
 
   deleteOne(id: string): Promise<string> {
+    console.log('id', id);
+    // return id;
     return this.entityModel
       .findByIdAndDelete(id)
       .then((res) => {

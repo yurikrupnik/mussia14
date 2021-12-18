@@ -15,6 +15,8 @@ import { UsersModule } from '@mussia14/backend/users-api';
 import { BackendProductsApiModule } from '@mussia14/backend/products-api';
 import { BackendDocsModule } from '@mussia14/backend/docs';
 
+import { FriendsModule } from './friends/friends.module';
+
 @Module({
   imports: [
     ConfigModule.forRoot({
@@ -22,6 +24,7 @@ import { BackendDocsModule } from '@mussia14/backend/docs';
       // cache: true,
       // envFilePath: './env.local',
     }),
+    FriendsModule,
     BackendDocsModule,
     BackendProductsApiModule,
     BackendLoggerModule,
