@@ -1,10 +1,9 @@
-import { Logger, VersioningType, ValidationPipe } from '@nestjs/common';
+import { VersioningType, ValidationPipe } from '@nestjs/common';
 import helmet from 'helmet';
-// import morgan from 'morgan';
 import { NestFactory } from '@nestjs/core';
+import { Logger } from 'nestjs-pino';
 
 import { AppModule } from './app/app.module';
-import { MyLogger } from './app/a-utils/my-logger/my-logger.service';
 import { HttpExceptionFilter } from '@mussia14/backend/filters';
 import admin from 'firebase-admin';
 import { ConfigService } from '@nestjs/config';
@@ -17,8 +16,8 @@ async function bootstrap() {
   const globalPrefix = 'api';
   // start custom config here
   app.enableCors();
-  // app.use(morgan('dev'));
-  app.useLogger(new MyLogger());
+
+  app.useLogger(app.get(Logger));
   const configService = app.get(ConfigService);
   admin.initializeApp({
     credential: admin.credential.cert({
@@ -55,9 +54,10 @@ async function bootstrap() {
   const docs = app.get(BackendDocsModule);
   docs.setup(app, globalPrefix, 'Mussia14 API', 'General use cloud run api');
 
+  const logger = app.get(Logger);
   const port = process.env.PORT || 3333;
   await app.listen(port, () => {
-    Logger.log('Listening at http://localhost:' + port + '/' + globalPrefix);
+    logger.log('Listening at http://localhost:' + port + '/' + globalPrefix);
   });
 }
 

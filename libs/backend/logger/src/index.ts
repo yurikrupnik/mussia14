@@ -1,1 +1,1 @@
-export * from './lib/backend-logger';
+export * from './lib/backend-logger.module';

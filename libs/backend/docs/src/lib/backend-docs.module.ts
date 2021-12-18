@@ -3,12 +3,7 @@ import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 
 @Module({})
 export class BackendDocsModule {
-  async setup(
-    app: INestApplication,
-    prefix: string,
-    title: string,
-    desc: string
-  ) {
+  setup(app: INestApplication, prefix: string, title: string, desc: string) {
     const config = new DocumentBuilder()
       .setTitle(title)
       .setDescription(desc)

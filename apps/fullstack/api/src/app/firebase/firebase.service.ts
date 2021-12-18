@@ -1,12 +1,9 @@
-import { Injectable, UnauthorizedException } from '@nestjs/common';
+import { Injectable, UnauthorizedException, Logger } from '@nestjs/common';
 import admin from 'firebase-admin';
-import { MyLogger } from '../a-utils/my-logger/my-logger.service';
 
 @Injectable()
 export class FirebaseAuthService {
-  constructor(private logger: MyLogger) {
-    this.logger.setContext(FirebaseAuthService.name);
-  }
+  constructor(private logger: Logger) {}
 
   getToken(authToken: string): string {
     const match = authToken.match(/^Bearer (.*)$/);
@@ -27,6 +24,7 @@ export class FirebaseAuthService {
         return { email, uid, role };
       })
       .catch((err) => {
+        this.logger.error(JSON.stringify(err));
         throw new UnauthorizedException(err.message);
       });
   }
