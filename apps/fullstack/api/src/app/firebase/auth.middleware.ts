@@ -16,7 +16,7 @@ export class AuthMiddleware implements NestMiddleware {
     console.log('authorization', authorization);
     if (!authorization) {
       throw new HttpException(
-        { message: 'missing authz header' },
+        { message: 'missing authorization header' },
         HttpStatus.BAD_REQUEST
       );
     }

@@ -18,14 +18,14 @@ async function bootstrap() {
 
   app.useLogger(app.get(Logger));
   const configService = app.get(ConfigService);
-  admin.initializeApp({
-    credential: admin.credential.cert({
-      private_key: configService.get('FIREBASE_PRIVATE_KEY'), // todo enum from those envs
-      client_email: configService.get('FIREBASE_CLIENT_EMAIL'),
-      project_id: configService.get('PROJECT_ID'),
-    } as Partial<admin.ServiceAccount>),
-    databaseURL: configService.get('FIREBASE_DATABASE_URL'),
-  });
+  // admin.initializeApp({
+  //   credential: admin.credential.cert({
+  //     private_key: configService.get('FIREBASE_PRIVATE_KEY'), // todo enum from those envs
+  //     client_email: configService.get('FIREBASE_CLIENT_EMAIL'),
+  //     project_id: configService.get('PROJECT_ID'),
+  //   } as Partial<admin.ServiceAccount>),
+  //   databaseURL: configService.get('FIREBASE_DATABASE_URL'),
+  // });
 
   app.useGlobalFilters(new HttpExceptionFilter());
   app.useGlobalPipes(

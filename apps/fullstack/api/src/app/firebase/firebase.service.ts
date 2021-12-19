@@ -21,6 +21,7 @@ export class FirebaseAuthService {
       .then((decodedToken) => {
         const { email, uid, role } = decodedToken;
         this.logger.warn(JSON.stringify(decodedToken));
+        this.logger.warn(JSON.stringify(decodedToken));
         return { email, uid, role };
       })
       .catch((err) => {
