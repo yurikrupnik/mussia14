@@ -5,10 +5,9 @@ import { BackendProductsApiModule } from '@mussia14/backend/products-api';
 import { BackendDocsModule } from '@mussia14/backend/docs';
 import { HealthModule } from '@mussia14/backend/health';
 import { BackendLoggerModule } from '@mussia14/backend/logger';
-
 import { AuthModule } from '@mussia14/backend/auth';
-import { PubSubModule } from './pubsub/pubsub.module';
 
+import { PubSubModule } from './pubsub/pubsub.module';
 import { FriendsModule } from './friends/friends.module';
 
 @Module({

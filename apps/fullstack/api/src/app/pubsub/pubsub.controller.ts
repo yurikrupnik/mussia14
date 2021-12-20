@@ -9,6 +9,7 @@ import {
   ApiProperty,
   ApiTags,
   getSchemaPath,
+  ApiOAuth2,
 } from '@nestjs/swagger';
 import { PubSubService } from './pubsub.service';
 import { LoginProviders, UserRoles } from '@mussia14/backend/users-api';
@@ -233,9 +234,8 @@ class Er {
 @ApiExtraModels(Event2)
 export class PubSubController {
   constructor(
-    private readonly pubsubService: PubSubService
-  ) // private logger: Logger
-  {}
+    private readonly pubsubService: PubSubService // private logger: Logger
+  ) {}
   // constructor(private readonly pubsubService: PubSubService) {}
 
   @Post('publish-topic')
@@ -269,7 +269,6 @@ export class PubSubController {
   @Post('')
   @UseGuards(RolesGuard)
   @Roles(UserRoles.admin, UserRoles.visitor)
-  // @ApiOAuth2()
   // @ApiBasicAuth()
   // @ApiBearerAuth()
   rrr(@Body() body: any) {

@@ -12,7 +12,7 @@ services:
 #      - backend
 
   api:
-    image: europe-west1-docker.pkg.dev/mussia12-333121/images/api
+    image: europe-west1-docker.pkg.dev/mussia14/images/api
     build:
       context: apps/fullstack/api
       dockerfile: Dockerfile
