@@ -34,6 +34,7 @@
       "@mussia14/backend/validations": [
         "libs/backend/validations/src/index.ts"
       ],
+      "@mussia14/firebase-admin": ["libs/firebase-admin/src/index.ts"],
       "@mussia14/forntend/webclient-theme": [
         "libs/forntend/webclient-theme/src/index.ts"
       ],

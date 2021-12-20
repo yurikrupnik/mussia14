@@ -1,9 +1,18 @@
 import { Injectable, UnauthorizedException, Logger } from '@nestjs/common';
-import admin from 'firebase-admin';
+import { InjectFirebaseAdmin, FirebaseAdmin } from '@mussia14/firebase-admin';
+
+interface IUser {
+  email: string;
+  uid: string;
+  role: string[];
+}
 
 @Injectable()
 export class FirebaseAuthService {
-  constructor(private logger: Logger) {}
+  constructor(
+    @InjectFirebaseAdmin() private readonly firebase: FirebaseAdmin,
+    private logger: Logger
+  ) {}
 
   getToken(authToken: string): string {
     const match = authToken.match(/^Bearer (.*)$/);
@@ -13,15 +22,13 @@ export class FirebaseAuthService {
     return match[1];
   }
 
-  public authenticate(authToken: string): Promise<any> {
+  public authenticate(authToken: string): Promise<IUser> {
     const tokenString = this.getToken(authToken);
-    return admin
+    return this.firebase
       .auth()
       .verifyIdToken(tokenString)
       .then((decodedToken) => {
         const { email, uid, role } = decodedToken;
-        this.logger.warn(JSON.stringify(decodedToken));
-        this.logger.warn(JSON.stringify(decodedToken));
         return { email, uid, role };
       })
       .catch((err) => {

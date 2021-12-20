@@ -6,6 +6,7 @@ import {
   Req,
   UseGuards,
   UnauthorizedException,
+  InternalServerErrorException,
 } from '@nestjs/common';
 import {
   ApiBadRequestResponse,
@@ -15,17 +16,22 @@ import {
   ApiSecurity,
   ApiTags,
   ApiUnauthorizedResponse,
+  ApiInternalServerErrorResponse,
 } from '@nestjs/swagger';
 import { Request } from 'express';
 import { FirebaseAuthService } from './firebase.service';
 import { RolesGuard } from '../firebase/auth.guard';
 
+interface MyRequest extends Request {
+  user: any;
+}
+
 @ApiTags('Auth')
 @ApiBearerAuth()
-@ApiOAuth2(['pets:write'])
-@ApiSecurity('firebase')
-@ApiSecurity('basic')
-@UseGuards(RolesGuard)
+// @ApiOAuth2(['pets:write'])
+// @ApiSecurity('firebase')
+// @ApiSecurity('basic')
+// @UseGuards(RolesGuard)
 @Controller()
 export class AuthController {
   constructor(private authService: FirebaseAuthService) {}
@@ -40,6 +46,9 @@ export class AuthController {
       },
     },
   })
+  @ApiInternalServerErrorResponse({
+    type: InternalServerErrorException,
+  })
   @ApiUnauthorizedResponse({
     schema: {
       example: {
@@ -50,7 +59,8 @@ export class AuthController {
     },
   })
   @ApiOkResponse({ schema: { example: { isAuthenticate: true, status: 200 } } })
-  public async authenticate(@Req() req: Request): Promise<any> {
+  public async authenticate(@Req() req: MyRequest): Promise<any> {
+    console.log('req.user', req.user);
     const authToken = req.headers.authorization;
     if (!authToken) {
       throw new BadRequestException('MISSING_AUTH_HEADER');

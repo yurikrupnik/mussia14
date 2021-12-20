@@ -17,19 +17,19 @@ export class FirebaseAuthStrategy extends PassportStrategy(
     super({
       jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
     });
-    console.log(this.configService.get('PORT'));
-    this.defaultApp = firebase.initializeApp({
-      credential: firebase.credential.cert({
-        private_key: this.configService.get('FIREBASE_PRIVATE_KEY'), // todo enum from those envs
-        client_email: this.configService.get('FIREBASE_CLIENT_EMAIL'),
-        project_id: this.configService.get('PROJECT_ID'),
-      } as Partial<admin.ServiceAccount>),
-      databaseURL: this.configService.get('FIREBASE_DATABASE_URL'),
-      // databaseURL: '',
-    });
+
+    // this.defaultApp = firebase.initializeApp({
+    //   credential: firebase.credential.cert({
+    //     private_key: this.configService.get('FIREBASE_PRIVATE_KEY'), // todo enum from those envs
+    //     client_email: this.configService.get('FIREBASE_CLIENT_EMAIL'),
+    //     project_id: this.configService.get('PROJECT_ID'),
+    //   } as Partial<admin.ServiceAccount>),
+    //   databaseURL: this.configService.get('FIREBASE_DATABASE_URL'),
+    // });
   }
 
   async validate(token: string) {
+    console.log('token', token);
     const firebaseUser: any = await this.defaultApp
       .auth()
       .verifyIdToken(token, true)

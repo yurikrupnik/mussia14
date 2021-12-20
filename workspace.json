@@ -12,6 +12,7 @@
     "backend-products-api": "libs/backend/products-api",
     "backend-users-api": "libs/backend/users-api",
     "backend-validations": "libs/backend/validations",
+    "firebase-admin": "libs/firebase-admin",
     "forntend-webclient-theme": "libs/forntend/webclient-theme",
     "fullstack-api": "apps/fullstack/api",
     "fullstack-webclient": "apps/fullstack/webclient",

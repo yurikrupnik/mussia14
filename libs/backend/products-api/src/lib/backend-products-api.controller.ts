@@ -15,10 +15,15 @@ import {
   SwaggerPutDecorators,
   SwaggerGetDecorators,
 } from '@mussia14/backend/decorators';
+import { AuthGuard } from '@nestjs/passport';
 
 enum Projection {
   NAME = 'name',
   DESCRIPTION = 'description',
+}
+
+interface CustomRequest extends Request {
+  user: any;
 }
 
 @ControllerDecorators('products')
@@ -32,18 +37,20 @@ export class BackendProductsApiController {
 
   // @Auth()
   // @UseGuards(FirebaseAuthGuard)
-  // @ApiBearerAuth()
   // @UseGuards(AuthGuard('local'))
+  @ApiBearerAuth()
+  @UseGuards(AuthGuard('firebase-jwt'))
   @SwaggerGetDecorators(
     Projection,
     Product,
     PartialType(OmitType(Product, ['_id']))
   )
   getData(
-    @Req() request: Request,
+    @Req() request: CustomRequest,
     @Query('projection') projection: Projection | [Projection] | null,
     @Query('limit') limit = 0
   ) {
+    console.log('request', request.user);
     delete request.query.limit;
     delete request.query.projection;
     return this.products.findAll(request.query, projection, {

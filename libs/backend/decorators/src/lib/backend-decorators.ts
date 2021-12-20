@@ -14,8 +14,6 @@ import {
   ApiParam,
   ApiQuery,
   ApiTags,
-  PartialType,
-  OmitType,
 } from '@nestjs/swagger';
 import capitalize from 'lodash/capitalize';
 

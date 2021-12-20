@@ -4,7 +4,6 @@ import { NextFunction, Request, Response } from 'express';
 import { FirebaseAuthService } from './firebase.service';
 
 export interface RequestModel extends Request {
-  // yuri todo check
   user: any;
 }
 @Injectable()
@@ -13,7 +12,6 @@ export class AuthMiddleware implements NestMiddleware {
 
   public async use(req: RequestModel, _: Response, next: NextFunction) {
     const { authorization } = req.headers;
-    console.log('authorization', authorization);
     if (!authorization) {
       throw new HttpException(
         { message: 'missing authorization header' },
@@ -21,11 +19,10 @@ export class AuthMiddleware implements NestMiddleware {
       );
     }
     try {
-      const user = await this.firebaseService.authenticate(authorization);
-      console.log(user);
-      req.user = user;
+      req.user = await this.firebaseService.authenticate(authorization);
       next();
     } catch (err) {
+      console.log('err', err);
       throw new HttpException(
         { message: 'invalid token' },
         HttpStatus.UNAUTHORIZED
