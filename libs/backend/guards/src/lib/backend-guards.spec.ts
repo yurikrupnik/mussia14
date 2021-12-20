@@ -1,7 +1,8 @@
-import { backendGuards } from './backend-guards';
+import { Auth, RolesGuard } from './backend-guards';
 
 describe('backendGuards', () => {
   it('should work', () => {
-    expect(backendGuards()).toEqual('backend-guards');
+    expect(Auth()).toBeDefined();
+    expect(RolesGuard).toBeDefined();
   });
 });
