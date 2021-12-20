@@ -5,12 +5,7 @@ import {
   NotFoundException,
   InternalServerErrorException,
 } from '@nestjs/common';
-// import { HttpAdapterHost } from '@nestjs/core';
-// import { CreateBiDto } from './dto/create-bi.dto';
-// import { UpdateBiDto } from './dto/update-bi.dto';
-// import { ConfigService } from '@nestjs/config';
 import { PubSub } from '@google-cloud/pubsub';
-import { MyLogger } from '../a-utils/my-logger/my-logger.service';
 
 const pubsub = new PubSub();
 
@@ -24,9 +19,7 @@ enum myEvents {
 
 @Injectable()
 export class PubSubService {
-  constructor(private logger: MyLogger) {
-    this.logger.setContext(PubSubService.name);
-  }
+  constructor(private logger: Logger) {}
 
   publishTopic(topic: myEvents, message: any): Promise<[string]> {
     this.logger.log('topic', topic);

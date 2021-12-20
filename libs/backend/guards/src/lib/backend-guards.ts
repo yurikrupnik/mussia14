@@ -5,7 +5,6 @@ import {
   BadRequestException,
   CanActivate,
   ExecutionContext,
-  HttpStatus,
   Injectable,
   SetMetadata,
   UseGuards,
@@ -14,37 +13,19 @@ import {
 
 import { ApiBearerAuth, ApiUnauthorizedResponse } from '@nestjs/swagger';
 import { Reflector } from '@nestjs/core';
-// import { HttpException } from '@nestjs/common/exceptions/http.exception';
 import { AuthGuard } from '@nestjs/passport';
-
-@Injectable()
-export class FirebaseAuthGuard extends AuthGuard('firebase-auth') {
-  constructor(private reflector: Reflector) {
-    super();
-  }
-
-  canActivate(context: ExecutionContext) {
-    const isPublic = this.reflector.getAllAndOverride<boolean>('public', [
-      context.getHandler(),
-      context.getClass(),
-    ]);
-
-    if (isPublic) {
-      return true;
-    }
-    return true;
-    // const s = super.canActivate(context);
-    // console.log({ s });
-    // return s;
-  }
-}
+import { FirebaseConstants } from '@mussia14/firebase-admin';
 
 export function Auth(...roles: UserRoles[]) {
   return applyDecorators(
-    // SetMetadata('roles', roles),
+    SetMetadata('roles', roles),
     // UseGuards(AuthGuard),
     ApiBearerAuth(),
-    ApiUnauthorizedResponse({ description: 'Unauthorized' })
+    UseGuards(AuthGuard(FirebaseConstants.FIREBASE_AUTH_GUARD)),
+    ApiUnauthorizedResponse({
+      description: 'Unauthorized',
+      // type: HttpException,
+    })
     // ApiQuery({})
   );
 }
@@ -61,34 +42,5 @@ export class RolesGuard implements CanActivate {
     const request = context.switchToHttp().getRequest();
     const user = request.user;
     return user && user.role && roles.includes(user.role);
-  }
-}
-
-@Injectable()
-export class AuthGuardLocal implements CanActivate {
-  constructor(private readonly reflector: Reflector) {}
-
-  canActivate(
-    context: ExecutionContext
-  ): boolean | Promise<boolean> | Observable<boolean> {
-    const request = context.switchToHttp().getRequest();
-    const authToken = request.headers.authorization;
-
-    if (!authToken) {
-      throw new BadRequestException('MISSING_AUTH_HEADER');
-    }
-
-    // try {
-    //   const user = await this.firebaseService.authenticate(authorization);
-    //   console.log(user);
-    //   req.user = user;
-    //   next();
-    // } catch (err) {
-    //   throw new HttpException(
-    //     { message: 'invalid token' },
-    //     HttpStatus.UNAUTHORIZED
-    //   );
-    // }
-    return true;
   }
 }

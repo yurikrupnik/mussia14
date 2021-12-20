@@ -19,8 +19,8 @@ import {
   ApiInternalServerErrorResponse,
 } from '@nestjs/swagger';
 import { Request } from 'express';
-import { FirebaseAuthService } from './firebase.service';
-import { RolesGuard } from '../firebase/auth.guard';
+// import { FirebaseAuthService } from './firebase.service';
+// import { RolesGuard } from '../firebase/auth.guard';
 
 interface MyRequest extends Request {
   user: any;
@@ -34,8 +34,6 @@ interface MyRequest extends Request {
 // @UseGuards(RolesGuard)
 @Controller()
 export class AuthController {
-  constructor(private authService: FirebaseAuthService) {}
-
   @Get('authenticate')
   @ApiBadRequestResponse({
     schema: {
@@ -61,12 +59,13 @@ export class AuthController {
   @ApiOkResponse({ schema: { example: { isAuthenticate: true, status: 200 } } })
   public async authenticate(@Req() req: MyRequest): Promise<any> {
     console.log('req.user', req.user);
-    const authToken = req.headers.authorization;
-    if (!authToken) {
-      throw new BadRequestException('MISSING_AUTH_HEADER');
-    }
-
-    return this.authService.authenticate(authToken);
+    // const authToken = req.headers.authorization;
+    // if (!authToken) {
+    //   throw new BadRequestException('MISSING_AUTH_HEADER');
+    // }
+    //
+    // return this.authService.authenticate(authToken);
+    return 'aris';
   }
   // @ApiBearerAuth('access-token')
   // @UseGuards(RolesGuard)
@@ -91,20 +90,21 @@ export class AuthController {
   })
   @ApiOkResponse({ schema: { example: { isAuthenticate: true, status: 200 } } })
   public async stam(@Req() req: Request): Promise<any> {
-    const authToken = req.headers.authorization;
-    console.log('authToken', authToken);
-
-    if (!authToken) {
-      throw new BadRequestException('MISSING_AUTH_HEADER');
-    }
-    try {
-      const { uid, email, role } = await this.authService.authenticate(
-        authToken
-      );
-      // return { uid, email, role, status: HttpStatus.OK };
-      return {};
-    } catch (error) {
-      throw new UnauthorizedException(error.message);
-    }
+    return 'stam';
+    // const authToken = req.headers.authorization;
+    // console.log('authToken', authToken);
+    //
+    // if (!authToken) {
+    //   throw new BadRequestException('MISSING_AUTH_HEADER');
+    // }
+    // try {
+    //   const { uid, email, role } = await this.authService.authenticate(
+    //     authToken
+    //   );
+    //   // return { uid, email, role, status: HttpStatus.OK };
+    //   return {};
+    // } catch (error) {
+    //   throw new UnauthorizedException(error.message);
+    // }
   }
 }

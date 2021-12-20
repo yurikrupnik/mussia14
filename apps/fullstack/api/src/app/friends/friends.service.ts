@@ -1,6 +1,6 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable, NotFoundException, Logger } from '@nestjs/common';
 import { InjectModel, InjectConnection } from '@nestjs/mongoose';
-import { Model, Connection, LeanDocument, Query } from 'mongoose';
+import { Model, Connection, LeanDocument } from 'mongoose';
 import { CreateFriendDto } from './dto/create-friend.dto';
 import { UpdateFriendDto } from './dto/update-friend.dto';
 import { Friend, FriendDocument } from './entities/friend.entity';
@@ -10,7 +10,8 @@ import { handleError } from '@mussia14/backend/errors';
 export class FriendsService {
   constructor(
     @InjectModel(Friend.name) private model: Model<FriendDocument>,
-    @InjectConnection() private connection: Connection
+    @InjectConnection() private connection: Connection,
+    private logger: Logger
   ) {}
 
   create(createFriendDto: CreateFriendDto): Promise<FriendDocument> {

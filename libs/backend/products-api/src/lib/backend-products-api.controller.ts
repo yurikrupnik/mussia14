@@ -1,12 +1,11 @@
 import { Request } from 'express';
 import { Body, Delete, Param, Query, Req, UseGuards } from '@nestjs/common';
 import { BackendProductsApiService } from './backend-products-api.service';
-import { ApiBearerAuth, OmitType, PartialType } from '@nestjs/swagger';
+import { OmitType, PartialType } from '@nestjs/swagger';
 import { Product } from './entities/products.entity';
 import { CreateProductDto } from './dto/create-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
-import { UserRoles } from '@mussia14/backend/users-api';
-import { Auth, FirebaseAuthGuard } from '@mussia14/backend/guards';
+import { Auth } from '@mussia14/backend/guards';
 import {
   ControllerDecorators,
   SwaggerDeleteByIdDecorators,
@@ -15,7 +14,6 @@ import {
   SwaggerPutDecorators,
   SwaggerGetDecorators,
 } from '@mussia14/backend/decorators';
-import { AuthGuard } from '@nestjs/passport';
 
 enum Projection {
   NAME = 'name',
@@ -26,6 +24,7 @@ interface CustomRequest extends Request {
   user: any;
 }
 
+@Auth()
 @ControllerDecorators('products')
 export class BackendProductsApiController {
   constructor(private products: BackendProductsApiService) {}
@@ -35,11 +34,6 @@ export class BackendProductsApiController {
     return this.products.create(createItemDto);
   }
 
-  // @Auth()
-  // @UseGuards(FirebaseAuthGuard)
-  // @UseGuards(AuthGuard('local'))
-  @ApiBearerAuth()
-  @UseGuards(AuthGuard('firebase-jwt'))
   @SwaggerGetDecorators(
     Projection,
     Product,

@@ -1,5 +1,5 @@
 import { Type } from 'class-transformer';
-import { Body, Controller, Post, UseGuards } from '@nestjs/common';
+import { Body, Controller, Post, UseGuards, Logger } from '@nestjs/common';
 import {
   ApiBody,
   ApiBodyOptions,
@@ -13,7 +13,7 @@ import {
 import { PubSubService } from './pubsub.service';
 import { LoginProviders, UserRoles } from '@mussia14/backend/users-api';
 // import { ValidationPipe } from '@mussia14/backend/validations';
-import { MyLogger } from '../a-utils/my-logger/my-logger.service';
+// import { MyLogger } from '../not-userd-examples/a-utils/my-logger/my-logger.service';
 // import { CreatePubsubDto } from './dto/create-pubsub.dto';
 // import { UpdatePubsubDto } from './dto/update-pubsub.dto';
 // type events = 'event1' | 'event2';
@@ -233,11 +233,9 @@ class Er {
 @ApiExtraModels(Event2)
 export class PubSubController {
   constructor(
-    private readonly pubsubService: PubSubService,
-    private logger: MyLogger
-  ) {
-    this.logger.setContext(PubSubController.name);
-  }
+    private readonly pubsubService: PubSubService
+  ) // private logger: Logger
+  {}
   // constructor(private readonly pubsubService: PubSubService) {}
 
   @Post('publish-topic')

@@ -11,7 +11,7 @@ export class FirebaseAuthStrategy extends PassportStrategy(Strategy) {
     });
   }
 
-  validate(token) {
+  validate(token: string) {
     return this.firebase
       .auth()
       .verifyIdToken(token) // todo check what was the second parapm of true

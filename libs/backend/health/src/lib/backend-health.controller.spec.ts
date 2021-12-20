@@ -1,38 +1,21 @@
-// import { Test, TestingModule } from '@nestjs/testing';
-// import { HealthController } from './health.controller';
-// import {
-//   TerminusModule,
-//   MongooseHealthIndicator,
-//   HealthCheckService,
-//   HealthCheck,
-//   MongoConnectionError,
-//   HealthCheckResult,
-// } from '@nestjs/terminus';
-// import { MongooseModule } from '@nestjs/mongoose';
-// import { mongoConfig } from '@mussia14/backend/envs';
+import { Test } from '@nestjs/testing';
+import { HealthController } from './backend-health.controller';
 
-describe('HealthController', () => {
+describe('BackendHealthController', () => {
   // let controller: HealthController;
   //
   // beforeEach(async () => {
-  //   const module: TestingModule = await Test.createTestingModule({
-  //     controllers: [HealthController],
-  //     imports: [
-  //       MongooseModule.forRoot(mongoConfig().MONGO_URI),
-  //       TerminusModule,
-  //     ],
+  //   const module = await Test.createTestingModule({
   //     providers: [],
-  //     exports: [],
-  //   })
-  //     .useMocker((token) => {
-  //       console.log('token', token);
-  //     })
-  //     .compile();
+  //     controllers: [HealthController],
+  //   }).compile();
   //
-  //   controller = module.get<HealthController>(HealthController);
-  //   // controller.check()
+  //   controller = module.get(HealthController);
   // });
 
+  // it('should be defined', () => {
+  //   expect(controller).toBeTruthy();
+  // });
   test('should be defin' + 'ed', () => {
     // expect(controller).toBeDefined();
     expect(1).toBe(1);

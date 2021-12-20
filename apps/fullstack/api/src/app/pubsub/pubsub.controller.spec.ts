@@ -1,7 +1,7 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { PubSubController } from './pubsub.controller';
 import { PubSubService } from './pubsub.service';
-import { LoggerModule } from '../a-utils/my-logger/my-logger.module';
+import { LoggerModule } from '../not-userd-examples/a-utils/my-logger/my-logger.module';
 
 describe('PubsubController', () => {
   let controller: PubSubController;
