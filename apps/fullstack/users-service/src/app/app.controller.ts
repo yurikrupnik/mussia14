@@ -9,7 +9,8 @@ export class AppController {
   constructor(private readonly appService: AppService) {}
 
   @MessagePattern('get.list')
-  getData(@Payload() message?: IKafkaMessage<User>) {
+  getData(@Payload() message?: IKafkaMessage<User[]>) {
+    console.log('message', message);
     return this.appService.findAll({}, '', {});
   }
 

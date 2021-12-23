@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Post } from '@nestjs/common';
+import { Body, Controller, Get, Post, Req } from '@nestjs/common';
 import { Client, ClientKafka, Transport } from '@nestjs/microservices';
 
 interface IPost {
@@ -32,14 +32,14 @@ export class PostsController {
   @Post('/')
   appPost(@Body() post: IPost) {
     console.log(post);
-    return 'ds';
-    // return this.client.send('add.new', post);
+    // return 'ds';
+    return this.client.send('add.new', post);
   }
 
   @Get('/')
-  getList() {
-    console.log('something heredsdsds');
+  getList(@Req() request) {
+    console.log('something heredsdsds', request.query);
     // return 'dsdsdsd';
-    return this.client.send('get.list', '');
+    return this.client.send('get.list', request.query);
   }
 }
