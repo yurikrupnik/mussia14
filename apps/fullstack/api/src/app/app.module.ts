@@ -6,8 +6,9 @@ import { BackendDocsModule } from '@mussia14/backend/docs';
 import { HealthModule } from '@mussia14/backend/health';
 import { BackendLoggerModule } from '@mussia14/backend/logger';
 import { AuthModule } from '@mussia14/backend/auth';
+import { PostsController } from './posts/posts.controller';
 
-import { PubSubModule } from './pubsub/pubsub.module';
+// import { PubSubModule } from './pubsub/pubsub.module';
 import { FriendsModule } from './friends/friends.module';
 
 @Module({
@@ -23,7 +24,8 @@ import { FriendsModule } from './friends/friends.module';
     BackendProductsApiModule,
     BackendLoggerModule,
     UsersModule,
-    PubSubModule,
+    // PubSubModule,
   ],
+  controllers: [PostsController],
 })
 export class AppModule {}

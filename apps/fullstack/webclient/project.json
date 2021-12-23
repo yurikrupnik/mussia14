@@ -22,7 +22,7 @@
         "dev": true,
         "proxyConfig": "apps/fullstack/webclient/proxy.conf.json",
         "open": true,
-        "port": 8080
+        "port": 8000
       },
       "configurations": {
         "production": {

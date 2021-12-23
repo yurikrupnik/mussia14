@@ -3,7 +3,7 @@ import { Module, Logger, Global } from '@nestjs/common';
 
 @Global()
 @Module({
-  imports: [LoggerModule.forRoot({})],
+  // imports: [LoggerModule.forRoot({})],
   exports: [Logger],
   providers: [Logger],
 })

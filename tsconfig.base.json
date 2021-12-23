@@ -40,6 +40,7 @@
       "@mussia14/forntend/webclient-theme": [
         "libs/forntend/webclient-theme/src/index.ts"
       ],
+      "@mussia14/shared/interfaces": ["libs/shared/interfaces/src/index.ts"],
       "@mussia14/shared/ts-utils": ["libs/shared/ts-utils/src/index.ts"]
     }
   },

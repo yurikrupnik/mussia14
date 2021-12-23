@@ -15,7 +15,7 @@ async function bootstrap() {
   // start custom config here
   app.enableCors();
 
-  app.useLogger(app.get(Logger));
+  // app.useLogger(app.get(Logger));
   const configService = app.get(ConfigService);
 
   app.useGlobalFilters(new HttpExceptionFilter());

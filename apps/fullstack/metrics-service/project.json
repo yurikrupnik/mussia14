@@ -1,0 +1,52 @@
+{
+  "root": "apps/fullstack/metrics-service",
+  "sourceRoot": "apps/fullstack/metrics-service/src",
+  "projectType": "application",
+  "targets": {
+    "build": {
+      "executor": "@nrwl/node:build",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/apps/fullstack/metrics-service",
+        "main": "apps/fullstack/metrics-service/src/main.ts",
+        "tsConfig": "apps/fullstack/metrics-service/tsconfig.app.json",
+        "assets": ["apps/fullstack/metrics-service/src/assets"]
+      },
+      "configurations": {
+        "production": {
+          "optimization": true,
+          "extractLicenses": true,
+          "inspect": false,
+          "fileReplacements": [
+            {
+              "replace": "apps/fullstack/metrics-service/src/environments/environment.ts",
+              "with": "apps/fullstack/metrics-service/src/environments/environment.prod.ts"
+            }
+          ]
+        }
+      }
+    },
+    "serve": {
+      "executor": "@nrwl/node:execute",
+      "options": {
+        "buildTarget": "fullstack-metrics-service:build"
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["apps/fullstack/metrics-service/**/*.ts"]
+      }
+    },
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/apps/fullstack/metrics-service"],
+      "options": {
+        "jestConfig": "apps/fullstack/metrics-service/jest.config.js",
+        "passWithNoTests": true
+      }
+    }
+  },
+  "tags": []
+}

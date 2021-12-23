@@ -17,8 +17,12 @@
     "firebase-admin": "libs/firebase-admin",
     "forntend-webclient-theme": "libs/forntend/webclient-theme",
     "fullstack-api": "apps/fullstack/api",
+    "fullstack-metrics-service": "apps/fullstack/metrics-service",
+    "fullstack-users-service": "apps/fullstack/users-service",
     "fullstack-webclient": "apps/fullstack/webclient",
     "fullstack-webclient-e2e": "apps/fullstack/webclient-e2e",
+    "infra": "apps/infra",
+    "shared-interfaces": "libs/shared/interfaces",
     "shared-ts-utils": "libs/shared/ts-utils"
   }
 }

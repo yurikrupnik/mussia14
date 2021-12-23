@@ -1,9 +1,139 @@
 version: '3'
 
+networks:
+  monitor-net:
+    driver: bridge
+
 volumes:
   prometheus_data: {}
+  grafana_data: {}
 
 services:
+  zookeeper-kafka:
+    image: confluentinc/cp-zookeeper:latest
+    ports:
+      - '2181:2181'
+    environment:
+      ZOOKEEPER_CLIENT_PORT: 2181
+      ZOOKEEPER_TICK_TIME: 2000
+    healthcheck:
+      # fake healthcheck just to have one to simplify status check
+      test: [ 'CMD', 'date' ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    # docs at: https://registry.hub.docker.com/r/wurstmeister/kafka
+  kafka:
+    image: wurstmeister/kafka:latest
+    restart: always
+    container_name: ksfka.
+    depends_on:
+      - zookeeper-kafka
+    ports:
+      - '9092:9092'
+    volumes:
+      # It's the only way to deal with Kafka non-static exposed ports to host
+      # See: https://github.com/wurstmeister/kafka-docker/blob/master/start-kafka.sh#L65-L76
+      - /var/run/docker.sock:/var/run/docker.sock
+    environment:
+      KAFKA_BROKER_ID: 1
+      KAFKA_ZOOKEEPER_CONNECT: 'zookeeper-kafka:2181'
+      PORT_COMMAND: 'docker port $$(hostname) 9092/tcp | cut -d: -f2'
+      KAFKA_LISTENERS: 'LISTENER_INTERNAL://kafka:29092,LISTENER_HOST://:9092'
+      KAFKA_ADVERTISED_LISTENERS: LISTENER_INTERNAL://kafka:29092,LISTENER_HOST://localhost:_{PORT_COMMAND}
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: LISTENER_INTERNAL:PLAINTEXT,LISTENER_HOST:PLAINTEXT
+      KAFKA_INTER_BROKER_LISTENER_NAME: LISTENER_INTERNAL
+      KAFKA_AUTO_CREATE_TOPICS_ENABLE: 'true'
+      KAFKA_CREATE_TOPICS: 'test:1:1'
+    healthcheck:
+      test:
+        [
+            'CMD',
+            '/opt/kafka/bin/kafka-topics.sh',
+            '--list',
+            '--bootstrap-server',
+            'kafka:29092',
+        ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+  prometheus:
+    image: prom/prometheus
+    restart: always
+    volumes:
+      - ./prometheus:/etc/prometheus/
+      - prometheus_data:/prometheus
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+      - '--storage.tsdb.path=/prometheus'
+      - '--web.console.libraries=/usr/share/prometheus/console_libraries'
+      - '--web.console.templates=/usr/share/prometheus/consoles'
+    ports:
+      - 9090:9090
+    links:
+      - cadvisor:cadvisor
+      - alertmanager:alertmanager
+    depends_on:
+      - cadvisor
+
+  node-exporter:
+    image: prom/node-exporter
+    volumes:
+      - /proc:/host/proc:ro
+      - /sys:/host/sys:ro
+      - /:/rootfs:ro
+    command:
+      - '--path.procfs=/host/proc'
+      - '--path.sysfs=/host/sys'
+      - --collector.filesystem.ignored-mount-points
+      - '^/(sys|proc|dev|host|etc|rootfs/var/lib/docker/containers|rootfs/var/lib/docker/overlay2|rootfs/run/docker/netns|rootfs/var/lib/docker/aufs)($$|/)'
+    ports:
+      - 9100:9100
+    restart: always
+    deploy:
+      mode: global
+
+  alertmanager:
+    image: prom/alertmanager
+    restart: always
+    ports:
+      - 9093:9093
+    volumes:
+      - ./alertmanager/:/etc/alertmanager/
+    command:
+      - '--config.file=/etc/alertmanager/config.yml'
+      - '--storage.path=/alertmanager'
+  cadvisor:
+    image: gcr.io/cadvisor/cadvisor
+    volumes:
+      - /:/rootfs:ro
+      - /var/run:/var/run:rw
+      - /sys:/sys:ro
+      - /var/lib/docker/:/var/lib/docker:ro
+    ports:
+      - 8080:8080
+    restart: always
+    deploy:
+      mode: global
+
+  grafana:
+    image: grafana/grafana
+    user: '472'
+    restart: always
+    environment:
+      GF_INSTALL_PLUGINS: 'grafana-clock-panel,grafana-simple-json-datasource'
+    volumes:
+      - grafana_data:/var/lib/grafana
+      - ./grafana/provisioning/:/etc/grafana/provisioning/
+    env_file:
+      - ./grafana/config.monitoring
+    ports:
+      - 3000:3000
+    depends_on:
+      - prometheus
+
+
+
   db:
     image: mongo
     ports:
@@ -11,23 +141,30 @@ services:
 #    networks:
 #      - backend
 
-  api:
-    image: europe-west1-docker.pkg.dev/mussia14/images/api
-    build:
-      context: apps/fullstack/api
-      dockerfile: Dockerfile
-    container_name: api
-    environment:
-      - MONGO_URI=mongodb://db/mussia8
-      - PORT=3333
-    ports:
-      - 3333:3333
-#    networks:
-#      - backend
-#    links:
-#      - "db:database"
-    depends_on:
-      - db
+#  api:
+#    image: europe-west1-docker.pkg.dev/mussia14/images/api
+#    build:
+#      context: apps/fullstack/api
+#      dockerfile: Dockerfile
+#    container_name: api
+#    environment:
+#      - FIREBASE_PRIVATE_KEY="-----BEGIN PRIVATE KEY-----MIIEvAIBADANBgkqhkiG9w0BAQEFAASCBKYwggSiAgEAAoIBAQCNOOxKKTQnEzLvm+adDn475SH3ujfcTIGhFvjKQP6MOauR6yDKsxpMXoF8TbTir2qzdM9Au/55dstN/pw5tmR+6hNCnDKlxPtG2T/9igMWOMIV7oyIGVCx3x+13TpY/HCFP7KoB4TKJK+XA0rg0PUhwFlYSd07L1cCuOKYsBgnLeT1ldYOnYTFJOkUVJvJCLr9SjeCCdY0/7oiXwAkqZ9iLQrkAumyjqqPkbcBHNj1QxLdSCSQBbm4dpl0s5WLH4TrEBYR6H2uoXJtSjmG1DtpOwMhRSyM1WRg1yBa3AeFnLzxU0MJHSUPP8aX6yYPfXwFQbLnpDKkd9Pui8PdveWvAgMBAAECggEAKGl7pJU56VyjHNIeIh99nCIroDpXteDmz3RFaYtDzFjMcgs47QhnpCb/ItURyDSucgAhNsMVRSjrcLxFdHZvN6pALLWKAMnnphSRLTqLO5auY5xJ9sBXyS6yYlaWVdSXVmot88uDAl2RKcO1b7QcEbZ7Wrp4ZnFbktnZbhwmLT+WDG4gBUmJa/frlUBMGY7uUAGZCzRimrbmZxTzpTHfy9g4wsRFkmQGxhz8fVTmkuJiB5XAOlSxiedX9e5rvmAIPszKiegWpspVYH8VQ8pa6/UXP5aFrPgrr5XcKsMcDZ1KyR05TWCEEaa28L0PRCgII6UOxuei3mf/PvG8l0drAQKBgQC/d92izijKwbMaReArWkXfZeedPEnK9HS9dram3Q1EHLmRSw1cORyJfAA3E3AvU6+8nx1OTyQI9UEWnkhT3z18wUpuc0B0YJEKeUp4ZWn/RZ6J9Quo5ZvixcfI7PU1YeRtOQeobbip3NW0TtFbCsX0kZV/nliWrsnI9/svwKSjQQKBgQC80cbFz4u0SXrutIVK7Fu3ipwOey+LD0WLsyyVh9swhaKWhdyfUfJtYWEIUa+OzB/egHTvGJmsMfTdUoz6PdYXy5Htvv/UB2xhXL8ABQ35xDjPDUvC44/EmvT458FTXzCs5GLUzd/OhE5hWzOCp5N17draClV+xkYWAdObxXZ87wKBgA+JZHy/iePaD/SD0wrxilX0aPUDXWGQsKBnL68epOLwCcbWdkETiVNGsqXFeAb/HXWK28/s8Bmh/SQet/PGW7Dx5l5MD+DhrSNScE6QvCcwuQqszcNozlt6fRm60LMCPIz4YbyzGpb+CoFVG/vtRd7wqVbvvHSNvmYGaWWYlkOBAoGAFm3w58SMuuDTqpFlGA5VosrjWNEHR8SLpVmmXSjjP7NQKgNCvuY0HwwnQ564dQUIcBzgRxqr/ol8peHNf1hjGzaCYjSDHUO4eyRSSAVRsK6/dNEGg+MWS+uAWCTnkSjIlnEW0GKYSGbtDKGRz95qJOMZUTdTCpkw8CJNab6eIZ8CgYAu01SkhcsyxP+gcElwZVeCVSprkbbgJ+/JBtS+tSyGB/xaF22qzaVn+nDxiWzvZMzXq+SBumaROyZpOgAhCoaaRjqwXUb/IRnVwN3c9BXvyqq6X6vlCVyRO6cRT09FbDxPPJIiaHRaBXBDuskUK3coCbR66v9JqKU8zHqbmrvvSQ==-----END PRIVATE KEY-----"
+#      - FIREBASE_CLIENT_EMAIL=firebase-adminsdk-l15ce@mussia14.iam.gserviceaccount.com
+#      - FIREBASE_DATABASE_URL=https://mussia8-default-rtdb.europe-west1.firebasedatabase.app
+#      - MONGO_URI=mongodb://db/mussia12
+#      - PORT=3333
+#      - PROJECT_ID=mussia14
+#    ports:
+#      - 3333:3333
+##    networks:
+##      - backend
+##    links:
+##      - "db:database"
+#    depends_on:
+#      - db
+#
+
+
 #  node-exporter:
 #    image: prom/node-exporter:latest
 #    container_name: node-exporter
@@ -184,12 +321,4 @@ services:
   #    depends_on:
   #      - db
 
-
-networks:
-  frontend:
-    # Use a custom driver
-    driver: bridge
-  backend:
-    # Use a custom driver which takes special options
-    driver: bridge
 
