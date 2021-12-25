@@ -18,7 +18,7 @@ describe('AppController', () => {
       // const appController = app.get<AppController>(AppController);
       expect(1).toEqual(1);
       // expect(appController.getData()).toEqual({
-      //   message: 'Welcome to users-service!',
+      //   message: 'Welcome to users-service!',+
       // });
     });
   });
