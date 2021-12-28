@@ -37,10 +37,10 @@ async function bootstrap() {
 
   // end custom config here
 
+  const logger = app.get(Logger);
   const docs = app.get(BackendDocsModule);
   docs.setup(app, globalPrefix, 'Mussia14 API', 'General use cloud run api');
 
-  const logger = app.get(Logger);
   const port = configService.get('PORT');
   await app.listen(port, () => {
     logger.log('Listening at http://localhost:' + port + '/' + globalPrefix);

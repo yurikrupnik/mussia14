@@ -31,15 +31,11 @@ export class PostsController {
 
   @Post('/')
   appPost(@Body() post: IPost) {
-    console.log(post);
-    // return 'ds';
     return this.client.send('add.new', post);
   }
 
   @Get('/')
   getList(@Req() request) {
-    console.log('something heredsdsds', request.query);
-    // return 'dsdsdsd';
     return this.client.send('get.list', request.query);
   }
 }

@@ -1,0 +1,52 @@
+{
+  "root": "apps/fullstack/users-grpc",
+  "sourceRoot": "apps/fullstack/users-grpc/src",
+  "projectType": "application",
+  "targets": {
+    "build": {
+      "executor": "@nrwl/node:build",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/apps/fullstack/users-grpc",
+        "main": "apps/fullstack/users-grpc/src/main.ts",
+        "tsConfig": "apps/fullstack/users-grpc/tsconfig.app.json",
+        "assets": ["apps/fullstack/users-grpc/src/assets"]
+      },
+      "configurations": {
+        "production": {
+          "optimization": true,
+          "extractLicenses": true,
+          "inspect": false,
+          "fileReplacements": [
+            {
+              "replace": "apps/fullstack/users-grpc/src/environments/environment.ts",
+              "with": "apps/fullstack/users-grpc/src/environments/environment.prod.ts"
+            }
+          ]
+        }
+      }
+    },
+    "serve": {
+      "executor": "@nrwl/node:execute",
+      "options": {
+        "buildTarget": "fullstack-users-grpc:build"
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["apps/fullstack/users-grpc/**/*.ts"]
+      }
+    },
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/apps/fullstack/users-grpc"],
+      "options": {
+        "jestConfig": "apps/fullstack/users-grpc/jest.config.js",
+        "passWithNoTests": true
+      }
+    }
+  },
+  "tags": []
+}

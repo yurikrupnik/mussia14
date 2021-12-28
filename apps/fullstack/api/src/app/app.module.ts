@@ -7,6 +7,8 @@ import { HealthModule } from '@mussia14/backend/health';
 import { BackendLoggerModule } from '@mussia14/backend/logger';
 import { AuthModule } from '@mussia14/backend/auth';
 import { PostsController } from './posts/posts.controller';
+import { RedisUserController } from './redis-user/redis-user.controller';
+import { TcpUserController } from './tcp/tcp-users.controller';
 
 // import { PubSubModule } from './pubsub/pubsub.module';
 import { FriendsModule } from './friends/friends.module';
@@ -26,6 +28,6 @@ import { FriendsModule } from './friends/friends.module';
     UsersModule,
     // PubSubModule,
   ],
-  controllers: [PostsController],
+  controllers: [PostsController, RedisUserController, TcpUserController],
 })
 export class AppModule {}
