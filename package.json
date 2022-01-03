@@ -19,7 +19,7 @@
     "@google-cloud/pubsub": "2.18.4",
     "@google-cloud/storage": "5.16.1",
     "@mui/icons-material": "5.2.5",
-    "@mui/material": "5.2.6",
+    "@mui/material": "5.2.7",
     "@nestjs/common": "8.2.4",
     "@nestjs/config": "1.1.5",
     "@nestjs/core": "8.2.4",
