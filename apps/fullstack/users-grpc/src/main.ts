@@ -2,16 +2,14 @@ import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app/app.module';
 import { Logger } from '@nestjs/common';
 import { Transport } from '@nestjs/microservices';
-import { join } from 'path'; // <-- Add this
+import { join } from 'path';
 
 const logger = new Logger('Main');
 const microserviceOptions = {
-  // transport: Transport.REDIS,  <-- Change this
-  transport: Transport.GRPC, //  <-- to this
+  transport: Transport.GRPC,
   options: {
-    // url: 'redis://localhost:6379',                  <-- remove this
-    package: 'app', //                                 <-- add this
-    protoPath: join(__dirname, '../src/app.proto'), // <-- & this
+    package: 'app',
+    protoPath: join(__dirname, 'assets/app.proto'),
   },
 };
 

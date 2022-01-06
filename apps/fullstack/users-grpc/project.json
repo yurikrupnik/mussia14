@@ -7,10 +7,11 @@
       "executor": "@nrwl/node:build",
       "outputs": ["{options.outputPath}"],
       "options": {
-        "outputPath": "dist/apps/fullstack/users-grpc",
+        "outputPath": "apps/fullstack/users-grpc/dist",
         "main": "apps/fullstack/users-grpc/src/main.ts",
         "tsConfig": "apps/fullstack/users-grpc/tsconfig.app.json",
-        "assets": ["apps/fullstack/users-grpc/src/assets"]
+        "assets": ["apps/fullstack/users-grpc/src/assets"],
+        "generatePackageJson": true
       },
       "configurations": {
         "production": {

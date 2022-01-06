@@ -20,13 +20,13 @@ message SumOfNumberArray {
 }
 
 message User {
-   string name = 1;
-   string email = 1;
-   string tenantId = 1;
-   string role = 1;
-   string provider = 1;
-   string password = 1;
    string _id = 1;
+   string name = 2;
+   string email = 3;
+   string tenantId = 4;
+   string role = 5;
+   string provider = 6;
+   string password = 7;
 }
 
 message Users {

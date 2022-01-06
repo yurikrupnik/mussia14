@@ -8,7 +8,8 @@
     "test": "nx test",
     "compodoc:serve": "npx compodoc -p tsconfig.base.json -o -s -w -r 6001",
     "compodoc:build": "npx compodoc -p tsconfig.base.json",
-    "seed": " node --loader ts-node/esm libs/backend/users-api/src/lib/seeder/seeder.ts"
+    "seed": " node --loader ts-node/esm libs/backend/users-api/src/lib/seeder/seeder.ts",
+    "ts-proto": "protoc --plugin=./node_modules/.bin/protoc-gen-ts_proto --ts_proto_out=apps"
   },
   "private": true,
   "dependencies": {
@@ -66,6 +67,7 @@
     "regenerator-runtime": "0.13.9",
     "rxjs": "7.4.0",
     "swagger-ui-express": "4.3.0",
+    "ts-proto": "^1.97.2",
     "tslib": "2.3.1"
   },
   "devDependencies": {
