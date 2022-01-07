@@ -16,11 +16,22 @@ const temp = new gcp.storage.Bucket('temp-bucket', {
   },
 });
 
-new gcp.firebase.Project('ds', {});
-const s = new gcp.cloudfunctions.HttpCallbackFunction('dsa', {});
-const greeting = new gcp.cloudfunctions.HttpCallbackFunction(
-  'greeting',
-  (req, res) => {
-    res.send(`Greetings from ${req.body.name || 'Google Cloud Functions'}!`);
-  }
-);
+// new gcp.eventarc.Trigger('dasd', {
+//   name: 'adsdasd',
+//   location: region,
+//   project: project,
+//   destination: {
+//     // cloudRunService: {
+//     //   service:
+//     // }
+//   },
+// });
+
+// new gcp.firebase.Project('ds', {});
+// const s = new gcp.cloudfunctions.HttpCallbackFunction('dsa', {});
+// const greeting = new gcp.cloudfunctions.HttpCallbackFunction(
+//   'greeting',
+//   (req, res) => {
+//     res.send(`Greetings from ${req.body.name || 'Google Cloud Functions'}!`);
+//   }
+// );

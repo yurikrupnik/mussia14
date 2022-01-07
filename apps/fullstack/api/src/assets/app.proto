@@ -5,8 +5,8 @@ package app;
 // Declare a service for each controller you have
 service AppController {
   // Declare an rpc for each method that is called via gRPC
-  rpc GetUsers (User) returns (Users);
-  rpc CreateUser (User) returns (User);
+  rpc GetUsers (User) returns (Users) {};
+  rpc CreateUser (User) returns (User) {};
 }
 
 // Declare the types used above
