@@ -14,10 +14,8 @@ describe('AppService', () => {
   });
 
   describe('getData', () => {
-    it('should return "Welcome to metrics-service!"', () => {
-      expect(service.getData()).toEqual({
-        message: 'Welcome to metrics-service!',
-      });
+    it('should return "Welcome to simple-be!"', () => {
+      expect(service.getData()).toEqual({ message: 'Welcome to simple-be!' });
     });
   });
 });

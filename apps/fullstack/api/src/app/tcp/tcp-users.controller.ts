@@ -13,7 +13,6 @@ import {
 // import { UpdateRedisUserDto } from './dto/update-redis-user.dto';
 import {
   Client,
-  ClientRedis,
   ClientTCP,
   TcpContext,
   Transport,
@@ -26,7 +25,8 @@ export class TcpUserController {
   @Client({
     transport: Transport.TCP,
     options: {
-      // url: 'redis://localhost:6379',
+      host: '0.0.0.0',
+      port: 3000,
     },
   })
   client: ClientTCP;

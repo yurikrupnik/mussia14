@@ -27,7 +27,7 @@
         }
       }
     },
-    "serve": {
+    "serves": {
       "executor": "@nrwl/node:execute",
       "options": {
         "buildTarget": "fullstack-users-grpc:build"

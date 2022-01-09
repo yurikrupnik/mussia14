@@ -89,6 +89,8 @@
     "@nrwl/web": "13.2.4",
     "@nrwl/workspace": "13.2.4",
     "@ns3/nx-jest-playwright": "1.4.0",
+    "@nx-tools/docker-metadata": "2.2.0",
+    "@nx-tools/nx-docker": "2.2.0",
     "@testing-library/react": "12.1.2",
     "@testing-library/react-hooks": "7.0.2",
     "@types/jest": "27.4.0",

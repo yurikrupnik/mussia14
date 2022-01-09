@@ -44,8 +44,22 @@ once:
 	gcloud alpha artifacts packages list --limit=5 --repository=eu.gcr.io --location=europe
 kube-start:
 	minikube start
+	kubectl create secret generic regcred \
+    --from-file=.dockerconfigjson=<path/to/.docker/config.json> \
+    --type=kubernetes.io/dockerconfigjson
+	minikube addons enable ingress
+	minikube addons enable metrics-server
+	minikube addons enable dashboard
+	TOKEN=$(kubectl describe secret -n kube-system $(kubectl get secrets -n kube-system | grep default | cut -f1 -d ' ') | grep -E '^token' | cut -f2 -d':' | tr -d '\t' | tr -d " ")
+	kubectl create secret docker-registry cfcr\
+		--docker-server=registry.hub.docker.com/ \
+		--docker-username=yurikrupnik \
+		--docker-password=WAG0jech7jes-clic  \
+		--docker-email=krupnik.yuri@gmail.com
 	kubectl apply -f kube/deployment.yaml
 	minikube service nginx-serivce --url
+	minikube service web-service
+	kubectl get all -l app=nginx
 	minikube dashboard
 	minikube ssh
 	# auth part

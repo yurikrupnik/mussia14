@@ -1,0 +1,70 @@
+{
+  "root": "apps/fullstack/simple-be",
+  "sourceRoot": "apps/fullstack/simple-be/src",
+  "projectType": "application",
+  "targets": {
+    "build": {
+      "executor": "@nrwl/node:build",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "apps/fullstack/simple-be/dist",
+        "main": "apps/fullstack/simple-be/src/main.ts",
+        "tsConfig": "apps/fullstack/simple-be/tsconfig.app.json",
+        "assets": ["apps/fullstack/simple-be/src/assets"],
+        "generatePackageJson": true
+      },
+      "configurations": {
+        "production": {
+          "optimization": true,
+          "extractLicenses": true,
+          "inspect": false,
+          "fileReplacements": [
+            {
+              "replace": "apps/fullstack/simple-be/src/environments/environment.ts",
+              "with": "apps/fullstack/simple-be/src/environments/environment.prod.ts"
+            }
+          ]
+        }
+      }
+    },
+    "serve": {
+      "executor": "@nrwl/node:execute",
+      "options": {
+        "buildTarget": "fullstack-simple-be:build"
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["apps/fullstack/simple-be/**/*.ts"]
+      }
+    },
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/apps/fullstack/simple-be"],
+      "options": {
+        "jestConfig": "apps/fullstack/simple-be/jest.config.js",
+        "passWithNoTests": true
+      }
+    },
+    "docker": {
+      "executor": "@nx-tools/nx-docker:build",
+      "options": {
+        "context": "apps/fullstack/simple-be",
+        "push": true,
+        "images": ["yurikrupnik/simple-be", "europe-west1-docker.pkg.dev/mussia14/images/simple-be"],
+        "tags": [
+          "type=ref,event=branch",
+          "type=ref,event=tag",
+          "type=ref,event=pr",
+          "type=semver,pattern={{version}}",
+          "type=semver,pattern={{major}}.{{minor}}",
+          "type=semver,pattern={{major}}",
+          "type=sha"
+        ]
+      }
+    }
+  },
+  "tags": ["demo"]
+}

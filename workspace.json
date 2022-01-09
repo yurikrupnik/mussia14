@@ -17,7 +17,7 @@
     "firebase-admin": "libs/firebase-admin",
     "forntend-webclient-theme": "libs/forntend/webclient-theme",
     "fullstack-api": "apps/fullstack/api",
-    "fullstack-metrics-service": "apps/fullstack/metrics-service",
+    "fullstack-simple-be": "apps/fullstack/simple-be",
     "fullstack-users-grpc": "apps/fullstack/users-grpc",
     "fullstack-users-redis": "apps/fullstack/users-redis",
     "fullstack-users-service": "apps/fullstack/users-service",
