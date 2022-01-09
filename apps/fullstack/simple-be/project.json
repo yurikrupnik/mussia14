@@ -53,15 +53,8 @@
       "options": {
         "context": "apps/fullstack/simple-be",
         "push": true,
-        "images": ["yurikrupnik/simple-be", "europe-west1-docker.pkg.dev/mussia14/images/simple-be"],
         "tags": [
-          "type=ref,event=branch",
-          "type=ref,event=tag",
-          "type=ref,event=pr",
-          "type=semver,pattern={{version}}",
-          "type=semver,pattern={{major}}.{{minor}}",
-          "type=semver,pattern={{major}}",
-          "type=sha"
+          "europe-west1-docker.pkg.dev/mussia14/images/simple-be:latest"
         ]
       }
     }
