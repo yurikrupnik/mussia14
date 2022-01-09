@@ -42,6 +42,8 @@ jobs:
           gcloud --quiet auth configure-docker
 #      - run: docker-compose -f docker-compose.nx.yml build
 #      - run: docker push eu.gcr.io/mussia8/nx
+      - name: Login to DockerHub Registry
+        run: echo ${{ secrets.DOCKERHUB_PASSWORD }} | docker login -u ${{ secrets.DOCKERHUB_USERNAME }} --password-stdin
       - run: npx nx-cloud start-ci-run
       - run: npx nx affected --target=test --parallel --max-parallel=4
       - run: npx nx affected --target=lint --parallel --max-parallel=4
@@ -85,6 +87,8 @@ jobs:
           gcloud --quiet auth configure-docker
 #      - run: docker-compose -f docker-compose.nx.yml build
 #      - run: docker push eu.gcr.io/mussia8/nx
+      - name: Login to DockerHub Registry
+        run: echo ${{ secrets.DOCKERHUB_PASSWORD }} | docker login -u ${{ secrets.DOCKERHUB_USERNAME }} --password-stdin
       - run: gcloud config list
       - run: npx nx-cloud start-ci-run
       - run: npx nx affected --target=build --parallel --max-parallel=4 --base=origin/main --prod
