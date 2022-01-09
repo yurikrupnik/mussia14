@@ -97,6 +97,7 @@ jobs:
       - run: npx nx affected --target=lint --parallel --max-parallel=4 --base=origin/main
       - run: npx nx affected --target=e2e --parallel --max-parallel=4 --base=origin/main --headless
       - run: NX_CLOUD_DISTRIBUTED_EXECUTION=false npx nx affected --target=docker --parallel --max-parallel=4
+      - run: docker images
       - run: docker push europe-west1-docker.pkg.dev/mussia14/images/simple-be:latest
       - run: gcloud config list
       - run: gcloud auth list
