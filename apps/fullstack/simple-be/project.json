@@ -54,7 +54,8 @@
         "context": "apps/fullstack/simple-be",
         "push": true,
         "tags": [
-          "yurikrupnik/simple-be:latest"
+          "yurikrupnik/simple-be:latest",
+          "europe-west1-docker.pkg.dev/mussia14/images/simple-be:latest"
         ]
       }
     }
