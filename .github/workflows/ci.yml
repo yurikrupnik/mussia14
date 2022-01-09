@@ -91,7 +91,7 @@ jobs:
       - run: npx nx affected --target=test --parallel --max-parallel=4 --base=origin/main
       - run: npx nx affected --target=lint --parallel --max-parallel=4 --base=origin/main
       - run: npx nx affected --target=e2e --parallel --max-parallel=4 --base=origin/main --headless
-      - run: npx nx affected --target=docker --parallel --max-parallel=4 --prod
+      - run: npx nx affected --target=docker --parallel --max-parallel=4
       - run: gcloud config list
       - run: gcloud auth list
       - uses: nelonoel/branch-name@v1.0.1
