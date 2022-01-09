@@ -39,7 +39,7 @@ jobs:
           project_id: mussia14
           service_account_key: ${{ secrets.GOOGLE_APPLICATION_CREDENTIALS }}
       - run: |-
-          gcloud --quiet auth configure-docker
+          gcloud --quiet auth configure-docker europe-west1-docker.pkg.dev
 #      - run: docker-compose -f docker-compose.nx.yml build
 #      - run: docker push eu.gcr.io/mussia8/nx
       - name: Login to DockerHub Registry
@@ -85,7 +85,7 @@ jobs:
           project_id: mussia14
           service_account_key: ${{ secrets.GOOGLE_APPLICATION_CREDENTIALS }}
       - run: |-
-          gcloud --quiet auth configure-docker
+          gcloud --quiet auth configure-docker europe-west1-docker.pkg.dev
 #      - run: docker-compose -f docker-compose.nx.yml build
 #      - run: docker push eu.gcr.io/mussia8/nx
       - name: Login to DockerHub Registry

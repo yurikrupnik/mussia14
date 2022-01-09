@@ -96,3 +96,7 @@ Visit [Nx Cloud](https://nx.app/) to learn more.
 
 
 # Cloud inter
+
+## Errors
+Q: #11 ERROR: denied: Permission "artifactregistry.repositories.downloadArtifacts" denied on resource "projects/mussia14/locations/europe-west1/repositories/images" (or it may not exist)
+A: 
