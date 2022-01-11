@@ -1,0 +1,59 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: webclient
+  labels:
+    app: webclient
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: webclient
+  template:
+    metadata:
+      labels:
+        app: webclient
+    spec:
+      #      imagePullSecrets:
+      #        - name: docker-registry-key
+      containers:
+        - name: api
+          image: yurikrupnik/webclient:latest
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 3000
+          env:
+            - name: PROJECT_ID
+              value: mussia14
+            - name: FIREBASE_DATABASE_URL
+              valueFrom:
+                secretKeyRef:
+                  key: firebase-database-url
+                  name: firebase-secret
+            - name: FIREBASE_PRIVATE_KEY
+              valueFrom:
+                secretKeyRef:
+                  key: firebase-private-key
+                  name: firebase-secret
+            - name: FIREBASE_CLIENT_EMAIL
+              valueFrom:
+                secretKeyRef:
+                  key: firebase-client-email
+                  name: firebase-secret
+            - name: MONGO_URI
+              value: mongodb+srv://yurikrupnik:T4eXKj1RBI4VnszC@cluster0.rdmew.mongodb.net/
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: webclient-service
+  labels:
+    run: webclient-service
+spec:
+  type: LoadBalancer
+  ports:
+    - port: 3000
+      protocol: TCP
+  selector:
+    app: webclient

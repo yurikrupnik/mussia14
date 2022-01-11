@@ -62,7 +62,18 @@ services:
 #      - 3000:3000
     depends_on:
       - db
-
+  webclient:
+    image: europe-west1-docker.pkg.dev/mussia14/images/webclient
+    build:
+      context: apps/fullstack/webclient
+      dockerfile: Dockerfile
+    container_name: webclient
+    environment:
+      - PORT=3000
+    ports:
+      - 3000:3000
+    depends_on:
+      - api
 #  redis:
 #    image: "redis:alpine"
 #    ports:

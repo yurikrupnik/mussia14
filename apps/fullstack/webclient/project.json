@@ -63,6 +63,17 @@
           "exportFormat": "json"
         }
       }
+    },
+    "docker": {
+      "executor": "@nx-tools/nx-docker:build",
+      "options": {
+        "context": "apps/fullstack/webclient",
+        "push": true,
+        "tags": [
+          "yurikrupnik/webclient:latest",
+          "europe-west1-docker.pkg.dev/mussia14/images/webclient:latest"
+        ]
+      }
     }
   },
   "tags": ["client", "frontend"]

@@ -99,4 +99,4 @@ Visit [Nx Cloud](https://nx.app/) to learn more.
 
 ## Errors
 Q: #11 ERROR: denied: Permission "artifactregistry.repositories.downloadArtifacts" denied on resource "projects/mussia14/locations/europe-west1/repositories/images" (or it may not exist)
-A: 
+A: see: gcloud --quiet auth configure-docker europe-west1-docker.pkg.dev

@@ -1,14 +1,16 @@
-GCP_PROJECT:=gcloud config get-value project
+GCP_PROJECT:=$(gcloud config get-value project)
 
 
 define get-secret
-$(shell gcloud secrets versions access latest --secret=MONGO_URI --project=mussia12-333121)
+$(shell gcloud secrets versions access latest --secret=MONGO_URI --project=mussia14)
 endef
 
 
 # gcloud start
 gcp-once:
-	gcloud services enable cloudfunctions.googleapis.com
+	echo $(GCP_PROJECT)
+	echo $GCP_PROJECT
+	#gcloud services enable cloudfunctions.googleapis.com
 # gcloud end
 
 # NX start
@@ -42,6 +44,31 @@ to-kube:
 # Kubectl start
 once:
 	gcloud alpha artifacts packages list --limit=5 --repository=eu.gcr.io --location=europe
+
+
+kind-cluster:
+	kind create cluster
+	kubectl apply -f https://raw.githubusercontent.com/kubernetes/dashboard/v2.4.0/aio/deploy/recommended.yaml
+	kubectl apply -f kube/api.yaml
+
+kind-cluste-down:
+	kind delete cluster
+
+minikube-cluster:
+	bash kube/scripts/minikube-set.sh
+	#minikube start
+	#minikube addons enable gcp-auth
+#	minikube addons enable ingress
+#	minikube addons enable metrics-server
+#	minikube addons enable dashboard
+#	minikube addons enable gcp-auth
+#	minikube service kubernetes-dashboard --namespace kubernetes-dashboard &
+	#minikube service api-service
+
+kube-stop:
+	minikube stop
+	minikube delete
+
 kube-start:
 	minikube start
 	kubectl create secret generic regcred \
@@ -63,10 +90,6 @@ kube-start:
 	minikube dashboard
 	minikube ssh
 	# auth part
-kube-stop:
-	kubectl delete -f kube/deployment.yaml
-	minikube stop
-	minikube delete
 
 kube-secret:
 	kubectl get secrets
@@ -106,3 +129,7 @@ deploy-cluster-example:
   --enable-vertical-pod-autoscaling --resource-usage-bigquery-dataset "nternal_gke" \
   --enable-resource-consumption-metering \
   --enable-shielded-nodes --node-locations "europe-west1-d"
+
+
+helm-values:
+	helm show values bitnami/grafana
