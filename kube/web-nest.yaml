@@ -22,7 +22,16 @@ spec:
           image: yurikrupnik/webclient:latest
           imagePullPolicy: Always
           ports:
-            - containerPort: 3000
+            - name: active-port
+              containerPort: 3000
+          livenessProbe:
+            httpGet:
+              path: /
+              port: active-port
+          readinessProbe:
+            httpGet:
+              path: /
+              port: active-port
           env:
             - name: PROJECT_ID
               value: mussia14
@@ -51,9 +60,11 @@ metadata:
   labels:
     run: webclient-service
 spec:
-  type: LoadBalancer
+  type: ClusterIP
   ports:
-    - port: 3000
+    - port: 80
+      targetPort: 3000
       protocol: TCP
+#      nodePort: 30000
   selector:
     app: webclient

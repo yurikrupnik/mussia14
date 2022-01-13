@@ -74,6 +74,16 @@ services:
       - 3000:3000
     depends_on:
       - api
+
+  mongo-express:
+    image: mongo-express
+    container_name: mongo-express
+    environment:
+      - ME_CONFIG_MONGODB_SERVER=db
+    ports:
+      - 8081:8081
+    depends_on:
+      - db
 #  redis:
 #    image: "redis:alpine"
 #    ports:
