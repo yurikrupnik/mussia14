@@ -73,23 +73,20 @@ spec:
             - containerPort: 8081
           env:
             - name: ME_CONFIG_MONGODB_ADMINUSERNAME
-              value: yurikrupnik
-#              valueFrom:
-#                secretKeyRef:
-#                  name: mongodb-secret
-#                  key: mongo-root-username
+              valueFrom:
+                secretKeyRef:
+                  name: mongodb-secret
+                  key: mongo-root-username
             - name: ME_CONFIG_MONGODB_ADMINPASSWORD
-              value: T4eXKj1RBI4VnszC
-#              valueFrom:
-#                secretKeyRef:
-#                  name: mongodb-secret
-#                  key: mongo-root-password
+              valueFrom:
+                secretKeyRef:
+                  name: mongodb-secret
+                  key: mongo-root-password
             - name: ME_CONFIG_MONGODB_SERVER
-              value: cluster0.rdmew.mongodb.net
-#              valueFrom:
-#                configMapKeyRef:
-#                  key: database_url
-#                  name: mongodb-configmap
+              valueFrom:
+                configMapKeyRef:
+                  key: database_url
+                  name: mongodb-configmap
 
 
 ---

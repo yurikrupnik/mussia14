@@ -3,7 +3,7 @@
   "sourceRoot": "apps/fullstack/webclient",
   "projectType": "application",
   "targets": {
-    "build": {
+    "builds": {
       "executor": "@nrwl/next:build",
       "outputs": ["{options.outputPath}"],
       "defaultConfiguration": "production",
@@ -64,7 +64,7 @@
         }
       }
     },
-    "docker": {
+    "dockers": {
       "executor": "@nx-tools/nx-docker:build",
       "options": {
         "context": "apps/fullstack/webclient",
