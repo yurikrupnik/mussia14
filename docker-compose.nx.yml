@@ -1,20 +1,13 @@
 version: "3"
 
 services:
-  pka:
-    image: yurikrupnik/prometheus_bigquery_remote_storage_adapter
-    container_name: prometheus_bigquery_remote_storage_adapter
+  lerna:
+    image: yurikrupnik/mussia14-builder
     build:
-      context: prometheus_bigquery_remote_storage_adapter
-#    ports:
-#      - 9092:9092
-#    depends_on:
-#      - prometheus
-#      - kafka
-    environment:
-      GOOGLEAPIJSONKEYPATH: "mussia14-prometheus-admin.json"
-#      GOOGLEPROJECTID: mussia14
-      GOOGLEAPIDATASETID: mussia14:metrics_stream
-      GOOGLEAPITABLEID: my-table
-
-    entrypoint: []
+      context: .
+    container_name: mussia14-builder
+#    volumes:
+#      - ./apps/:/app/apps
+#      - ./libs/:/app/libs
+    deploy:
+      replicas: 0

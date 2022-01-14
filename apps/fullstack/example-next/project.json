@@ -3,7 +3,7 @@
   "sourceRoot": "apps/fullstack/example-next",
   "projectType": "application",
   "targets": {
-    "build": {
+    "builds": {
       "executor": "@nrwl/next:build",
       "outputs": ["{options.outputPath}"],
       "defaultConfiguration": "production",
@@ -15,7 +15,7 @@
         "production": {}
       }
     },
-    "serve": {
+    "serves": {
       "executor": "@nrwl/next:server",
       "options": {
         "buildTarget": "fullstack-example-next:build",
