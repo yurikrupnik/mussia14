@@ -1,0 +1,41 @@
+{
+  "root": "apps/clients/solid-app",
+  "sourceRoot": "apps/clients/solid-app/src",
+  "projectType": "application",
+  "tags": [],
+  "targets": {
+    "build": {
+      "executor": "@nxext/vite:build",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "apps/clients/solid-app/dist",
+        "frameworkConfigFile": "@nxext/solid/plugins/vite"
+      },
+      "configurations": {
+        "production": {}
+      }
+    },
+    "serve": {
+      "executor": "@nxext/vite:dev",
+      "options": {
+        "outputPath": "apps/clients/solid-app/dist",
+        "frameworkConfigFile": "@nxext/solid/plugins/vite"
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["apps/clients/solid-app/**/*.{ts,spec.ts,tsx}"]
+      }
+    },
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/apps/clients/solid-app"],
+      "options": {
+        "jestConfig": "apps/clients/solid-app/jest.config.js",
+        "passWithNoTests": true
+      }
+    }
+  }
+}

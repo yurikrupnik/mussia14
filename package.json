@@ -72,7 +72,8 @@
     "rxjs": "7.5.2",
     "swagger-ui-express": "4.3.0",
     "ts-proto": "1.97.2",
-    "tslib": "2.3.1"
+    "tslib": "2.3.1",
+    "vite-plugin-solid": "2.1.2"
   },
   "devDependencies": {
     "@compodoc/compodoc": "1.1.18",
@@ -94,8 +95,11 @@
     "@ns3/nx-jest-playwright": "1.4.0",
     "@nx-tools/docker-metadata": "2.2.0",
     "@nx-tools/nx-docker": "2.2.0",
+    "@nxext/solid": "^13.0.1",
+    "@nxext/vite": "^13.1.3",
     "@testing-library/react": "12.1.2",
     "@testing-library/react-hooks": "7.0.2",
+    "@trumbitta/nx-plugin-unused-deps": "^1.10.0",
     "@types/jest": "27.4.0",
     "@types/lodash": "4.14.178",
     "@types/node": "16.11.19",
@@ -115,12 +119,17 @@
     "eslint-plugin-jsx-a11y": "6.5.1",
     "eslint-plugin-react": "7.28.0",
     "eslint-plugin-react-hooks": "4.3.0",
+    "eslint-plugin-solid": "0.1.2",
     "jest": "27.4.7",
     "jest-playwright-preset": "1.7.0",
     "playwright": "1.17.2",
     "prettier": "2.5.1",
     "react-test-renderer": "17.0.2",
+    "solid-jest": "^0.2.0",
+    "solid-js": "^1.2.5",
+    "solid-testing-library": "^0.2.1",
     "ts-jest": "27.1.2",
-    "typescript": "4.5.4"
+    "typescript": "4.5.4",
+    "vite": "^2.5.7"
   }
 }
