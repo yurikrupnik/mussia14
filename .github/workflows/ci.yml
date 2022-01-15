@@ -56,7 +56,6 @@ jobs:
         env:
           GITHUB_CONTEXT: ${{ toJSON(github) }}
         run: echo "$GITHUB_CONTEXT"
-      - run: echo "$BRANCH_NAME"
       - name: Stop agents
         run: npx nx-cloud stop-all-agents
         if: ${{ always() }}
@@ -96,12 +95,7 @@ jobs:
       - run: npx nx affected --target=test --parallel --max-parallel=4 --base=origin/main
       - run: npx nx affected --target=lint --parallel --max-parallel=4 --base=origin/main
       - run: npx nx affected --target=e2e --parallel --max-parallel=4 --base=origin/main --headless
-      - run: make docker-build
-#      - run: NX_CLOUD_DISTRIBUTED_EXECUTION=false npx nx affected --target=docker --parallel --max-parallel=4
-      - run: docker images
-#      - run: docker push europe-west1-docker.pkg.dev/mussia14/images/simple-be:latest
-      - run: gcloud config list
-      - run: gcloud auth list
+      - run: NX_CLOUD_DISTRIBUTED_EXECUTION=false npx nx affected --target=docker --parallel --max-parallel=4
       - uses: nelonoel/branch-name@v1.0.1
       - name: Dump GitHub context
         env:
