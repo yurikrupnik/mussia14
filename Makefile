@@ -133,3 +133,8 @@ deploy-cluster-example:
 
 helm-values:
 	helm show values bitnami/grafana
+
+
+docker-build:
+	docker-compose -f docker-compose.nx.yml build
+	GITHUB_REF=master npx nx run-many --parallel 10 --all --target=docker

@@ -8,7 +8,7 @@
       "outputs": ["{options.outputPath}"],
       "defaultConfiguration": "production",
       "options": {
-        "outputPath": "apps/clients/react-app/dist",
+        "outputPath": "dist/apps/clients/react-app",
         "index": "apps/clients/react-app/src/index.html",
         "baseHref": "/",
         "main": "apps/clients/react-app/src/main.tsx",

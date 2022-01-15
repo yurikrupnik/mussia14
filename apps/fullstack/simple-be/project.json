@@ -7,7 +7,7 @@
       "executor": "@nrwl/node:build",
       "outputs": ["{options.outputPath}"],
       "options": {
-        "outputPath": "apps/fullstack/simple-be/dist",
+        "outputPath": "dist/apps/fullstack/simple-be",
         "main": "apps/fullstack/simple-be/src/main.ts",
         "tsConfig": "apps/fullstack/simple-be/tsconfig.app.json",
         "assets": ["apps/fullstack/simple-be/src/assets"],
@@ -50,7 +50,16 @@
     },
     "docker": {
       "executor": "@nx-tools/nx-docker:build",
+
       "options": {
+        "build-args": [
+          "path=apps/fullstack/simple-be"
+        ],
+
+        "labels": [
+          "type=backend",
+          "team=backend"
+        ],
         "context": "apps/fullstack/simple-be",
         "push": true,
         "tags": [

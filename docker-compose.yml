@@ -84,6 +84,22 @@ services:
       - 8081:8081
     depends_on:
       - db
+
+  simple-be:
+    image: yurikrupnik/simple-be
+    labels:
+      - type=backend
+      - team=backend-team
+    build:
+      args:
+        - path=dist/apps/fullstack/simple-be
+      context: apps/fullstack/simple-be
+      dockerfile: Dockerfile
+    container_name: simple-be
+    environment:
+      - PORT=3000
+    ports:
+      - 3000:3000
 #  redis:
 #    image: "redis:alpine"
 #    ports:

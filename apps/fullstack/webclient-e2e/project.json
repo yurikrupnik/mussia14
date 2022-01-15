@@ -3,7 +3,7 @@
   "sourceRoot": "apps/fullstack/webclient-e2e/src",
   "projectType": "application",
   "targets": {
-    "e2e": {
+    "e2es": {
       "executor": "@nrwl/cypress:cypress",
       "options": {
         "cypressConfig": "apps/fullstack/webclient-e2e/cypress.json",
