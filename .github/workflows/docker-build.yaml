@@ -9,7 +9,13 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v2
-
+      - name: Set up Cloud SDK
+        uses: google-github-actions/setup-gcloud@master
+        with:
+          project_id: mussia14
+          service_account_key: ${{ secrets.GOOGLE_APPLICATION_CREDENTIALS }}
+      - run: |-
+          gcloud --quiet auth configure-docker europe-west1-docker.pkg.dev
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v1
 
