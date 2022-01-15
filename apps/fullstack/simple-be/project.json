@@ -50,16 +50,9 @@
     },
     "docker": {
       "executor": "@nx-tools/nx-docker:build",
-
       "options": {
-        "build-args": [
-          "path=apps/fullstack/simple-be"
-        ],
-
-        "labels": [
-          "type=backend",
-          "team=backend"
-        ],
+        "build-args": ["path=apps/fullstack/simple-be"],
+        "labels": ["type=backend", "team=backend"],
         "context": "apps/fullstack/simple-be",
         "push": true,
         "tags": [

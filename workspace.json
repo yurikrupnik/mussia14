@@ -16,7 +16,6 @@
     "backend-validations": "libs/backend/validations",
     "clients-react-app": "apps/clients/react-app",
     "clients-solid-app": "apps/clients/solid-app",
-    "clients-solid-app-e2e": "apps/clients-solid-app-e2e",
     "firebase-admin": "libs/firebase-admin",
     "forntend-webclient-theme": "libs/forntend/webclient-theme",
     "fullstack-api": "apps/fullstack/api",
