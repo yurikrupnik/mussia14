@@ -8,7 +8,7 @@
       "outputs": ["{options.outputPath}"],
       "defaultConfiguration": "production",
       "options": {
-        "outputPath": "dist/apps/clients/react-app",
+        "outputPath": "apps/clients/react-app/dist",
         "index": "apps/clients/react-app/src/index.html",
         "baseHref": "/",
         "main": "apps/clients/react-app/src/main.tsx",
@@ -65,6 +65,19 @@
       "options": {
         "jestConfig": "apps/clients/react-app/jest.config.js",
         "passWithNoTests": true
+      }
+    },
+    "docker": {
+      "executor": "@nx-tools/nx-docker:build",
+      "options": {
+        "build-args": ["path=apps/clients/react-app"],
+        "labels": ["type=frontend", "team=frontend"],
+        "context": "apps/clients/react-app",
+        "push": true,
+        "tags": [
+          "yurikrupnik/react-app:latest",
+          "europe-west1-docker.pkg.dev/mussia14/images/react-app:latest"
+        ]
       }
     }
   },
