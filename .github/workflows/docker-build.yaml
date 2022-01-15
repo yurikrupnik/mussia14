@@ -31,6 +31,6 @@ jobs:
       - name: 'Install Dependencies'
         run: npm ci
 
-      - run: npx nx affected --target=build
-      - name: nx build
-        run: npx nx affected --target=docker
+#      - run: npx nx affected --target=build
+#      - name: nx build
+#        run: npx nx affected --target=docker
