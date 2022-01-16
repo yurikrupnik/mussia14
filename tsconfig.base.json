@@ -36,10 +36,12 @@
       "@mussia14/backend/validations": [
         "libs/backend/validations/src/index.ts"
       ],
+      "@mussia14/client/firebase": ["libs/client/firebase/src/index.ts"],
       "@mussia14/firebase-admin": ["libs/firebase-admin/src/index.ts"],
       "@mussia14/forntend/webclient-theme": [
         "libs/forntend/webclient-theme/src/index.ts"
       ],
+      "@mussia14/frontend/login": ["libs/frontend/login/src/index.ts"],
       "@mussia14/shared/interfaces": ["libs/shared/interfaces/src/index.ts"],
       "@mussia14/shared/ts-utils": ["libs/shared/ts-utils/src/index.ts"]
     }

@@ -95,7 +95,6 @@ kube-secret:
 	kubectl get secrets
 
 docker-config:
-	docker login -u yurikrupnik --password=WAG0jech7jes-clic
 	gcloud iam service-accounts list
 	scp -i $(minikube ssh-key) docker@$(minikube ip):.docker/config.json .docker/config.json
 # Kubectl end

@@ -19,18 +19,18 @@ spec:
       #        - name: docker-registry-key
       containers:
         - name: api
-          image: yurikrupnik/webclient:latest
+          image: yurikrupnik/next-app:latest
           imagePullPolicy: Always
           ports:
             - name: active-port
               containerPort: 3000
           livenessProbe:
             httpGet:
-              path: /
+              path: /api/health
               port: active-port
           readinessProbe:
             httpGet:
-              path: /
+              path: /api/health
               port: active-port
           env:
             - name: PROJECT_ID

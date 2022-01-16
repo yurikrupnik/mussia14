@@ -43,7 +43,8 @@
       "executor": "@nrwl/web:dev-server",
       "options": {
         "buildTarget": "clients-react-app:build",
-        "hmr": true
+        "hmr": true,
+        "open": true
       },
       "configurations": {
         "production": {
