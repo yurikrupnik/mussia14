@@ -12,6 +12,9 @@ env:
   NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
   NPM_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
+
+
+
 jobs:
   main:
     runs-on: ubuntu-latest
@@ -49,7 +52,7 @@ jobs:
       - run: npx nx affected --target=lint --parallel --max-parallel=4
       - run: npx nx affected --target=e2e --parallel --max-parallel=4 --headless
       - run: npx nx affected --target=build --parallel --max-parallel=4 --prod
-      - run: NX_CLOUD_DISTRIBUTED_EXECUTION=false npx nx affected --target=docker --parallel --max-parallel=4 --prod
+      - run: NX_CLOUD_DISTRIBUTED_EXECUTION=false npx nx affected --target=docker --parallel --max-parallel=4 --base=origin/main
       - run: docker push europe-west1-docker.pkg.dev/mussia14/images/simple-be:latest
       - uses: nelonoel/branch-name@v1.0.1
       - name: Dump GitHub context
@@ -109,6 +112,9 @@ jobs:
       - name: Stop agents
         run: npx nx-cloud stop-all-agents
         if: ${{ always() }}
+
+  builds:
+    runs-on: ubuntu-latest
   agents:
     runs-on: ubuntu-latest
     name: Agent 1
