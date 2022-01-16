@@ -113,8 +113,8 @@ jobs:
         run: npx nx-cloud stop-all-agents
         if: ${{ always() }}
 
-  builds:
-    runs-on: ubuntu-latest
+#  builds:
+#    runs-on: ubuntu-latest
   agents:
     runs-on: ubuntu-latest
     name: Agent 1
