@@ -3,7 +3,7 @@
   "sourceRoot": "apps/clients/react-app/src",
   "projectType": "application",
   "targets": {
-    "build": {
+    "builds": {
       "executor": "@nrwl/web:build",
       "outputs": ["{options.outputPath}"],
       "defaultConfiguration": "production",
