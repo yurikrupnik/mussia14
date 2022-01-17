@@ -39,26 +39,24 @@ metadata:
 
 spec:
   rules:
-    - http:
+    - host: yurikrupni.com
+      http:
         paths:
           - path: /api/?(.*)
+            pathType: Prefix
             backend:
               service:
                 name: api-service
                 port:
-                  number: 3333
-            pathType: ImplementationSpecific
+                  number: 80
+#            pathType: ImplementationSpecific
           - path: /?(.*)
             backend:
               service:
                 name: webclient-service
                 port:
                   number: 80
-            pathType: ImplementationSpecific
-#          - path: /green
-#            backend:
-#              service:
-#                name: webserver-green-svc
-#                port:
-#                  number: 80
+            pathType: Prefix
 #            pathType: ImplementationSpecific
+
+
