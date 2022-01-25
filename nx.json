@@ -17,7 +17,7 @@
     "default": {
       "runner": "@nrwl/nx-cloud",
       "options": {
-        "cacheableOperations": ["build", "lint", "test", "e2e"],
+        "cacheableOperations": ["build", "lint", "test", "e2e", "docker"],
         "accessToken": "NDI2NzliMzktM2YwNy00MDhhLTk0YTMtYTdjODMyZjg0OTg1fHJlYWQtd3JpdGU="
       }
     }
@@ -33,7 +33,16 @@
   "generators": {
     "@nrwl/react": {
       "application": {
+        "style": "css",
+        "linter": "eslint",
         "babel": true
+      },
+      "component": {
+        "style": "css"
+      },
+      "library": {
+        "style": "css",
+        "linter": "eslint"
       }
     },
     "@nrwl/next": {

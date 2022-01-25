@@ -1,14 +1,16 @@
-GCP_PROJECT:=gcloud config get-value project
+GCP_PROJECT:=$(gcloud config get-value project)
 
 
 define get-secret
-$(shell gcloud secrets versions access latest --secret=MONGO_URI --project=mussia12-333121)
+$(shell gcloud secrets versions access latest --secret=MONGO_URI --project=mussia14)
 endef
 
 
 # gcloud start
 gcp-once:
-	gcloud services enable cloudfunctions.googleapis.com
+	echo $(GCP_PROJECT)
+	echo $GCP_PROJECT
+	#gcloud services enable cloudfunctions.googleapis.com
 # gcloud end
 
 # NX start
@@ -42,23 +44,57 @@ to-kube:
 # Kubectl start
 once:
 	gcloud alpha artifacts packages list --limit=5 --repository=eu.gcr.io --location=europe
+
+
+kind-cluster:
+	kind create cluster
+	kubectl apply -f https://raw.githubusercontent.com/kubernetes/dashboard/v2.4.0/aio/deploy/recommended.yaml
+	kubectl apply -f kube/api.yaml
+
+kind-cluste-down:
+	kind delete cluster
+
+minikube-cluster:
+	bash kube/scripts/minikube-set.sh
+	#minikube start
+	#minikube addons enable gcp-auth
+#	minikube addons enable ingress
+#	minikube addons enable metrics-server
+#	minikube addons enable dashboard
+#	minikube addons enable gcp-auth
+#	minikube service kubernetes-dashboard --namespace kubernetes-dashboard &
+	#minikube service api-service
+
+kube-stop:
+	minikube stop
+	minikube delete
+
 kube-start:
 	minikube start
+	kubectl create secret generic regcred \
+    --from-file=.dockerconfigjson=<path/to/.docker/config.json> \
+    --type=kubernetes.io/dockerconfigjson
+	minikube addons enable ingress
+	minikube addons enable metrics-server
+	minikube addons enable dashboard
+	TOKEN=$(kubectl describe secret -n kube-system $(kubectl get secrets -n kube-system | grep default | cut -f1 -d ' ') | grep -E '^token' | cut -f2 -d':' | tr -d '\t' | tr -d " ")
+	kubectl create secret docker-registry cfcr\
+		--docker-server=registry.hub.docker.com/ \
+		--docker-username=yurikrupnik \
+		--docker-password=WAG0jech7jes-clic  \
+		--docker-email=krupnik.yuri@gmail.com
 	kubectl apply -f kube/deployment.yaml
 	minikube service nginx-serivce --url
+	minikube service web-service
+	kubectl get all -l app=nginx
 	minikube dashboard
 	minikube ssh
 	# auth part
-kube-stop:
-	kubectl delete -f kube/deployment.yaml
-	minikube stop
-	minikube delete
 
 kube-secret:
 	kubectl get secrets
 
 docker-config:
-	docker login -u yurikrupnik --password=WAG0jech7jes-clic
 	gcloud iam service-accounts list
 	scp -i $(minikube ssh-key) docker@$(minikube ip):.docker/config.json .docker/config.json
 # Kubectl end
@@ -92,3 +128,12 @@ deploy-cluster-example:
   --enable-vertical-pod-autoscaling --resource-usage-bigquery-dataset "nternal_gke" \
   --enable-resource-consumption-metering \
   --enable-shielded-nodes --node-locations "europe-west1-d"
+
+
+helm-values:
+	helm show values bitnami/grafana
+
+
+docker-build:
+	docker-compose -f docker-compose.nx.yml build
+	GITHUB_REF=master npx nx run-many --parallel 10 --all --target=docker

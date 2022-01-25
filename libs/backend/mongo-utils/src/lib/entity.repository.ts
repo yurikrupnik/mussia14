@@ -15,16 +15,16 @@ export abstract class EntityRepository<
   CreateDto,
   UpdateDto
 > {
-  constructor(protected readonly entityModel: Model<T>) {}
+  constructor(protected readonly model: Model<T>) {}
 
   findById(
     id: string,
-    // projection?: Record<string, unknown>,
-    config: QueryOptions
+    projection?: Record<string, unknown>
+    // config: QueryOptions
   ): Promise<HydratedDocument<T, any, void>> {
     return (
-      this.entityModel
-        .findById(id, config)
+      this.model
+        .findById(id, projection)
         // .lean() // todo failing types
         .then((res) => {
           if (!res) {
@@ -41,14 +41,11 @@ export abstract class EntityRepository<
     projection: any,
     config: QueryOptions
   ): Promise<LeanDocument<HydratedDocument<T>>[]> {
-    return this.entityModel
-      .find(query, projection, config)
-      .lean()
-      .catch(handleError);
+    return this.model.find(query, projection, config).lean().catch(handleError);
   }
 
   create(createEntityData: CreateDto): Promise<T> {
-    const entity = new this.entityModel(createEntityData);
+    const entity = new this.model(createEntityData);
     return entity.save().catch(handleError);
   }
 
@@ -56,7 +53,7 @@ export abstract class EntityRepository<
     id: string,
     updateEntityData: UpdateDto
   ): Promise<HydratedDocument<T, any, any> | null> {
-    return this.entityModel
+    return this.model
       .findByIdAndUpdate(id, updateEntityData, {
         new: true,
         useFindAndModify: false,
@@ -65,7 +62,7 @@ export abstract class EntityRepository<
   }
 
   deleteMany(entityFilterQuery: FilterQuery<T>): Promise<boolean> {
-    return this.entityModel
+    return this.model
       .deleteMany(entityFilterQuery)
       .then((deleteResult) => {
         return deleteResult.deletedCount >= 1;
@@ -74,7 +71,7 @@ export abstract class EntityRepository<
   }
 
   deleteOne(id: string): Promise<string> {
-    return this.entityModel
+    return this.model
       .findByIdAndDelete(id)
       .then((res) => {
         if (!res) {
@@ -86,6 +83,6 @@ export abstract class EntityRepository<
   }
 
   createMock() {
-    // return new this.entityModel({});
+    // return new this.model({});
   }
 }

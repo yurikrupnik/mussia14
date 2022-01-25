@@ -1,10 +1,13 @@
 version: "3"
 
 services:
-    lerna:
-        image: eu.gcr.io/mussia8/nx
-        build:
-            context: .
-        container_name: mx
-        deploy:
-            replicas: 0
+  lernas:
+    image: yurikrupnik/mussia14-builder
+    build:
+      context: .
+    container_name: mussia14-builder
+#    volumes:
+#      - ./apps/:/app/apps
+#      - ./libs/:/app/libs
+    deploy:
+      replicas: 0

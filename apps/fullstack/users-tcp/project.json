@@ -1,0 +1,66 @@
+{
+  "root": "apps/fullstack/users-tcp",
+  "sourceRoot": "apps/fullstack/users-tcp/src",
+  "projectType": "application",
+  "targets": {
+    "build": {
+      "executor": "@nrwl/node:build",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "apps/fullstack/users-tcp/dist",
+        "main": "apps/fullstack/users-tcp/src/main.ts",
+        "tsConfig": "apps/fullstack/users-tcp/tsconfig.app.json",
+        "assets": ["apps/fullstack/users-tcp/src/assets"],
+        "generatePackageJson": true
+      },
+      "configurations": {
+        "production": {
+          "optimization": true,
+          "extractLicenses": true,
+          "inspect": false,
+          "fileReplacements": [
+            {
+              "replace": "apps/fullstack/users-tcp/src/environments/environment.ts",
+              "with": "apps/fullstack/users-tcp/src/environments/environment.prod.ts"
+            }
+          ]
+        }
+      }
+    },
+    "serve": {
+      "executor": "@nrwl/node:execute",
+      "options": {
+        "buildTarget": "fullstack-users-tcp:build"
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["apps/fullstack/users-tcp/**/*.ts"]
+      }
+    },
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/apps/fullstack/users-tcp"],
+      "options": {
+        "jestConfig": "apps/fullstack/users-tcp/jest.config.js",
+        "passWithNoTests": true
+      }
+    },
+    "docker": {
+      "executor": "@nx-tools/nx-docker:build",
+      "options": {
+        "build-args": ["path=apps/fullstack/api"],
+        "labels": ["type=backend", "team=backend"],
+        "context": "apps/fullstack/users-tcp",
+        "push": true,
+        "tags": [
+          "yurikrupnik/users-tcp",
+          "europe-west1-docker.pkg.dev/mussia14/images/users-tcp"
+        ]
+      }
+    }
+  },
+  "tags": []
+}

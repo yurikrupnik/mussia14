@@ -1,23 +1,33 @@
-import { Document, FilterQuery, QueryOptions } from 'mongoose';
+import {
+  Document,
+  FilterQuery,
+  QueryOptions,
+  LeanDocument,
+  HydratedDocument,
+} from 'mongoose';
 import { EntityRepository } from './entity.repository';
 
 export class CrudApiService<
   T extends Document,
   CreateDto,
   UpdateDto,
-  Entity extends EntityRepository<T, CreateDto, UpdateDto>
+  Repository extends EntityRepository<T, CreateDto, UpdateDto>
 > {
-  constructor(private readonly repository: Entity) {}
+  constructor(private readonly repository: Repository) {}
 
-  findAll(query: FilterQuery<T>, projection: any, config: QueryOptions) {
+  findAll(
+    query: FilterQuery<T>,
+    projection: any,
+    config: QueryOptions
+  ): Promise<LeanDocument<HydratedDocument<T>>[]> {
     return this.repository.findAll(query, projection, config);
   }
 
-  findById(id: string, projection: any) {
-    return this.repository.findById(id, { projection });
+  findById(id: string, projection: any): Promise<T> {
+    return this.repository.findById(id, projection);
   }
 
-  create(body: CreateDto) {
+  create(body: CreateDto): Promise<T> {
     return this.repository.create(body);
   }
 

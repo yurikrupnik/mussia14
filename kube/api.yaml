@@ -1,0 +1,114 @@
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: firebase-secret
+data:
+  firebase-private-key: LS0tLS1CRUdJTiBQUklWQVRFIEtFWS0tLS0tTUlJRXZBSUJBREFOQmdrcWhraUc5dzBCQVFFRkFBU0NCS1l3Z2dTaUFnRUFBb0lCQVFDTk9PeEtLVFFuRXpMdm0rYWREbjQ3NVNIM3VqZmNUSUdoRnZqS1FQNk1PYXVSNnlES3N4cE1Yb0Y4VGJUaXIycXpkTTlBdS81NWRzdE4vcHc1dG1SKzZoTkNuREtseFB0RzJULzlpZ01XT01JVjdveUlHVkN4M3grMTNUcFkvSENGUDdLb0I0VEtKSytYQTByZzBQVWh3RmxZU2QwN0wxY0N1T0tZc0JnbkxlVDFsZFlPbllURkpPa1VWSnZKQ0xyOVNqZUNDZFkwLzdvaVh3QWtxWjlpTFFya0F1bXlqcXFQa2JjQkhOajFReExkU0NTUUJibTRkcGwwczVXTEg0VHJFQllSNkgydW9YSnRTam1HMUR0cE93TWhSU3lNMVdSZzF5QmEzQWVGbkx6eFUwTUpIU1VQUDhhWDZ5WVBmWHdGUWJMbnBES2tkOVB1aThQZHZlV3ZBZ01CQUFFQ2dnRUFLR2w3cEpVNTZWeWpITkllSWg5OW5DSXJvRHBYdGVEbXozUkZhWXREekZqTWNnczQ3UWhucENiL0l0VVJ5RFN1Y2dBaE5zTVZSU2pyY0x4RmRIWnZONnBBTExXS0FNbm5waFNSTFRxTE81YXVZNXhKOXNCWHlTNnlZbGFXVmRTWFZtb3Q4OHVEQWwyUktjTzFiN1FjRWJaN1dycDRabkZia3RuWmJod21MVCtXREc0Z0JVbUphL2ZybFVCTUdZN3VVQUdaQ3pSaW1yYm1aeFR6cFRIZnk5ZzR3c1JGa21RR3hoejhmVlRta3VKaUI1WEFPbFN4aWVkWDllNXJ2bUFJUHN6S2llZ1dwc3BWWUg4VlE4cGE2L1VYUDVhRnJQZ3JyNVhjS3NNY0RaMUt5UjA1VFdDRUVhYTI4TDBQUkNnSUk2VU94dWVpM21mL1B2RzhsMGRyQVFLQmdRQy9kOTJpemlqS3diTWFSZUFyV2tYZlplZWRQRW5LOUhTOWRyYW0zUTFFSExtUlN3MWNPUnlKZkFBM0UzQXZVNis4bngxT1R5UUk5VUVXbmtoVDN6MTh3VXB1YzBCMFlKRUtlVXA0WlduL1JaNko5UXVvNVp2aXhjZkk3UFUxWWVSdE9RZW9iYmlwM05XMFR0RmJDc1gwa1pWL25saVdyc25JOS9zdndLU2pRUUtCZ1FDODBjYkZ6NHUwU1hydXRJVks3RnUzaXB3T2V5K0xEMFdMc3l5Vmg5c3doYUtXaGR5ZlVmSnRZV0VJVWErT3pCL2VnSFR2R0ptc01mVGRVb3o2UGRZWHk1SHR2di9VQjJ4aFhMOEFCUTM1eERqUERVdkM0NC9FbXZUNDU4RlRYekNzNUdMVXpkL09oRTVoV3pPQ3A1TjE3ZHJhQ2xWK3hrWVdBZE9ieFhaODd3S0JnQStKWkh5L2llUGFEL1NEMHdyeGlsWDBhUFVEWFdHUXNLQm5MNjhlcE9Md0NjYldka0VUaVZOR3NxWEZlQWIvSFhXSzI4L3M4Qm1oL1NRZXQvUEdXN0R4NWw1TUQrRGhyU05TY0U2UXZDY3d1UXFzemNOb3psdDZmUm02MExNQ1BJejRZYnl6R3BiK0NvRlZHL3Z0UmQ3d3FWYnZ2SFNOdm1ZR2FXV1lsa09CQW9HQUZtM3c1OFNNdXVEVHFwRmxHQTVWb3NyaldORUhSOFNMcFZtbVhTampQN05RS2dOQ3Z1WTBId3duUTU2NGRRVUljQnpnUnhxci9vbDhwZUhOZjFoakd6YUNZalNESFVPNGV5UlNTQVZSc0s2L2RORUdnK01XUyt1QVdDVG5rU2pJbG5FVzBHS1lTR2J0REtHUno5NXFKT01aVVRkVENwa3c4Q0pOYWI2ZUlaOENnWUF1MDFTa2hjc3l4UCtnY0Vsd1pWZUNWU3Bya2JiZ0orL0pCdFMrdFN5R0IveGFGMjJxemFWbituRHhpV3p2Wk16WHErU0J1bWFST3lacE9nQWhDb2FhUmpxd1hVYi9JUm5Wd04zYzlCWHZ5cXE2WDZ2bENWeVJPNmNSVDA5RmJEeFBQSklpYUhSYUJYQkR1c2tVSzNjb0NiUjY2djlKcUtVOHpIcWJtcnZ2U1E9PS0tLS0tRU5EIFBSSVZBVEUgS0VZLS0tLS0=
+  firebase-client-email: ZmlyZWJhc2UtYWRtaW5zZGstbDE1Y2VAbXVzc2lhMTQuaWFtLmdzZXJ2aWNlYWNjb3VudC5jb20=
+  firebase-database-url: aHR0cHM6Ly9tdXNzaWE4LWRlZmF1bHQtcnRkYi5ldXJvcGUtd2VzdDEuZmlyZWJhc2VkYXRhYmFzZS5hcHA=
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: mongodb-secret
+data:
+  mongo-root-username: dXNlcm5hbWU=
+  mongo-root-password: cGFzc3dvcmQ=
+
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: mongodb-configmap
+data:
+  database_url: mongodb-service
+
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: api-url
+data:
+  api_gateway_url: api-service
+
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: docker-registry-key
+data:
+  .dockerconfigjson: ewoJImF1dGhzIjogewoJCSJodHRwczovL2luZGV4LmRvY2tlci5pby92MS8iOiB7CgkJCSJhdXRoIjogImVYVnlhV3R5ZFhCdWFXczZWMEZITUdwbFkyZzNhbVZ6TFdOc2FXTT0iCgkJfQoJfQp9
+type: kubernetes.io/dockerconfigjson
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: api
+  labels:
+    app: api
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: api
+  template:
+    metadata:
+      labels:
+        app: api
+    spec:
+#      imagePullSecrets:
+#        - name: docker-registry-key
+      containers:
+        - name: api
+#          image: yurikrupnik/simple-be
+          image: yurikrupnik/api:latest
+#          image: europe-west1-docker.pkg.dev/mussia14/images/api:latest
+#          image: europe-west1-docker.pkg.dev/mussia14/images/simple-be:latest
+#          volumeMounts:
+#            - name: google-cloud-keys
+#              mountPath: /var/secrets/google
+#              readOnly: true
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 3333
+          env:
+            - name: PROJECT_ID
+              value: mussia14
+            - name: FIREBASE_DATABASE_URL
+              valueFrom:
+                secretKeyRef:
+                  key: firebase-database-url
+                  name: firebase-secret
+            - name: FIREBASE_PRIVATE_KEY
+              valueFrom:
+                secretKeyRef:
+                  key: firebase-private-key
+                  name: firebase-secret
+            - name: FIREBASE_CLIENT_EMAIL
+              valueFrom:
+                secretKeyRef:
+                  key: firebase-client-email
+                  name: firebase-secret
+            - name: MONGO_URI
+              value: mongodb+srv://yurikrupnik:T4eXKj1RBI4VnszC@cluster0.rdmew.mongodb.net/
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: api-service
+  labels:
+    run: api-service
+spec:
+  type: ClusterIP
+  ports:
+    - port: 80
+      protocol: TCP
+      targetPort: 3333
+  selector:
+    app: api
+
+
+# colors in xd
+# themes

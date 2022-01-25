@@ -1,0 +1,34 @@
+syntax = "proto3";
+
+package app;
+
+// Declare a service for each controller you have
+service AppController {
+  // Declare an rpc for each method that is called via gRPC
+  rpc GetUsers (User) returns (Users) {};
+  rpc CreateUser (User) returns (User) {};
+}
+
+// Declare the types used above
+message NumberArray {
+  repeated double data = 1;
+}
+message SumOfNumberArray {
+  double sum = 1;
+}
+
+message User {
+   string _id = 1;
+   string name = 2;
+   string email = 3;
+   string tenantId = 4;
+   string role = 5;
+   string provider = 6;
+   string password = 7;
+   string updatedAt = 8;
+   string createdAt = 9;
+}
+
+message Users {
+  repeated User users = 1;
+}

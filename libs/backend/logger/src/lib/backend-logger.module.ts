@@ -1,11 +1,10 @@
-import { Module, Global } from '@nestjs/common';
-import { LoggerModule, Logger } from 'nestjs-pino';
+import { LoggerModule } from 'nestjs-pino';
+import { Module, Logger, Global } from '@nestjs/common';
 
-// @Global()
+@Global()
 @Module({
-  imports: [LoggerModule.forRoot({})],
-  controllers: [],
-  providers: [],
-  exports: [],
+  // imports: [LoggerModule.forRoot({})],
+  exports: [Logger],
+  providers: [Logger],
 })
 export class BackendLoggerModule {}

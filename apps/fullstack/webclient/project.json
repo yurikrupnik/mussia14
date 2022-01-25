@@ -3,7 +3,7 @@
   "sourceRoot": "apps/fullstack/webclient",
   "projectType": "application",
   "targets": {
-    "build": {
+    "builds": {
       "executor": "@nrwl/next:build",
       "outputs": ["{options.outputPath}"],
       "defaultConfiguration": "production",
@@ -22,7 +22,7 @@
         "dev": true,
         "proxyConfig": "apps/fullstack/webclient/proxy.conf.json",
         "open": true,
-        "port": 8080
+        "port": 8000
       },
       "configurations": {
         "production": {
@@ -62,6 +62,17 @@
         "json": {
           "exportFormat": "json"
         }
+      }
+    },
+    "dockers": {
+      "executor": "@nx-tools/nx-docker:build",
+      "options": {
+        "context": "apps/fullstack/webclient",
+        "push": true,
+        "tags": [
+          "yurikrupnik/webclient:latest",
+          "europe-west1-docker.pkg.dev/mussia14/images/webclient:latest"
+        ]
       }
     }
   },

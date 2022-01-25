@@ -1,7 +1,5 @@
 import { Injectable } from '@nestjs/common';
 import faker from 'faker';
-// import random from 'lodash/random';
-// import sample from 'lodash/sample';
 import {
   LoginProviders,
   User,
@@ -26,8 +24,6 @@ export class UsersService extends CrudApiService<
   }
 
   static createMock(ojb?: Partial<User>): User {
-    // const loginProviders = Object.values(LoginProviders);
-    // const userRoles = Object.values(UserRoles);
     return Object.assign(
       {},
       {
@@ -36,7 +32,6 @@ export class UsersService extends CrudApiService<
         password: faker.internet.password(),
         tenantId: faker.datatype.uuid(),
         provider: randomEnum(LoginProviders),
-        // provider: loginProviders[random(loginProviders.length - 1)],
         role: randomEnum(UserRoles),
       },
       ojb

@@ -1,6 +1,6 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document } from 'mongoose';
-import { IsOptional, IsMongoId } from 'class-validator';
+import { IsOptional, IsMongoId, IsString } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
 
 import { Factory } from 'nestjs-seeder';
@@ -43,6 +43,8 @@ export class Product {
    */
   name: string;
 
+  @Prop({})
+  @IsString()
   @ApiProperty({})
   /**
    * Product's description

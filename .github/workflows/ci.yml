@@ -12,6 +12,9 @@ env:
   NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
   NPM_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
+
+
+
 jobs:
   main:
     runs-on: ubuntu-latest
@@ -39,20 +42,23 @@ jobs:
           project_id: mussia14
           service_account_key: ${{ secrets.GOOGLE_APPLICATION_CREDENTIALS }}
       - run: |-
-          gcloud --quiet auth configure-docker
+          gcloud --quiet auth configure-docker europe-west1-docker.pkg.dev
 #      - run: docker-compose -f docker-compose.nx.yml build
 #      - run: docker push eu.gcr.io/mussia8/nx
+      - name: Login to DockerHub Registry
+        run: echo ${{ secrets.DOCKERHUB_PASSWORD }} | docker login -u ${{ secrets.DOCKERHUB_USERNAME }} --password-stdin
       - run: npx nx-cloud start-ci-run
       - run: npx nx affected --target=test --parallel --max-parallel=4
       - run: npx nx affected --target=lint --parallel --max-parallel=4
       - run: npx nx affected --target=e2e --parallel --max-parallel=4 --headless
       - run: npx nx affected --target=build --parallel --max-parallel=4 --prod
+      - run: NX_CLOUD_DISTRIBUTED_EXECUTION=false npx nx affected --target=docker --parallel --max-parallel=4 --base=origin/main
+      - run: docker push europe-west1-docker.pkg.dev/mussia14/images/simple-be:latest
       - uses: nelonoel/branch-name@v1.0.1
       - name: Dump GitHub context
         env:
           GITHUB_CONTEXT: ${{ toJSON(github) }}
         run: echo "$GITHUB_CONTEXT"
-      - run: echo "$BRANCH_NAME"
       - name: Stop agents
         run: npx nx-cloud stop-all-agents
         if: ${{ always() }}
@@ -81,17 +87,18 @@ jobs:
           project_id: mussia14
           service_account_key: ${{ secrets.GOOGLE_APPLICATION_CREDENTIALS }}
       - run: |-
-          gcloud --quiet auth configure-docker
+          gcloud --quiet auth configure-docker europe-west1-docker.pkg.dev
 #      - run: docker-compose -f docker-compose.nx.yml build
 #      - run: docker push eu.gcr.io/mussia8/nx
+      - name: Login to DockerHub Registry
+        run: echo ${{ secrets.DOCKERHUB_PASSWORD }} | docker login -u ${{ secrets.DOCKERHUB_USERNAME }} --password-stdin
       - run: gcloud config list
       - run: npx nx-cloud start-ci-run
       - run: npx nx affected --target=build --parallel --max-parallel=4 --base=origin/main --prod
       - run: npx nx affected --target=test --parallel --max-parallel=4 --base=origin/main
       - run: npx nx affected --target=lint --parallel --max-parallel=4 --base=origin/main
       - run: npx nx affected --target=e2e --parallel --max-parallel=4 --base=origin/main --headless
-      - run: gcloud config list
-      - run: gcloud auth list
+      - run: NX_CLOUD_DISTRIBUTED_EXECUTION=false npx nx affected --target=docker --parallel --max-parallel=4 --base=origin/main
       - uses: nelonoel/branch-name@v1.0.1
       - name: Dump GitHub context
         env:
@@ -105,6 +112,9 @@ jobs:
       - name: Stop agents
         run: npx nx-cloud stop-all-agents
         if: ${{ always() }}
+
+#  builds:
+#    runs-on: ubuntu-latest
   agents:
     runs-on: ubuntu-latest
     name: Agent 1

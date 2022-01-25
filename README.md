@@ -92,3 +92,11 @@ Nx Cloud pairs with Nx in order to enable you to build and test code more rapidl
 Teams using Nx gain the advantage of building full-stack applications with their preferred framework alongside Nx’s advanced code generation and project dependency graph, plus a unified experience for both frontend and backend developers.
 
 Visit [Nx Cloud](https://nx.app/) to learn more.
+
+
+
+# Cloud inter
+
+## Errors
+Q: #11 ERROR: denied: Permission "artifactregistry.repositories.downloadArtifacts" denied on resource "projects/mussia14/locations/europe-west1/repositories/images" (or it may not exist)
+A: see: gcloud --quiet auth configure-docker europe-west1-docker.pkg.dev

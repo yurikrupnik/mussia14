@@ -1,0 +1,52 @@
+{
+  "root": "apps/fullstack/users-service",
+  "sourceRoot": "apps/fullstack/users-service/src",
+  "projectType": "application",
+  "targets": {
+    "build": {
+      "executor": "@nrwl/node:build",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/apps/fullstack/users-service",
+        "main": "apps/fullstack/users-service/src/main.ts",
+        "tsConfig": "apps/fullstack/users-service/tsconfig.app.json",
+        "assets": ["apps/fullstack/users-service/src/assets"]
+      },
+      "configurations": {
+        "production": {
+          "optimization": true,
+          "extractLicenses": true,
+          "inspect": false,
+          "fileReplacements": [
+            {
+              "replace": "apps/fullstack/users-service/src/environments/environment.ts",
+              "with": "apps/fullstack/users-service/src/environments/environment.prod.ts"
+            }
+          ]
+        }
+      }
+    },
+    "serves": {
+      "executor": "@nrwl/node:execute",
+      "options": {
+        "buildTarget": "fullstack-users-service:build"
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["apps/fullstack/users-service/**/*.ts"]
+      }
+    },
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/apps/fullstack/users-service"],
+      "options": {
+        "jestConfig": "apps/fullstack/users-service/jest.config.js",
+        "passWithNoTests": true
+      }
+    }
+  },
+  "tags": []
+}

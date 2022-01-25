@@ -48,6 +48,19 @@
         "passWithNoTests": true
       }
     },
+    "docker": {
+      "executor": "@nx-tools/nx-docker:build",
+      "options": {
+        "build-args": ["path=apps/fullstack/api"],
+        "labels": ["type=backend", "team=backend"],
+        "context": "apps/fullstack/api",
+        "push": true,
+        "tags": [
+          "yurikrupnik/api:latest",
+          "europe-west1-docker.pkg.dev/mussia14/images/api:latest"
+        ]
+      }
+    },
     "compodoc": {
       "executor": "@twittwer/compodoc:compodoc",
       "options": {

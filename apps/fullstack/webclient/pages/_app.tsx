@@ -13,6 +13,21 @@ import Router from 'next/router';
 import Header from '../components/header';
 import { AuthProvider } from '../context/auth';
 import { UserCredential } from 'firebase/auth';
+import { datadogRum } from '@datadog/browser-rum';
+
+datadogRum.init({
+  applicationId: '53127762-1c75-4696-a716-1004f255c18c',
+  clientToken: 'pub97f1ad26340522552a121fd0909f9965',
+  site: 'datadoghq.com',
+  service: 'mussia14-webclient',
+  // Specify a version number to identify the deployed version of your application in Datadog
+  // version: '1.0.0',
+  sampleRate: 100,
+  trackInteractions: true,
+  defaultPrivacyLevel: 'mask-user-input',
+});
+
+datadogRum.startSessionReplayRecording();
 
 export function createEmotionCache() {
   return createCache({ key: 'css' });

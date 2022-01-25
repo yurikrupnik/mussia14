@@ -1,0 +1,22 @@
+{
+  "root": "apps/infra",
+  "projectType": "application",
+  "sourceRoot": "apps/infra/src",
+  "targets": {
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "options": {
+        "lintFilePatterns": ["apps/infra/**/*.ts"]
+      }
+    },
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "options": {
+        "jestConfig": "apps/infra/jest.config.js",
+        "passWithNoTests": true
+      },
+      "outputs": ["coverage/apps/infra"]
+    }
+  },
+  "tags": []
+}

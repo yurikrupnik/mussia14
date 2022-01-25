@@ -1,33 +1,39 @@
-import { Injectable, UnauthorizedException } from '@nestjs/common';
-import admin from 'firebase-admin';
-import { MyLogger } from '../a-utils/my-logger/my-logger.service';
-
-@Injectable()
-export class FirebaseAuthService {
-  constructor(private logger: MyLogger) {
-    this.logger.setContext(FirebaseAuthService.name);
-  }
-
-  getToken(authToken: string): string {
-    const match = authToken.match(/^Bearer (.*)$/);
-    if (!match || match.length < 2) {
-      throw new UnauthorizedException('INVALID_BEARER_TOKEN');
-    }
-    return match[1];
-  }
-
-  public authenticate(authToken: string): Promise<any> {
-    const tokenString = this.getToken(authToken);
-    return admin
-      .auth()
-      .verifyIdToken(tokenString)
-      .then((decodedToken) => {
-        const { email, uid, role } = decodedToken;
-        this.logger.warn(JSON.stringify(decodedToken));
-        return { email, uid, role };
-      })
-      .catch((err) => {
-        throw new UnauthorizedException(err.message);
-      });
-  }
-}
+// import { Injectable, UnauthorizedException, Logger } from '@nestjs/common';
+// import { InjectFirebaseAdmin, FirebaseAdmin } from '@mussia14/firebase-admin';
+//
+// interface IUser {
+//   email: string;
+//   uid: string;
+//   role: string[];
+// }
+//
+// @Injectable()
+// export class FirebaseAuthService {
+//   constructor(
+//     @InjectFirebaseAdmin() private readonly firebase: FirebaseAdmin,
+//     private logger: Logger
+//   ) {}
+//
+//   getToken(authToken: string): string {
+//     const match = authToken.match(/^Bearer (.*)$/);
+//     if (!match || match.length < 2) {
+//       throw new UnauthorizedException('INVALID_BEARER_TOKEN');
+//     }
+//     return match[1];
+//   }
+//
+//   public authenticate(authToken: string): Promise<IUser> {
+//     const tokenString = this.getToken(authToken);
+//     return this.firebase
+//       .auth()
+//       .verifyIdToken(tokenString)
+//       .then((decodedToken) => {
+//         const { email, uid, role } = decodedToken;
+//         return { email, uid, role };
+//       })
+//       .catch((err) => {
+//         this.logger.error(JSON.stringify(err));
+//         throw new UnauthorizedException(err.message);
+//       });
+//   }
+// }

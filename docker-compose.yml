@@ -1,33 +1,148 @@
 version: '3'
 
+networks:
+  monitor-net:
+    driver: bridge
+  elastic:
+    driver: bridge
+
 volumes:
   prometheus_data: {}
+  grafana_data: {}
+  data01:
+    driver: local
+  data02:
+    driver: local
+  data03:
+    driver: local
 
 services:
-  db:
-    image: mongo
-    ports:
-      - 27017:27017
 #    networks:
 #      - backend
 
   api:
-    image: europe-west1-docker.pkg.dev/mussia12-333121/images/api
+    image: europe-west1-docker.pkg.dev/mussia14/images/api
     build:
       context: apps/fullstack/api
       dockerfile: Dockerfile
     container_name: api
     environment:
-      - MONGO_URI=mongodb://db/mussia8
+      - FIREBASE_PRIVATE_KEY="-----BEGIN PRIVATE KEY-----MIIEvAIBADANBgkqhkiG9w0BAQEFAASCBKYwggSiAgEAAoIBAQCNOOxKKTQnEzLvm+adDn475SH3ujfcTIGhFvjKQP6MOauR6yDKsxpMXoF8TbTir2qzdM9Au/55dstN/pw5tmR+6hNCnDKlxPtG2T/9igMWOMIV7oyIGVCx3x+13TpY/HCFP7KoB4TKJK+XA0rg0PUhwFlYSd07L1cCuOKYsBgnLeT1ldYOnYTFJOkUVJvJCLr9SjeCCdY0/7oiXwAkqZ9iLQrkAumyjqqPkbcBHNj1QxLdSCSQBbm4dpl0s5WLH4TrEBYR6H2uoXJtSjmG1DtpOwMhRSyM1WRg1yBa3AeFnLzxU0MJHSUPP8aX6yYPfXwFQbLnpDKkd9Pui8PdveWvAgMBAAECggEAKGl7pJU56VyjHNIeIh99nCIroDpXteDmz3RFaYtDzFjMcgs47QhnpCb/ItURyDSucgAhNsMVRSjrcLxFdHZvN6pALLWKAMnnphSRLTqLO5auY5xJ9sBXyS6yYlaWVdSXVmot88uDAl2RKcO1b7QcEbZ7Wrp4ZnFbktnZbhwmLT+WDG4gBUmJa/frlUBMGY7uUAGZCzRimrbmZxTzpTHfy9g4wsRFkmQGxhz8fVTmkuJiB5XAOlSxiedX9e5rvmAIPszKiegWpspVYH8VQ8pa6/UXP5aFrPgrr5XcKsMcDZ1KyR05TWCEEaa28L0PRCgII6UOxuei3mf/PvG8l0drAQKBgQC/d92izijKwbMaReArWkXfZeedPEnK9HS9dram3Q1EHLmRSw1cORyJfAA3E3AvU6+8nx1OTyQI9UEWnkhT3z18wUpuc0B0YJEKeUp4ZWn/RZ6J9Quo5ZvixcfI7PU1YeRtOQeobbip3NW0TtFbCsX0kZV/nliWrsnI9/svwKSjQQKBgQC80cbFz4u0SXrutIVK7Fu3ipwOey+LD0WLsyyVh9swhaKWhdyfUfJtYWEIUa+OzB/egHTvGJmsMfTdUoz6PdYXy5Htvv/UB2xhXL8ABQ35xDjPDUvC44/EmvT458FTXzCs5GLUzd/OhE5hWzOCp5N17draClV+xkYWAdObxXZ87wKBgA+JZHy/iePaD/SD0wrxilX0aPUDXWGQsKBnL68epOLwCcbWdkETiVNGsqXFeAb/HXWK28/s8Bmh/SQet/PGW7Dx5l5MD+DhrSNScE6QvCcwuQqszcNozlt6fRm60LMCPIz4YbyzGpb+CoFVG/vtRd7wqVbvvHSNvmYGaWWYlkOBAoGAFm3w58SMuuDTqpFlGA5VosrjWNEHR8SLpVmmXSjjP7NQKgNCvuY0HwwnQ564dQUIcBzgRxqr/ol8peHNf1hjGzaCYjSDHUO4eyRSSAVRsK6/dNEGg+MWS+uAWCTnkSjIlnEW0GKYSGbtDKGRz95qJOMZUTdTCpkw8CJNab6eIZ8CgYAu01SkhcsyxP+gcElwZVeCVSprkbbgJ+/JBtS+tSyGB/xaF22qzaVn+nDxiWzvZMzXq+SBumaROyZpOgAhCoaaRjqwXUb/IRnVwN3c9BXvyqq6X6vlCVyRO6cRT09FbDxPPJIiaHRaBXBDuskUK3coCbR66v9JqKU8zHqbmrvvSQ==-----END PRIVATE KEY-----"
+      - FIREBASE_CLIENT_EMAIL=firebase-adminsdk-l15ce@mussia14.iam.gserviceaccount.com
+      - FIREBASE_DATABASE_URL=https://mussia8-default-rtdb.europe-west1.firebasedatabase.app
+      - MONGO_URI=mongodb://db/mussia12
       - PORT=3333
+      - PROJECT_ID=mussia14
     ports:
       - 3333:3333
 #    networks:
 #      - backend
-#    links:
-#      - "db:database"
+    links:
+      - "users:users"
     depends_on:
       - db
+      - users
+#
+  db:
+    image: mongo
+    ports:
+      - 27017:27017
+
+  users:
+    image: europe-west1-docker.pkg.dev/mussia14/images/users
+    build:
+      context: apps/fullstack/users-tcp
+      dockerfile: Dockerfile
+    container_name: users
+    environment:
+      - PORT=3000
+    expose:
+      - 3000
+#    ports:
+#      - 3000:3000
+    depends_on:
+      - db
+  webclient:
+    image: europe-west1-docker.pkg.dev/mussia14/images/webclient
+    build:
+      context: apps/fullstack/webclient
+      dockerfile: Dockerfile
+    container_name: webclient
+    environment:
+      - PORT=3000
+    ports:
+      - 3000:3000
+    depends_on:
+      - api
+
+  mongo-express:
+    image: mongo-express
+    container_name: mongo-express
+    environment:
+      - ME_CONFIG_MONGODB_SERVER=db
+    ports:
+      - 8081:8081
+    depends_on:
+      - db
+
+  simple-be:
+    image: yurikrupnik/simple-be
+    labels:
+      - type=backend
+      - team=backend-team
+    build:
+      args:
+        - path=dist/apps/fullstack/simple-be
+      context: apps/fullstack/simple-be
+      dockerfile: Dockerfile
+    container_name: simple-be
+    environment:
+      - PORT=3000
+    ports:
+      - 3000:3000
+#  redis:
+#    image: "redis:alpine"
+#    ports:
+#      - "6379:6379"
+#  zookeeper:
+#    image: confluentinc/cp-zookeeper:7.0.0
+#    hostname: zookeeper
+#    container_name: zookeeper
+#    ports:
+#      - "2181:2181"
+#    environment:
+#      ZOOKEEPER_CLIENT_PORT: 2181
+#      ZOOKEEPER_TICK_TIME: 2000
+#
+#  broker:
+#    image: confluentinc/cp-server:7.0.0
+#    hostname: broker
+#    container_name: broker
+#    depends_on:
+#      - zookeeper
+#    ports:
+#      - "9092:9092"
+#      - "9101:9101"
+#    environment:
+#      KAFKA_BROKER_ID: 1
+#      KAFKA_ZOOKEEPER_CONNECT: 'zookeeper:2181'
+#      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT
+#      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://broker:29092,PLAINTEXT_HOST://localhost:9092
+#      KAFKA_METRIC_REPORTERS: io.confluent.metrics.reporter.ConfluentMetricsReporter
+#      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+#      KAFKA_GROUP_INITIAL_REBALANCE_DELAY_MS: 0
+#      KAFKA_CONFLUENT_LICENSE_TOPIC_REPLICATION_FACTOR: 1
+#      KAFKA_CONFLUENT_BALANCER_TOPIC_REPLICATION_FACTOR: 1
+#      KAFKA_TRANSACTION_STATE_LOG_MIN_ISR: 1
+#      KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR: 1
+#      KAFKA_JMX_PORT: 9101
+#      KAFKA_JMX_HOSTNAME: localhost
+#      KAFKA_CONFLUENT_SCHEMA_REGISTRY_URL: http://schema-registry:8081
+#      CONFLUENT_METRICS_REPORTER_BOOTSTRAP_SERVERS: broker:29092
+#      CONFLUENT_METRICS_REPORTER_TOPIC_REPLICAS: 1
+#      CONFLUENT_METRICS_ENABLE: 'true'
+#      CONFLUENT_SUPPORT_CUSTOMER_ID: 'anonymous'
+
 #  node-exporter:
 #    image: prom/node-exporter:latest
 #    container_name: node-exporter
@@ -184,12 +299,4 @@ services:
   #    depends_on:
   #      - db
 
-
-networks:
-  frontend:
-    # Use a custom driver
-    driver: bridge
-  backend:
-    # Use a custom driver which takes special options
-    driver: bridge
 

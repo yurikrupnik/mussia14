@@ -1,43 +1,39 @@
-import {
-  Module,
-  NestModule,
-  MiddlewareConsumer,
-  RequestMethod,
-} from '@nestjs/common';
-import { HealthModule } from './health/health.module';
-import { PubSubModule } from './pubsub/pubsub.module';
-import { FirebaseAuthService } from './firebase/firebase.service';
-import { LoggerModule } from './a-utils/my-logger/my-logger.module';
-import { UsersModule } from '@mussia14/backend/users-api';
-import { AuthMiddleware } from './firebase/auth.middleware';
-import { AuthController } from './firebase/auth.controller';
+import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
+import { UsersModule } from '@mussia14/backend/users-api';
 import { BackendProductsApiModule } from '@mussia14/backend/products-api';
 import { BackendDocsModule } from '@mussia14/backend/docs';
+import { HealthModule } from '@mussia14/backend/health';
+import { BackendLoggerModule } from '@mussia14/backend/logger';
+import { AuthModule } from '@mussia14/backend/auth';
+import { TcpUserController } from './tcp/tcp-users.controller';
+// import { PostsController } from './posts/posts.controller';
+// import { RedisUserController } from './redis-user/redis-user.controller';
+// import { GrpcController } from './grpc/grpc.controller';
+
+// import { PubSubModule } from './pubsub/pubsub.module';
+import { FriendsModule } from './friends/friends.module';
 
 @Module({
   imports: [
     ConfigModule.forRoot({
       isGlobal: true,
-      // envFilePath: './env.local',
+      // cache: true,
     }),
+    AuthModule,
+    HealthModule,
+    FriendsModule,
     BackendDocsModule,
     BackendProductsApiModule,
-    LoggerModule,
-    HealthModule,
+    BackendLoggerModule,
     UsersModule,
-    PubSubModule,
+    // PubSubModule,
   ],
-  controllers: [AuthController],
-  exports: [FirebaseAuthService],
-  providers: [FirebaseAuthService],
+  controllers: [
+    // PostsController,
+    // RedisUserController,
+    TcpUserController,
+    // GrpcController,
+  ],
 })
-// export class AppModule {}
-export class AppModule implements NestModule {
-  public configure(consumer: MiddlewareConsumer) {
-    consumer
-      .apply(AuthMiddleware)
-      // not active try = /api/pubsub
-      .forRoutes({ path: '/', method: RequestMethod.ALL });
-  }
-}
+export class AppModule {}
