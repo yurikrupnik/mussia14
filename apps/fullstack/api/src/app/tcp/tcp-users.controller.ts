@@ -1,22 +1,5 @@
-import {
-  Controller,
-  Get,
-  Post,
-  Body,
-  Patch,
-  Param,
-  Delete,
-  Req,
-} from '@nestjs/common';
-// import { RedisUserService } from './redis-user.service';
-// import { CreateRedisUserDto } from './dto/create-redis-user.dto';
-// import { UpdateRedisUserDto } from './dto/update-redis-user.dto';
-import {
-  Client,
-  ClientTCP,
-  TcpContext,
-  Transport,
-} from '@nestjs/microservices';
+import { Controller, Get, Post, Body, Req } from '@nestjs/common';
+import { Client, ClientTCP, Transport } from '@nestjs/microservices';
 
 @Controller('tcp-user')
 export class TcpUserController {
@@ -25,8 +8,8 @@ export class TcpUserController {
   @Client({
     transport: Transport.TCP,
     options: {
-      host: '0.0.0.0',
-      port: 3000,
+      // host: 'localhost',
+      // port: 3000,
     },
   })
   client: ClientTCP;

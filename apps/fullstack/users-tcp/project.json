@@ -47,6 +47,19 @@
         "jestConfig": "apps/fullstack/users-tcp/jest.config.js",
         "passWithNoTests": true
       }
+    },
+    "docker": {
+      "executor": "@nx-tools/nx-docker:build",
+      "options": {
+        "build-args": ["path=apps/fullstack/api"],
+        "labels": ["type=backend", "team=backend"],
+        "context": "apps/fullstack/users-tcp",
+        "push": true,
+        "tags": [
+          "yurikrupnik/users-tcp",
+          "europe-west1-docker.pkg.dev/mussia14/images/users-tcp"
+        ]
+      }
     }
   },
   "tags": []
