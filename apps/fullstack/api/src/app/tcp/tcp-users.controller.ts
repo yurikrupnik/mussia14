@@ -7,10 +7,10 @@ export class TcpUserController {
 
   @Client({
     transport: Transport.TCP,
-    options: {
-      // host: 'localhost',
-      // port: 3000,
-    },
+    // options: {
+    // host: 'localhost',
+    // port: 3000,
+    // },
   })
   client: ClientTCP;
 
