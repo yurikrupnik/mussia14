@@ -68,7 +68,7 @@
         "passWithNoTests": true
       }
     },
-    "docker": {
+    "dockers": {
       "executor": "@nx-tools/nx-docker:build",
       "options": {
         "build-args": ["path=apps/clients/react-app"],
