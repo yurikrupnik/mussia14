@@ -6,6 +6,11 @@ import { Client, ClientGrpc, Transport } from '@nestjs/microservices';
 import { Observable } from 'rxjs';
 import { join } from 'path';
 import { User } from '@mussia14/backend/users-api';
+import {
+  SwaggerPostDecorators,
+  SwaggerGetDecorators,
+} from '@mussia14/backend/decorators';
+import { OmitType } from '@nestjs/swagger';
 
 export interface IGrpcService {
   accumulate(numberArray: INumberArray): Observable<any>;
@@ -16,6 +21,8 @@ export interface IGrpcService {
 interface INumberArray {
   data: number[];
 }
+
+export class CreateUserDto extends OmitType(User, ['_id'] as const) {}
 
 @Controller('grpc-user')
 export class GrpcController {
@@ -34,9 +41,9 @@ export class GrpcController {
     this.grpcService = this.client.getService<IGrpcService>('AppController'); // <-- Add this
   }
 
-  @Post()
-  create(@Body() createRedisUserDto: any) {
-    return this.grpcService.createUser(createRedisUserDto);
+  @SwaggerPostDecorators(User)
+  create(@Body() body: CreateUserDto) {
+    return this.grpcService.createUser(body);
   }
 
   @Get()

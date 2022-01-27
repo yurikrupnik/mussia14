@@ -21,7 +21,7 @@ services:
 #      - backend
 
   api:
-    image: europe-west1-docker.pkg.dev/mussia14/images/api
+    image: yurikrupnik/api
     build:
       context: apps/fullstack/api
       dockerfile: Dockerfile
@@ -33,15 +33,14 @@ services:
       - MONGO_URI=mongodb://db/mussia12
       - PORT=3333
       - PROJECT_ID=mussia14
+      - REDIS_URL=redis://10.11.254.19:6379
+      - REDIS_PORT=
     ports:
       - 3333:3333
 #    networks:
 #      - backend
-    links:
-      - "users:users"
     depends_on:
       - db
-      - users
 #
   db:
     image: mongo
@@ -100,10 +99,49 @@ services:
       - PORT=3000
     ports:
       - 3000:3000
-  redis:
-    image: "redis:alpine"
-    ports:
-      - "6379:6379"
+
+
+#  redis:
+#    image: "redis:alpine"
+#    ports:
+#      - "6379:6379"
+#
+  users-redis:
+    image: yurikrupnik/users-redis
+    labels:
+      - type=backend
+      - team=backend-team
+    build:
+      args:
+        - path=dist/apps/fullstack/users-redis
+      context: apps/fullstack/users-redis
+      dockerfile: Dockerfile
+    container_name: users-redis
+    environment:
+      - PORT=3000
+      - MONGO_URI=mongodb://db/mussia12
+      - REDIS_URL=redis://10.11.254.19:6379
+      - REDIS_PORT=
+    depends_on:
+      - api
+  users-grpc:
+    image: yurikrupnik/users-grpc
+    labels:
+      - type=backend
+      - team=backend-team
+    build:
+      args:
+        - path=dist/apps/fullstack/users-grpc
+      context: apps/fullstack/users-grpc
+      dockerfile: Dockerfile
+    container_name: users-grpc
+    environment:
+      - PORT=3000
+      - MONGO_URI=mongodb://db/mussia12
+    depends_on:
+      - api
+#    ports:
+#      - 3000:3000
 #  zookeeper:
 #    image: confluentinc/cp-zookeeper:7.0.0
 #    hostname: zookeeper

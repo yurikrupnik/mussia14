@@ -27,7 +27,7 @@
         }
       }
     },
-    "serves": {
+    "serve": {
       "executor": "@nrwl/node:execute",
       "options": {
         "buildTarget": "fullstack-users-grpc:build"
@@ -46,6 +46,18 @@
       "options": {
         "jestConfig": "apps/fullstack/users-grpc/jest.config.js",
         "passWithNoTests": true
+      }
+    },
+    "docker": {
+      "executor": "@nx-tools/nx-docker:build",
+      "options": {
+        "labels": ["type=backend", "team=backend"],
+        "context": "apps/fullstack/users-grpc",
+        "push": true,
+        "tags": [
+          "yurikrupnik/users-grpc:latest",
+          "europe-west1-docker.pkg.dev/mussia14/images/users-grpc:latest"
+        ]
       }
     }
   },

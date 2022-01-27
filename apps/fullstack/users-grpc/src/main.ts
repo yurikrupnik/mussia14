@@ -5,6 +5,7 @@ import { Transport } from '@nestjs/microservices';
 import { join } from 'path';
 
 const logger = new Logger('Main');
+
 const microserviceOptions = {
   transport: Transport.GRPC,
   options: {
