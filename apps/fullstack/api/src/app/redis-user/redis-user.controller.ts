@@ -7,7 +7,9 @@ export class RedisUserController {
   @Client({
     transport: Transport.REDIS,
     options: {
-      url: 'redis://localhost:6379',
+      url:
+        `redis://${process.env.REDIS_URL}:${process.env.REDIS_PORT}` ||
+        'redis://localhost:6379',
     },
   })
   client: ClientRedis;

@@ -51,7 +51,6 @@
     "docker": {
       "executor": "@nx-tools/nx-docker:build",
       "options": {
-        "build-args": ["path=apps/fullstack/api"],
         "labels": ["type=backend", "team=backend"],
         "context": "apps/fullstack/users-tcp",
         "push": true,
