@@ -18,7 +18,7 @@
 #
 #CMD ["node", "main.js"]
 
-FROM node:16-alpine AS builder
+FROM node:17-alpine AS builder
 
 WORKDIR /app
 
