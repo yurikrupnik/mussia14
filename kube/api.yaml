@@ -51,6 +51,10 @@ spec:
                   name: firebase-secret
             - name: MONGO_URI
               value: mongodb+srv://yurikrupnik:T4eXKj1RBI4VnszC@cluster0.rdmew.mongodb.net/
+            - name: REDIS_URL
+              value: 10.78.164.219
+            - name: REDIS_PORT
+              value: "6379"
 #            - name: HOST
 #              value: localhost
 #            - name: REDIS_URL

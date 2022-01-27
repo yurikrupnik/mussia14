@@ -11,7 +11,7 @@ service AppController {
 
 // Declare the types used above
 message NumberArray {
-  repeated double data = 1;
+  repeated double data = 5;
 }
 message SumOfNumberArray {
   double sum = 1;
