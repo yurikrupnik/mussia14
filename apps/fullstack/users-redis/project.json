@@ -7,10 +7,11 @@
       "executor": "@nrwl/node:build",
       "outputs": ["{options.outputPath}"],
       "options": {
-        "outputPath": "dist/apps/fullstack/users-redis",
+        "outputPath": "apps/fullstack/users-redis/dist",
         "main": "apps/fullstack/users-redis/src/main.ts",
         "tsConfig": "apps/fullstack/users-redis/tsconfig.app.json",
-        "assets": ["apps/fullstack/users-redis/src/assets"]
+        "assets": ["apps/fullstack/users-redis/src/assets"],
+        "generatePackageJson": true
       },
       "configurations": {
         "production": {
@@ -26,7 +27,7 @@
         }
       }
     },
-    "serves": {
+    "serve": {
       "executor": "@nrwl/node:execute",
       "options": {
         "buildTarget": "fullstack-users-redis:build"
@@ -45,6 +46,18 @@
       "options": {
         "jestConfig": "apps/fullstack/users-redis/jest.config.js",
         "passWithNoTests": true
+      }
+    },
+    "docker": {
+      "executor": "@nx-tools/nx-docker:build",
+      "options": {
+        "labels": ["type=backend", "team=backend"],
+        "context": "apps/fullstack/users-redis",
+        "push": true,
+        "tags": [
+          "yurikrupnik/users-redis",
+          "europe-west1-docker.pkg.dev/mussia14/images/users-redis"
+        ]
       }
     }
   },

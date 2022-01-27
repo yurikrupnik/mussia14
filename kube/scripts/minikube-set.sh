@@ -1,13 +1,14 @@
 minikube start
-echo finished minikube init
-minikube addons enable gcp-auth
-echo finished enabling gcp-auth
-minikube addons enable metrics-server
-echo finished enabling metrics-server
-minikube addons enable dashboard
-echo finished enabling dashboard
+#minikube addons enable gcp-auth
+#minikube addons enable metrics-server
+#minikube addons enable dashboard
 minikube addons enable ingress
-echo finished enabling ingress
-kubectl apply -f kube/api.yaml
-echo finished enabling api
-minikube service kubernetes-dashboard --namespace kubernetes-dashboard
+#helm install redis-release bitnami/redis
+#echo $pwd
+kubectl apply -f ../secrets.yaml
+kubectl apply -f ../ingress1.yaml
+kubectl apply -f ../api.yaml
+kubectl apply -f ../users-tcp.yaml
+kubectl apply -f ../users-redis.yaml
+kubectl apply -f ../web-nest.yaml
+#minikube service kubernetes-dashboard --namespace kubernetes-dashboard

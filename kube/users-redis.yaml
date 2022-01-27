@@ -1,0 +1,49 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: users-redis
+  labels:
+    app: users-redis
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: users-redis
+  template:
+    metadata:
+      labels:
+        app: users-redis
+    spec:
+#      imagePullSecrets:
+#        - name: docker-registry-key
+      containers:
+        - name: api
+          image: yurikrupnik/users-redis:latest
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 3000
+          env:
+            - name: MONGO_URI
+              value: mongodb+srv://yurikrupnik:T4eXKj1RBI4VnszC@cluster0.rdmew.mongodb.net/
+            - name: REDIS_URL
+              value: redis-release-master
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: users-redis-service
+  labels:
+    run: users-redis-service
+spec:
+  type: ClusterIP
+  ports:
+    - port: 80
+      protocol: TCP
+      targetPort: 3000
+  selector:
+    app: users-redis
+
+
+# colors in xd
+# themes

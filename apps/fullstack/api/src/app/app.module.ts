@@ -8,7 +8,7 @@ import { BackendLoggerModule } from '@mussia14/backend/logger';
 import { AuthModule } from '@mussia14/backend/auth';
 import { TcpUserController } from './tcp/tcp-users.controller';
 // import { PostsController } from './posts/posts.controller';
-// import { RedisUserController } from './redis-user/redis-user.controller';
+import { RedisUserController } from './redis-user/redis-user.controller';
 // import { GrpcController } from './grpc/grpc.controller';
 
 // import { PubSubModule } from './pubsub/pubsub.module';
@@ -31,7 +31,7 @@ import { FriendsModule } from './friends/friends.module';
   ],
   controllers: [
     // PostsController,
-    // RedisUserController,
+    RedisUserController,
     TcpUserController,
     // GrpcController,
   ],

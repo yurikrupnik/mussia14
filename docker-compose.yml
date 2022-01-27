@@ -100,10 +100,10 @@ services:
       - PORT=3000
     ports:
       - 3000:3000
-#  redis:
-#    image: "redis:alpine"
-#    ports:
-#      - "6379:6379"
+  redis:
+    image: "redis:alpine"
+    ports:
+      - "6379:6379"
 #  zookeeper:
 #    image: confluentinc/cp-zookeeper:7.0.0
 #    hostname: zookeeper

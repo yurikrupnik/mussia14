@@ -14,6 +14,7 @@ export class AppController {
 
   @MessagePattern('get.list')
   getData(@Payload() data: number[], @Ctx() context: RedisContext) {
+    console.log('context', context);
     return this.appService.findAll({}, '', {});
   }
 
