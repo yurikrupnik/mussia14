@@ -29,6 +29,16 @@
     "fullstack-webclient": "apps/fullstack/webclient",
     "fullstack-webclient-e2e": "apps/fullstack/webclient-e2e",
     "infra": "apps/infra",
+    "micro-fe-dashboard": "apps/micro-fe/dashboard",
+    "micro-fe-dashboard-e2e": "apps/micro-fe/dashboard-e2e",
+    "micro-fe-pages-users-users-fe": "apps/micro-fe/pages/users/users-fe",
+    "micro-fe-pages-users-users-fe-e2e": "apps/micro-fe/pages/users/users-fe-e2e",
+    "micro-fe-react-container": "apps/micro-fe/react-container",
+    "micro-fe-react-container-e2e": "apps/micro-fe/react-container-e2e",
+    "micro-fe-settings": "apps/micro-fe/settings",
+    "micro-fe-settings-e2e": "apps/micro-fe/settings-e2e",
+    "micro-fe-solid-container": "apps/micro-fe/solid-container",
+    "micro-fe-solid-container-e2e": "apps/micro-fe-solid-container-e2e",
     "shared-interfaces": "libs/shared/interfaces",
     "shared-ts-utils": "libs/shared/ts-utils"
   }

@@ -1,0 +1,28 @@
+{
+  "root": "apps/micro-fe-solid-container-e2e",
+  "sourceRoot": "apps/micro-fe-solid-container-e2e/src",
+  "projectType": "application",
+  "targets": {
+    "e2e": {
+      "executor": "@nrwl/cypress:cypress",
+      "options": {
+        "cypressConfig": "apps/micro-fe-solid-container-e2e/cypress.json",
+        "devServerTarget": "micro-fe-solid-container:serve"
+      },
+      "configurations": {
+        "production": {
+          "devServerTarget": "micro-fe-solid-container:serve:production"
+        }
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["apps/micro-fe-solid-container-e2e/**/*.{js,ts}"]
+      }
+    }
+  },
+  "tags": [],
+  "implicitDependencies": ["micro-fe-solid-container"]
+}
