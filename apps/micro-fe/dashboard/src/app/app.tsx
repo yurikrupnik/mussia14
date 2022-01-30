@@ -1,12 +1,12 @@
-import styles from './app.module.css';
+// import styles from './app.module.css';
 
-import { ReactComponent as Logo } from './logo.svg';
-import star from './star.svg';
+// import { ReactComponent as Logo } from './logo.svg';
+// import star from './star.svg';
 
 export function App() {
   return (
     <div>
-      <h1>dashboard</h1>
+      <h1>dashsssboard</h1>
     </div>
   );
 }

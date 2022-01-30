@@ -33,7 +33,7 @@ const Nav = () => (
         <Link className="navbar-item" to="/settings">
           Settings
         </Link>
-        <Link className="navbar-item" to="/profile">
+        <Link className="navbar-item" to="/users">
           Profile
         </Link>
       </div>
@@ -43,7 +43,7 @@ const Nav = () => (
 
 const Dashboard = () => <MicroFrontend name="Dashboard" host={dashboardHost} />;
 const Settings = () => <MicroFrontend name="Settings" host={settingsHost} />;
-const Profile = () => <MicroFrontend name="Profile" host={profileHost} />;
+const Users = () => <MicroFrontend name="Users" host={profileHost} />;
 
 function App() {
   return (
@@ -58,8 +58,8 @@ function App() {
           <Settings />
         </Route>
 
-        <Route exact path="/profile">
-          <Profile />
+        <Route exact path="/users">
+          <Users />
         </Route>
       </Switch>
     </Router>
