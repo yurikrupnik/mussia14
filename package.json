@@ -14,7 +14,7 @@
   },
   "private": true,
   "dependencies": {
-    "@datadog/browser-rum": "3.10.1",
+    "@datadog/browser-rum": "3.11.0",
     "@emotion/react": "11.7.1",
     "@emotion/server": "11.4.0",
     "@emotion/styled": "11.6.0",
