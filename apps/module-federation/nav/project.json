@@ -1,0 +1,73 @@
+{
+  "root": "apps/module-federation/nav",
+  "sourceRoot": "apps/module-federation/nav/src",
+  "projectType": "application",
+  "targets": {
+    "build": {
+      "executor": "@nrwl/web:build",
+      "outputs": ["{options.outputPath}"],
+      "defaultConfiguration": "production",
+      "options": {
+        "outputPath": "apps/module-federation/nav/dist",
+        "index": "apps/module-federation/nav/src/index.html",
+        "baseHref": "/",
+        "main": "apps/module-federation/nav/src/main.tsx",
+        "polyfills": "apps/module-federation/nav/src/polyfills.ts",
+        "tsConfig": "apps/module-federation/nav/tsconfig.app.json",
+        "assets": [
+          "apps/module-federation/nav/src/favicon.ico",
+          "apps/module-federation/nav/src/assets"
+        ],
+        "styles": ["apps/module-federation/nav/src/styles.css"],
+        "scripts": [],
+        "webpackConfig": "apps/module-federation/nav/webpack.config.js"
+      },
+      "configurations": {
+        "production": {
+          "fileReplacements": [
+            {
+              "replace": "apps/module-federation/nav/src/environments/environment.ts",
+              "with": "apps/module-federation/nav/src/environments/environment.prod.ts"
+            }
+          ],
+          "optimization": true,
+          "outputHashing": "all",
+          "sourceMap": false,
+          "namedChunks": false,
+          "extractLicenses": true,
+          "vendorChunk": false
+        }
+      }
+    },
+    "serve": {
+      "executor": "@nrwl/web:dev-server",
+      "options": {
+        "buildTarget": "module-federation-nav:build",
+        "hmr": true,
+        "port": 3002
+      },
+      "configurations": {
+        "production": {
+          "buildTarget": "module-federation-nav:build:production",
+          "hmr": false
+        }
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["apps/module-federation/nav/**/*.{ts,tsx,js,jsx}"]
+      }
+    },
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/apps/module-federation/nav"],
+      "options": {
+        "jestConfig": "apps/module-federation/nav/jest.config.js",
+        "passWithNoTests": true
+      }
+    }
+  },
+  "tags": []
+}

@@ -1,0 +1,51 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: users-grpc
+  labels:
+    app: users-grpc
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: users-grpc
+  template:
+    metadata:
+      labels:
+        app: users-grpc
+    spec:
+#      imagePullSecrets:
+#        - name: docker-registry-key
+      containers:
+        - name: api
+          image: yurikrupnik/users-grpc:latest
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 3000
+          env:
+            - name: MONGO_URI
+              value: mongodb+srv://yurikrupnik:T4eXKj1RBI4VnszC@cluster0.rdmew.mongodb.net/
+            - name: REDIS_URL
+              value: 10.78.164.219
+            - name: REDIS_PORT
+              value: "6379"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: users-grpc-service
+  labels:
+    run: users-grpc-service
+spec:
+  type: ClusterIP
+  ports:
+    - port: 80
+      protocol: TCP
+      targetPort: 3000
+  selector:
+    app: users-grpc
+
+
+# colors in xd
+# themes

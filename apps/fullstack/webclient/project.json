@@ -3,7 +3,7 @@
   "sourceRoot": "apps/fullstack/webclient",
   "projectType": "application",
   "targets": {
-    "builds": {
+    "build": {
       "executor": "@nrwl/next:build",
       "outputs": ["{options.outputPath}"],
       "defaultConfiguration": "production",

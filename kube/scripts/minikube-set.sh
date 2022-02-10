@@ -8,6 +8,7 @@ minikube addons enable ingress
 kubectl apply -f ../secrets.yaml
 kubectl apply -f ../ingress1.yaml
 kubectl apply -f ../api.yaml
+kubectl apply -f ../users-grpc.yaml
 kubectl apply -f ../users-tcp.yaml
 kubectl apply -f ../users-redis.yaml
 kubectl apply -f ../web-nest.yaml

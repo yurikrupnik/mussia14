@@ -1,0 +1,28 @@
+{
+  "root": "apps/micro-fe/settings-e2e",
+  "sourceRoot": "apps/micro-fe/settings-e2e/src",
+  "projectType": "application",
+  "targets": {
+    "e2e": {
+      "executor": "@nrwl/cypress:cypress",
+      "options": {
+        "cypressConfig": "apps/micro-fe/settings-e2e/cypress.json",
+        "devServerTarget": "micro-fe-settings:serve"
+      },
+      "configurations": {
+        "production": {
+          "devServerTarget": "micro-fe-settings:serve:production"
+        }
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["apps/micro-fe/settings-e2e/**/*.{js,ts}"]
+      }
+    }
+  },
+  "tags": [],
+  "implicitDependencies": ["micro-fe-settings"]
+}

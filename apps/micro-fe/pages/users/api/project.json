@@ -1,0 +1,52 @@
+{
+  "root": "apps/micro-fe/pages/users/api",
+  "sourceRoot": "apps/micro-fe/pages/users/api/src",
+  "projectType": "application",
+  "targets": {
+    "build": {
+      "executor": "@nrwl/node:build",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/apps/micro-fe/pages/users/api",
+        "main": "apps/micro-fe/pages/users/api/src/main.ts",
+        "tsConfig": "apps/micro-fe/pages/users/api/tsconfig.app.json",
+        "assets": ["apps/micro-fe/pages/users/api/src/assets"]
+      },
+      "configurations": {
+        "production": {
+          "optimization": true,
+          "extractLicenses": true,
+          "inspect": false,
+          "fileReplacements": [
+            {
+              "replace": "apps/micro-fe/pages/users/api/src/environments/environment.ts",
+              "with": "apps/micro-fe/pages/users/api/src/environments/environment.prod.ts"
+            }
+          ]
+        }
+      }
+    },
+    "serve": {
+      "executor": "@nrwl/node:execute",
+      "options": {
+        "buildTarget": "micro-fe-pages-users-api:build"
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["apps/micro-fe/pages/users/api/**/*.ts"]
+      }
+    },
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/apps/micro-fe/pages/users/api"],
+      "options": {
+        "jestConfig": "apps/micro-fe/pages/users/api/jest.config.js",
+        "passWithNoTests": true
+      }
+    }
+  },
+  "tags": []
+}
