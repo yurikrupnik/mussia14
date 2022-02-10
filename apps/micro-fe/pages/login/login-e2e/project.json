@@ -1,0 +1,28 @@
+{
+  "root": "apps/micro-fe/pages/login/login-e2e",
+  "sourceRoot": "apps/micro-fe/pages/login/login-e2e/src",
+  "projectType": "application",
+  "targets": {
+    "e2e": {
+      "executor": "@nrwl/cypress:cypress",
+      "options": {
+        "cypressConfig": "apps/micro-fe/pages/login/login-e2e/cypress.json",
+        "devServerTarget": "micro-fe-pages-login-login:serve"
+      },
+      "configurations": {
+        "production": {
+          "devServerTarget": "micro-fe-pages-login-login:serve:production"
+        }
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["apps/micro-fe/pages/login/login-e2e/**/*.{js,ts}"]
+      }
+    }
+  },
+  "tags": [],
+  "implicitDependencies": ["micro-fe-pages-login-login"]
+}

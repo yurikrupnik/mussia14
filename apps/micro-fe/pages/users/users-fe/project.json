@@ -43,7 +43,8 @@
       "executor": "@nrwl/web:dev-server",
       "options": {
         "buildTarget": "micro-fe-pages-users-users-fe:build",
-        "hmr": true
+        "hmr": true,
+        "proxyConfig": "apps/micro-fe/pages/users/users-fe/proxy.conf.json"
       },
       "configurations": {
         "production": {

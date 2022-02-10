@@ -8,6 +8,7 @@ const process = {
     DASHBOARD_HOST: undefined,
     SETTINGS_HOST: undefined,
     USERS_HOST: undefined,
+    LOGIN_HOST: undefined,
   },
 };
 
@@ -15,6 +16,7 @@ const process = {
 const dashboardHost = process.env.DASHBOARD_HOST || 'http://localhost:3000';
 const settingsHost = process.env.SETTINGS_HOST || 'http://localhost:3001';
 const usersHost = process.env.USERS_HOST || 'http://localhost:3002';
+const loginHost = process.env.LOGIN_HOST || 'http://localhost:3003';
 
 const Nav = () => (
   <nav className="navbar" role="navigation" aria-label="main navigation">
@@ -39,12 +41,14 @@ const Nav = () => (
         <Link className="navbar-item" href="/">
           Dashboard
         </Link>
-
         <Link className="navbar-item" href="/settings">
           Settings
         </Link>
         <Link className="navbar-item" href="/users">
           Users
+        </Link>{' '}
+        <Link className="navbar-item" href="/login">
+          Login
         </Link>
       </div>
     </div>
@@ -54,6 +58,7 @@ const Nav = () => (
 const Dashboard = () => <MicroFrontend name="Dashboard" host={dashboardHost} />;
 const Settings = () => <MicroFrontend name="Settings" host={settingsHost} />;
 const Users = () => <MicroFrontend name="Users" host={usersHost} />;
+const Login = () => <MicroFrontend name="Login" host={loginHost} />;
 
 function App() {
   return (
@@ -63,6 +68,7 @@ function App() {
         <Route path="/" element={<Dashboard />} />
         <Route path="/settings" element={<Settings />} />
         <Route path="/users" element={<Users />} />
+        <Route path="/login" element={<Login />} />
         {/*<Route path="/*all" element={<NotFound />} />*/}
       </Routes>
     </Router>

@@ -1,0 +1,74 @@
+{
+  "root": "apps/micro-fe/pages/login/login",
+  "sourceRoot": "apps/micro-fe/pages/login/login/src",
+  "projectType": "application",
+  "targets": {
+    "build": {
+      "executor": "@nrwl/web:build",
+      "outputs": ["{options.outputPath}"],
+      "defaultConfiguration": "production",
+      "options": {
+        "outputPath": "dist/apps/micro-fe/pages/login/login",
+        "index": "apps/micro-fe/pages/login/login/src/index.html",
+        "baseHref": "/",
+        "main": "apps/micro-fe/pages/login/login/src/main.tsx",
+        "polyfills": "apps/micro-fe/pages/login/login/src/polyfills.ts",
+        "tsConfig": "apps/micro-fe/pages/login/login/tsconfig.app.json",
+        "assets": [
+          "apps/micro-fe/pages/login/login/src/favicon.ico",
+          "apps/micro-fe/pages/login/login/src/assets"
+        ],
+        "styles": [],
+        "scripts": [],
+        "webpackConfig": "webpack.config.js"
+      },
+      "configurations": {
+        "production": {
+          "fileReplacements": [
+            {
+              "replace": "apps/micro-fe/pages/login/login/src/environments/environment.ts",
+              "with": "apps/micro-fe/pages/login/login/src/environments/environment.prod.ts"
+            }
+          ],
+          "optimization": true,
+          "outputHashing": "all",
+          "sourceMap": false,
+          "namedChunks": false,
+          "extractLicenses": true,
+          "vendorChunk": false
+        }
+      }
+    },
+    "serve": {
+      "executor": "@nrwl/web:dev-server",
+      "options": {
+        "buildTarget": "micro-fe-pages-login-login:build",
+        "hmr": true
+      },
+      "configurations": {
+        "production": {
+          "buildTarget": "micro-fe-pages-login-login:build:production",
+          "hmr": false
+        }
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": [
+          "apps/micro-fe/pages/login/login/**/*.{ts,tsx,js,jsx}"
+        ]
+      }
+    },
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/apps/micro-fe/pages/login/login"],
+      "options": {
+        "jestConfig": "apps/micro-fe/pages/login/login/jest.config.js",
+        "passWithNoTests": true
+      }
+    }
+  },
+  "tags": []
+}

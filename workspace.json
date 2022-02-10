@@ -31,6 +31,9 @@
     "infra": "apps/infra",
     "micro-fe-dashboard": "apps/micro-fe/dashboard",
     "micro-fe-dashboard-e2e": "apps/micro-fe/dashboard-e2e",
+    "micro-fe-pages-login-login": "apps/micro-fe/pages/login/login",
+    "micro-fe-pages-login-login-e2e": "apps/micro-fe/pages/login/login-e2e",
+    "micro-fe-pages-users-api": "apps/micro-fe/pages/users/api",
     "micro-fe-pages-users-users-fe": "apps/micro-fe/pages/users/users-fe",
     "micro-fe-pages-users-users-fe-e2e": "apps/micro-fe/pages/users/users-fe-e2e",
     "micro-fe-react-container": "apps/micro-fe/react-container",
@@ -39,6 +42,10 @@
     "micro-fe-settings-e2e": "apps/micro-fe/settings-e2e",
     "micro-fe-solid-container": "apps/micro-fe/solid-container",
     "micro-fe-solid-container-e2e": "apps/micro-fe-solid-container-e2e",
+    "module-federation-home": "apps/module-federation/home",
+    "module-federation-home-e2e": "apps/module-federation/home-e2e",
+    "module-federation-nav": "apps/module-federation/nav",
+    "module-federation-nav-e2e": "apps/module-federation/nav-e2e",
     "shared-interfaces": "libs/shared/interfaces",
     "shared-ts-utils": "libs/shared/ts-utils"
   }

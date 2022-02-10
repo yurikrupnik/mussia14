@@ -1,11 +1,30 @@
 const reactWebpackConfig = require('@nrwl/react/plugins/webpack');
 const { WebpackManifestPlugin } = require('webpack-manifest-plugin');
+const { ESBuildMinifyPlugin } = require('esbuild-loader');
 
-function getWebpackConfig(config) {
+function getWebpackConfig(config, a) {
+  console.log('a', a);
+  console.log('config', a);
   config = reactWebpackConfig(config);
+  // config.module.rules.splice(1, 1, {
+  //   // todo test
+  //   // remove second item = babel
+  //   test: /\.tsx?$/,
+  //   loader: 'esbuild-loader',
+  //   options: {
+  //     loader: 'tsx',
+  //     target: 'es2015',
+  //   },
+  // });
   config.optimization = {
     ...config.optimization,
     runtimeChunk: false,
+    minimizer: [
+      // new ESBuildMinifyPlugin({
+      //   // todo test
+      //   target: 'es2015',
+      // }),
+    ],
     splitChunks: {
       chunks(chunk) {
         return false;

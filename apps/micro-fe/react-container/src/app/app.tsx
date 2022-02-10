@@ -4,7 +4,8 @@ import MicroFrontend from './MicroFrontend';
 // process.env
 const dashboardHost = process.env.DASHBOARD_HOST || 'http://localhost:3000';
 const settingsHost = process.env.SETTINGS_HOST || 'http://localhost:3001';
-const profileHost = process.env.PROFILE_HOST || 'http://localhost:3002';
+const usersHost = process.env.PROFILE_HOST || 'http://localhost:3002';
+const loginHost = process.env.LOGIN_HOST || 'http://localhost:3003';
 
 const Nav = () => (
   <nav className="navbar" role="navigation" aria-label="main navigation">
@@ -29,12 +30,14 @@ const Nav = () => (
         <Link className="navbar-item" to="/">
           Dashboard
         </Link>
-
         <Link className="navbar-item" to="/settings">
           Settings
         </Link>
         <Link className="navbar-item" to="/users">
-          Profile
+          Users
+        </Link>{' '}
+        <Link className="navbar-item" to="/login">
+          Login
         </Link>
       </div>
     </div>
@@ -43,7 +46,8 @@ const Nav = () => (
 
 const Dashboard = () => <MicroFrontend name="Dashboard" host={dashboardHost} />;
 const Settings = () => <MicroFrontend name="Settings" host={settingsHost} />;
-const Users = () => <MicroFrontend name="Users" host={profileHost} />;
+const Users = () => <MicroFrontend name="Users" host={usersHost} />;
+const Login = () => <MicroFrontend name="Login" host={loginHost} />;
 
 function App() {
   return (
@@ -53,7 +57,9 @@ function App() {
         <Route exact path="/">
           <Dashboard />
         </Route>
-
+        <Route exact path="/login">
+          <Login />
+        </Route>
         <Route exact path="/settings">
           <Settings />
         </Route>
