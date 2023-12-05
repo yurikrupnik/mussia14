@@ -45,7 +45,7 @@
     "faker": "5.5.3",
     "fastify-helmet": "7.0.1",
     "firebase": "9.6.6",
-    "firebase-admin": "10.0.2",
+    "firebase-admin": "11.1.0",
     "helmet": "5.0.2",
     "kafkajs": "1.15.0",
     "lodash": "4.17.21",
