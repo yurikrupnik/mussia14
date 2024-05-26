@@ -37,7 +37,7 @@
     "@nestjs/terminus": "8.0.4",
     "@nrwl/next": "13.2.4",
     "@pulumi/docker": "3.1.0",
-    "@pulumi/gcp": "6.5.0",
+    "@pulumi/gcp": "6.7.0",
     "@pulumi/pulumi": "3.22.0",
     "class-transformer": "0.5.1",
     "class-validator": "0.13.2",
