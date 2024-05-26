@@ -1,0 +1,28 @@
+{
+  "root": "apps/module-federation/home-e2e",
+  "sourceRoot": "apps/module-federation/home-e2e/src",
+  "projectType": "application",
+  "targets": {
+    "e2e": {
+      "executor": "@nrwl/cypress:cypress",
+      "options": {
+        "cypressConfig": "apps/module-federation/home-e2e/cypress.json",
+        "devServerTarget": "module-federation-home:serve"
+      },
+      "configurations": {
+        "production": {
+          "devServerTarget": "module-federation-home:serve:production"
+        }
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["apps/module-federation/home-e2e/**/*.{js,ts}"]
+      }
+    }
+  },
+  "tags": [],
+  "implicitDependencies": ["module-federation-home"]
+}

@@ -1,0 +1,72 @@
+{
+  "root": "apps/micro-fe/dashboard",
+  "sourceRoot": "apps/micro-fe/dashboard/src",
+  "projectType": "application",
+  "targets": {
+    "build": {
+      "executor": "@nrwl/web:build",
+      "outputs": ["{options.outputPath}"],
+      "defaultConfiguration": "production",
+      "options": {
+        "outputPath": "dist/apps/micro-fe/dashboard",
+        "index": "apps/micro-fe/dashboard/src/index.html",
+        "baseHref": "/",
+        "main": "apps/micro-fe/dashboard/src/main.tsx",
+        "polyfills": "apps/micro-fe/dashboard/src/polyfills.ts",
+        "tsConfig": "apps/micro-fe/dashboard/tsconfig.app.json",
+        "assets": [
+          "apps/micro-fe/dashboard/src/favicon.ico",
+          "apps/micro-fe/dashboard/src/assets"
+        ],
+        "styles": ["apps/micro-fe/dashboard/src/styles.css"],
+        "scripts": [],
+        "webpackConfig": "webpack.config.js"
+      },
+      "configurations": {
+        "production": {
+          "fileReplacements": [
+            {
+              "replace": "apps/micro-fe/dashboard/src/environments/environment.ts",
+              "with": "apps/micro-fe/dashboard/src/environments/environment.prod.ts"
+            }
+          ],
+          "optimization": true,
+          "outputHashing": "all",
+          "sourceMap": false,
+          "namedChunks": false,
+          "extractLicenses": true,
+          "vendorChunk": false
+        }
+      }
+    },
+    "serve": {
+      "executor": "@nrwl/web:dev-server",
+      "options": {
+        "buildTarget": "micro-fe-dashboard:build",
+        "hmr": true
+      },
+      "configurations": {
+        "production": {
+          "buildTarget": "micro-fe-dashboard:build:production",
+          "hmr": false
+        }
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["apps/micro-fe/dashboard/**/*.{ts,tsx,js,jsx}"]
+      }
+    },
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/apps/micro-fe/dashboard"],
+      "options": {
+        "jestConfig": "apps/micro-fe/dashboard/jest.config.js",
+        "passWithNoTests": true
+      }
+    }
+  },
+  "tags": []
+}

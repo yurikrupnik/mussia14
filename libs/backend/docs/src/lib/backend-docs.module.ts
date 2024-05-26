@@ -7,9 +7,9 @@ export class BackendDocsModule {
     const config = new DocumentBuilder()
       .setTitle(title)
       .setDescription(desc)
-      .addBearerAuth()
-      .addOAuth2()
-      .addBearerAuth()
+      // .addBearerAuth()
+      // .addOAuth2()
+      // .addBearerAuth()
       .build();
 
     const document = SwaggerModule.createDocument(app, config, {

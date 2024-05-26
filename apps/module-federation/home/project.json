@@ -1,0 +1,74 @@
+{
+  "root": "apps/module-federation/home",
+  "sourceRoot": "apps/module-federation/home/src",
+  "projectType": "application",
+  "targets": {
+    "build": {
+      "executor": "@nrwl/web:build",
+      "outputs": ["{options.outputPath}"],
+      "defaultConfiguration": "production",
+      "options": {
+        "outputPath": "apps/module-federation/home/dist",
+        "index": "apps/module-federation/home/src/index.html",
+        "baseHref": "/",
+        "main": "apps/module-federation/home/src/main.tsx",
+        "polyfills": "apps/module-federation/home/src/polyfills.ts",
+        "tsConfig": "apps/module-federation/home/tsconfig.app.json",
+        "assets": [
+          "apps/module-federation/home/src/favicon.ico",
+          "apps/module-federation/home/src/assets"
+        ],
+        "styles": ["apps/module-federation/home/src/styles.css"],
+        "scripts": [],
+        "webpackConfig": "apps/module-federation/home/webpack.config.js"
+      },
+      "configurations": {
+        "production": {
+          "fileReplacements": [
+            {
+              "replace": "apps/module-federation/home/src/environments/environment.ts",
+              "with": "apps/module-federation/home/src/environments/environment.prod.ts"
+            }
+          ],
+          "optimization": true,
+          "outputHashing": "all",
+          "sourceMap": false,
+          "namedChunks": false,
+          "extractLicenses": true,
+          "vendorChunk": false
+        }
+      }
+    },
+    "serve": {
+      "executor": "@nrwl/web:dev-server",
+      "options": {
+        "buildTarget": "module-federation-home:build",
+        "hmr": true,
+        "open": true,
+        "port": 3001
+      },
+      "configurations": {
+        "production": {
+          "buildTarget": "module-federation-home:build:production",
+          "hmr": false
+        }
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["apps/module-federation/home/**/*.{ts,tsx,js,jsx}"]
+      }
+    },
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/apps/module-federation/home"],
+      "options": {
+        "jestConfig": "apps/module-federation/home/jest.config.js",
+        "passWithNoTests": true
+      }
+    }
+  },
+  "tags": []
+}

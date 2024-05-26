@@ -9,17 +9,14 @@
       "outputs": ["{options.outputPath}"],
       "options": {
         "outputPath": "dist/apps/clients/solid-app",
-        "frameworkConfigFile": "@nxext/solid/plugins/vite"
-      },
-      "configurations": {
-        "production": {}
+        "configFile": "vite.config.js"
       }
     },
     "serve": {
       "executor": "@nxext/vite:dev",
       "options": {
         "outputPath": "dist/apps/clients/solid-app",
-        "frameworkConfigFile": "@nxext/solid/plugins/vite"
+        "configFile": "vite.config.js"
       }
     },
     "lint": {
