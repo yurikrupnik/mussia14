@@ -1,4 +1,4 @@
-FROM nginx:stable-alpine
+FROM nginx:1.26.1-alpine3.19
 RUN rm -rf /usr/share/nginx/html/*
 COPY ./dist /usr/share/nginx/html
 EXPOSE 80
