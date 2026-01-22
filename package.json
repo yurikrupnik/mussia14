@@ -48,7 +48,7 @@
     "firebase-admin": "10.0.2",
     "helmet": "5.0.2",
     "kafkajs": "1.15.0",
-    "lodash": "4.17.21",
+    "lodash": "4.17.23",
     "mongoose": "6.1.10",
     "mongoose-paginate-v2": "1.5.0",
     "morgan": "1.10.0",
