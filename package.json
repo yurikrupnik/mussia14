@@ -19,7 +19,7 @@
     "@emotion/server": "11.4.0",
     "@emotion/styled": "11.6.0",
     "@forlagshuset/nestjs-mongoose-paginate": "1.0.2",
-    "@google-cloud/pubsub": "2.18.4",
+    "@google-cloud/pubsub": "2.19.4",
     "@google-cloud/storage": "5.18.1",
     "@grpc/grpc-js": "1.5.4",
     "@grpc/proto-loader": "0.6.9",
