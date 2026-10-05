@@ -97,7 +97,7 @@
     "@nx-tools/nx-docker": "2.2.0",
     "@nxext/solid": "13.0.1",
     "@nxext/vite": "13.1.3",
-    "@testing-library/react": "12.1.2",
+    "@testing-library/react": "12.1.5",
     "@testing-library/react-hooks": "7.0.2",
     "@trumbitta/nx-plugin-unused-deps": "1.10.0",
     "@types/jest": "27.4.0",
